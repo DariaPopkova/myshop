@@ -88,25 +88,105 @@ nav{
 }
 .menu{
     width: 14%;
+    height: 50px;
     background-color: rgb(112,146,190);
-    border: 4px dotted black;
+
+    margin-left: auto;
+    margin-right: auto;
+
+
+    float:left;
 }
+
 article{
-    width: 70%;
+    width: 75%;
     height: 50px;
     float: left;
     display: block;
     background-color: rgb(255,255,255);
 
 }
-aside{
+.tov{
     width: 30%;
+    height: 315px;
+    background-color: rgb(200,191,231);
+    margin-left: auto;
+    margin-right: 20px;
+    float:left;
+
+}
+aside{
+    width: 25%;
     height: 50px;
     background-color: rgb(255,255,255);
     float: right;
 
     display: block;
 }
+
+#poisk{
+    margin-top: 20px;
+
+
+}
+#seti{
+    margin: 0;
+    height: 35px;
+}
+#v-menu{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.srch{
+    height: 30px;
+}
+#vibseti{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+#seti ul li{
+    width: 35px;
+    height: 35px;
+    margin-right: 5px;
+    float: left;
+}
+.soc{
+    background-color: lightblue;
+    background-position-x: 0px;
+    background-position-y: 0px;
+    float: left;
+    right: 5px;
+}
+li {
+    list-style-type: none;
+}
+a {
+    text-decoration: none;
+
+
+}
+
+
+h5{
+    margin: 20px 0px 0px;
+
+
+}
+h6{
+    margin: 20px 0px 0px;
+
+
+}
+#rassilka{
+    margin: 20px 0px 0px;
+}
+#podkn{
+    margin: 10px 0px 0px;
+}
+
 footer{
     background-color: rgb(41,45,45);
     height: 300px;
