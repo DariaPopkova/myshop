@@ -1,28 +1,68 @@
 <?require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_before.php");
 
+
 CModule::IncludeModule("iblock");
+//сначала выбрать информацию о ней из базы данных
+/*$hldata = Bitrix\Highloadblock\HighloadBlockTable::getById($ID)->fetch();
+
+//затем инициализировать класс сущности
+$hlentity = Bitrix\Highloadblock\HighloadBlockTable::compileEntity($hldata);
+
+$hlDataClass = $hldata['NAME'].'Table';
+$hlDataClass::getList();
+if (CModule::IncludeModule('highloadblock')) {S
+    $rsData = $strEntityDataClass::getList(array(
+        'select' => array('ID','UF_NAME','UF_MESSAGE','UF_DATETIME'),
+        'order' => array('ID' => 'ASC'),
+        'limit' => '50',
+    ));
+    while ($arItem = $rsData->Fetch()) {
+        $arItems[] = $arItem;
+    }
+}*/
+
 $el = new CIBlockElement;
 $handle = fopen("tovari.txt", "r");
+
 while (!feof($handle)) {
     $line = fgets($handle);
 
     $pieces = explode(",", $line);
+
+    $pieces2 = explode(",", $line);
+
     print_r($pieces);
-    $save=CFile::SaveFile("img/1.jpg", "/iblock/acf/");
+echo $_SERVER["DOCUMENT_ROOT"]."/local/template/img/".$pieces[5]."";
+
+
+    if (file_exists($_SERVER["DOCUMENT_ROOT"]."/local/template/img/".$pieces[5])) {
+        echo "Файл существует";
+    } else {
+        echo "Файл не существует";
+        continue;
+
+    }
 
 
     $arFields = Array(
         "IBLOCK_SECTION_ID" => $pieces[6],
         "IBLOCK_ID" => 4,
 
-        "DETAIL_PICTURE" => CFile::MakeFileArray($_SERVER["DOCUMENT_ROOT"]."/img/1.jpg"),
+
+
+        "DETAIL_PICTURE" => CFile::MakeFileArray($_SERVER["DOCUMENT_ROOT"]."/local/template/img/".$pieces[5]),
 
 
         "NAME" => $pieces[0],
 
-        "IN_SECTIONS" =>  "$pieces[2]",
-        "ARTNUMBER" => $pieces[3],
-        "GROUP0" => $pieces[4],
+        "ACTIVE" =>  "$pieces[2]",
+        "PROPERTY_VALUES"=> [
+            "ARTNUMBER" => $pieces[4],
+            "DESCRIPTION" => $pieces[3],
+
+
+        ],
+
 
 
 
@@ -30,8 +70,6 @@ while (!feof($handle)) {
 
     );
     $id = $el->Add($arFields);
-
-
 
 
 
