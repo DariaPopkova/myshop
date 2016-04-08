@@ -80,9 +80,6 @@ while (!feof($handle)) {
             "5"=>"BRAND_REF",
             "6"=>"MANUFACTURER",
             "7"=>"IBLOCK_SECTION_ID");
-        while ($pieces = current($s)) {
-
-        }
 
 
         continue;
