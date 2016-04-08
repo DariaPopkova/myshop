@@ -7,11 +7,11 @@ array_map('CModule::IncludeModule', ['iblock', 'highloadblock']);
 use Bitrix\Highloadblock as HL;
 use Bitrix\Main\Entity;
 
-$hlblock_requests=HL\HighloadBlockTable::getById(3)->fetch();//requests
+/*$hlblock_requests=HL\HighloadBlockTable::getById(3)->fetch();//requests
 $entity_requests=HL\HighloadBlockTable::compileEntity($hlblock_requests);
 $entity_requests_data_class = $entity_requests->getDataClass();
 $main_query_requests = new Entity\Query($entity_requests_data_class);
-$main_query_requests->setSelect(array('ID','UF_NAME'));
+$main_query_requests->setSelect(array('ID','UF_NAME', 'UF_XML_ID'));
 $main_query_requests->setFilter(
     array(
         'UF_NAME'=>'Радуга',
@@ -22,8 +22,14 @@ $result_requests = new CDBResult($result_requests);
 
 while ($row_requests=$result_requests->Fetch()) {
     $requests[] = $row_requests; //массив выбранных элементов
-}
-//print_r($requests[0][UF_NAME]);
+}*/
+
+/*for($i = 5; $i <= 8; $i++)
+{
+    $result = $entity_requests_data_class::delete($i);	//удаляем элемент
+}*/
+
+//print_r($requests[0][UF_XML_ID]);
 
 /*
 $result = $entity_requests_data_class::add(array( //добавляем элемент
@@ -31,20 +37,6 @@ $result = $entity_requests_data_class::add(array( //добавляем элем�
     'UF_DESCRIPTION'=>'Бла-бла',
 ));
 */
-
-
-
-
-/*if ( !($arData = $hlblock->fetch()) ){
-    echo 'Инфоблок не найден';
-}
-else{
-    echo 'Инфоблок найден';
-}*/
-
-
-
-
 
 
 //сначала выбрать информацию о ней из базы данных
@@ -68,44 +60,125 @@ if (CModule::IncludeModule('highloadblock')) {S
 
 $el = new CIBlockElement;
 $handle = fopen("tovari.txt", "r");
-
+$i=0;
 while (!feof($handle)) {
     $line = fgets($handle);
 
+
+
+
+
+
+    if($i=0){
+        $pieces = explode(",", $line);
+        $s=array(
+            "0"=>"Name",
+            "1"=>"ACTIVE",
+            "2"=>"DESCRIPTION",
+            "3"=>"ARTNUMBER",
+            "4"=>"DETAIL_PICTURE",
+            "5"=>"BRAND_REF",
+            "6"=>"MANUFACTURER",
+            "7"=>"IBLOCK_SECTION_ID");
+        while ($pieces = current($s)) {
+
+        }
+
+
+        continue;
+    }
     $pieces = explode(",", $line);
-
-    $pieces2 = explode(",", $line);
-
     print_r($pieces);
-echo $_SERVER["DOCUMENT_ROOT"]."/local/template/img/".$pieces[5]."";
+
+    echo $_SERVER["DOCUMENT_ROOT"]."/local/template/img/".$pieces['DETAIL_PICTURE']."";
 
 
-    if (file_exists($_SERVER["DOCUMENT_ROOT"]."/local/template/img/".$pieces[5])) {
+    if (file_exists($_SERVER["DOCUMENT_ROOT"]."/local/template/img/".$pieces['DETAIL_PICTURE'])) {
         echo "Файл существует";
     } else {
         echo "Файл не существует";
         continue;
 
     }
+    $hlblock_requests=HL\HighloadBlockTable::getById(3)->fetch();//requests
+    $entity_requests=HL\HighloadBlockTable::compileEntity($hlblock_requests);
+    $entity_requests_data_class = $entity_requests->getDataClass();
+    $main_query_requests = new Entity\Query($entity_requests_data_class);
+    $main_query_requests->setSelect(array('ID','UF_NAME','UF_XML_ID'));
+    $main_query_requests->setFilter(
+        array(
+            'UF_NAME'=>$pieces['BRAND_REF'],
+        )
+    );
+    $result_requests = $main_query_requests->exec();
+    $result_requests = new CDBResult($result_requests);
+
+    while ($row_requests=$result_requests->Fetch()) {
+        $requests[] = $row_requests; //массив выбранных элементов
+    }
+    //print_r($requests[0][UF_XML_ID]);
+    $f=$requests[0][UF_NAME];
+    $h=$pieces[5];
+    print_r($f);
+
+    if(strcmp($f,$h))
+    {
+        $vr= $requests[0][UF_XML_ID];
+        print_r($vr);
+
+    }
+    else
+    {
+        echo "Это не хорошо";
+        continue;
+    }
+
+    $infoblock = 4; // Инфоблок с id 13
+    $rs_Section = CIBlockSection::GetList(array("MANUFACTURER" => $pieces['MANUFACTURER']), array("IBLOCK_ID" => $infoblock));
+    while ( $ar_Section = $rs_Section->Fetch() )
+    {
+        $ar_Resu[] = $ar_Section;
+
+    }
+
+    if(strcmp($ar_Resu[0],$pieces['MANUFACTURER']))
+    {
+        $res = CIBlockProperty::GetList(
+            array (),
+            array (
+                "NAME" => $pieces[6],
+            )
+        )->GetNext()["ID"];
+
+        print_r($res);
+    }
+    else{
+        echo "Это не хорошо";
+        continue;
+    }
+
+
+
 
 
 
     $arFields = Array(
-        "IBLOCK_SECTION_ID" => $pieces[7],
+        "IBLOCK_SECTION_ID" => $pieces['IBLOCK_SECTION_ID'],
         "IBLOCK_ID" => 4,
 
 
 
-        "DETAIL_PICTURE" => CFile::MakeFileArray($_SERVER["DOCUMENT_ROOT"]."/local/template/img/".$pieces[5]),
+        "DETAIL_PICTURE" => CFile::MakeFileArray($_SERVER["DOCUMENT_ROOT"]."/local/template/img/".$pieces['DETAIL_PICTURE']),
 
 
-        "NAME" => $pieces[0],
+        "NAME" => $pieces['NAME'],
 
-        "ACTIVE" =>  "$pieces[2]",
+        "ACTIVE" =>  $pieces['ACTIVE'],
         "PROPERTY_VALUES"=> [
-            "ARTNUMBER" => $pieces[4],
-            "DESCRIPTION" => $pieces[3],
-            "BRAND_REF" => 	$pieces[6],
+            "ARTNUMBER" => $pieces['ARTNUMBER'],
+            "DESCRIPTION" => $pieces['DESCRIPTION'],
+            "BRAND_REF" => $requests[0][UF_XML_ID],
+            "MANUFACTURER" => $res,
 
         ],
 
@@ -117,6 +190,9 @@ echo $_SERVER["DOCUMENT_ROOT"]."/local/template/img/".$pieces[5]."";
 
     );
     $id = $el->Add($arFields);
+
+
+
 
 
 
