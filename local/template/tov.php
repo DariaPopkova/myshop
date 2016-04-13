@@ -1,6 +1,9 @@
-<?require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_before.php");
+<? require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_before.php");
 use Bitrix\Highloadblock as HL;
 use Bitrix\Main\Entity;
+
+ini_set("display_errors",1);
+error_reporting(E_ALL  & ~E_NOTICE & ~E_STRICT);
 
 define('HLIBLOCK_BRANDS', 3);
 define('IBLOCK_PRODUCTS', 4);
@@ -11,13 +14,6 @@ $brandDataClass = HL\HighloadBlockTable::compileEntity(
     HL\HighloadBlockTable::getById(HLIBLOCK_BRANDS)
         ->fetch()
 )->getDataClass();
-
-
-
-
-
-
-
 
 
 /*$hlblock_requests=HL\HighloadBlockTable::getById(3)->fetch();//requests
@@ -70,43 +66,46 @@ if (CModule::IncludeModule('highloadblock')) {S
         $arItems[] = $arItem;
     }
 }*/
-
+/*$properties = CIBlockProperty::GetList(Array() , Array("IBLOCK_ID"=>IBLOCK_PRODUCTS,"CODE"=>"MANUFACTURER"));
+if($prop_fields = $properties->GetNext())
+{
+    echo $prop_fields["ID"]."<br>";
+}*/
 
 
 $first = true;
 $header = [];
 
 echo '<pre>';
+$get_list = CIBlockPropertyEnum::GetList(Array(), Array("IBLOCK_ID"=>IBLOCK_PRODUCTS, "CODE"=>"MANUFACTURER"));
+while($get_list = $property_enums->GetNext())
+{
+    echo $get_list["VALUE"]."<br>";
+}
 
 $handle = fopen("tovari.txt", "r");
 
 while (!feof($handle)) {
     $line = fgets($handle);
 
-    if($first == true)
-    {
+    if ($first == true) {
         $header = explode(",", $line);
         $first = false;
-    }
-    else
-    {
+    } else {
         $tov = [];
         $pieces = explode(",", $line);
 
         foreach ($pieces as $i => $value) {
             $tov[trim($header[$i])] = trim($value);
         }
-
-        $tov['DETAIL_PICTURE'] = $_SERVER["DOCUMENT_ROOT"]."/local/template/img/".$tov['DETAIL_PICTURE'];
-
-        if ( ! file_exists($tov['DETAIL_PICTURE'])) {
-            echo "Файл ".$tov['DETAIL_PICTURE']." не существует<br>";
+        $tov['DETAIL_PICTURE'] = $_SERVER["DOCUMENT_ROOT"] . "/local/template/img/" . $tov['DETAIL_PICTURE'];
+        if (!file_exists($tov['DETAIL_PICTURE'])) {
+            echo "Файл " . $tov['DETAIL_PICTURE'] . " не существует<br>";
             continue;
         }
-
         $brandResult = (new Entity\Query($brandDataClass))
             ->setSelect(
-                ['ID','UF_NAME','UF_XML_ID']
+                ['ID', 'UF_NAME', 'UF_XML_ID']
             )
             ->setFilter(
                 [
@@ -115,77 +114,82 @@ while (!feof($handle)) {
             )
             ->exec()
             ->fetch();
-
-        if ( ! empty($brandResult))
-        {
-            $tov['BRAND_ID'] = $brandResult['ID'];
+        if (!empty($brandResult)) {
+            $tov['BRAND_REF'] = $brandResult['UF_XML_ID'];
+        } else {
+            $tov['BRAND_REF'] = $brandDataClass::add(array( //добавляем элемент
+                'UF_NAME' => $tov['BRAND_REF']
+            ))->getId();
         }
-        else
+        $manuf = new CIBlockPropertyEnum;
+       $get_list = $property_enums->GetNext();
+        if(strcasecmp($get_list["VALUE"],$tov['MANUFACTURER']) == 0)
         {
-            $result = $brandDataClass::add(array( //добавляем элемент
-                'UF_NAME'=>$brandResult['ID'],
-
-            ));
-            // TODO: add
-            //::add(a
-            // $tov['BRAND_ID'] =
-        }
-
-        $dbManufacturer = CIBlockPropertyEnum::GetList(
-            array(),
-            array(
-                "VALUE" => $tov['MANUFACTURER'],
-                "IBLOCK_ID" => IBLOCK_PRODUCTS
-            )
-        );
-        if ( $manufacturer = $dbManufacturer->Fetch() )
-        {
-            $tov['MANUFACTURER_ID'] = $manufacturer['ID'];
-        }
-        else
-        {
-            CIBlockPropertyEnum::Add(
-                Array(
-                    'PROPERTY_ID'=> $tov['MANUFACTURER_ID'],
-                    //'VALUE'=>'New Enum 1'
+            echo 'Получилось!!!!';
+            $dbManufacturer = $manuf::GetList(
+                array(),
+                array(
+                    //"VALUE" => $tov['MANUFACTURER'],
+                    "IBLOCK_ID" => IBLOCK_PRODUCTS
                 )
             );
+            if ($manufacturer = $dbManufacturer->Fetch()) {
+                $tov['MANUFACTURER_ID'] = $manufacturer['ID'];
+            } else {
+                $properties = CIBlockProperty::GetList(
+                    Array(),
+                    Array(
+                        "IBLOCK_ID" => IBLOCK_PRODUCTS,
+                        "CODE" => "MANUFACTURER"
+                    )
+                );
+                $prop_fields = $properties->GetNext();
 
-            // TODO: add
+                if ($resu = $manuf->Add(
+                    Array(
+                        'PROPERTY_ID' => $prop_fields['ID'],
+                        'PROPERTY_CODE' => 'MANUFACTURER',
+                        'VALUE' => $tov['MANUFACTURER']
+                    )
+                )
+                ) {
+                    $tov['MANUFACTURER_ID'] = $resu;
+                }
+            }
+
 
         }
 
-        $el = new CIBlockElement;
 
+
+
+        $el = new CIBlockElement;
         $arFields = Array(
             "NAME" => $tov['NAME'],
             "IBLOCK_SECTION_ID" => $tov['IBLOCK_SECTION_ID'],
             "IBLOCK_ID" => IBLOCK_PRODUCTS,
             "DETAIL_PICTURE" => CFile::MakeFileArray($tov['DETAIL_PICTURE']), //TODO
-            "ACTIVE" =>  'Y',
-            "PROPERTY_VALUES"=> [
+            "ACTIVE" => 'Y',
+            "PROPERTY_VALUES" => [
                 "ARTNUMBER" => $tov['ARTNUMBER'],
                 "DESCRIPTION" => $tov['DESCRIPTION'],
-                //"BRAND_REF" => $requests[0]['UF_XML_ID'],
-                //"MANUFACTURER" => $res,
+                "BRAND_REF" => $tov['BRAND_REF'],
+                "MANUFACTURER" => $tov['MANUFACTURER_ID'],
             ],
 
         );
-
-        if($id = $el->Add($arFields))
-        {
+        if ($id = $el->Add($arFields)) {
             echo "Успешно";
+        } else {
+            echo "Error: " . $el->LAST_ERROR;
         }
-        else
-        {
-            echo "Error: ".$el->LAST_ERROR;
-        }
-
     }
 
 
-}
 
+
+
+}
 fclose($handle);
 echo '</pre>';
 
