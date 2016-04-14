@@ -75,17 +75,37 @@ if($prop_fields = $properties->GetNext())
 
 $first = true;
 $header = [];
+$idmanuf = [];
+$man = [];
+$valu = [];
+$properties = CIBlockProperty::GetList(
+    Array(),
+    Array(
+        "IBLOCK_ID" => IBLOCK_PRODUCTS,
+        "CODE" => "MANUFACTURER"
+    )
+);
+$prop_fields = $properties->GetNext();
 
 echo '<pre>';
-$get_list = CIBlockPropertyEnum::GetList(Array(), Array("IBLOCK_ID"=>IBLOCK_PRODUCTS, "CODE"=>"MANUFACTURER"));
+$property_enums = CIBlockPropertyEnum::GetList(
+    array(),
+    array(
+        "IBLOCK_ID" => IBLOCK_PRODUCTS,
+        "CODE" => "MANUFACTURER"
+    )
+);
 while($get_list = $property_enums->GetNext())
 {
-    echo $get_list["VALUE"]."<br>";
+    $valu[$get_list["ID"]] = $get_list["VALUE"];
 }
+
 
 $handle = fopen("tovari.txt", "r");
 
 while (!feof($handle)) {
+
+    echo '====================================================='.PHP_EOL;
     $line = fgets($handle);
 
     if ($first == true) {
@@ -122,46 +142,65 @@ while (!feof($handle)) {
             ))->getId();
         }
         $manuf = new CIBlockPropertyEnum;
-       $get_list = $property_enums->GetNext();
-        if(strcasecmp($get_list["VALUE"],$tov['MANUFACTURER']) == 0)
-        {
-            echo 'Получилось!!!!';
-            $dbManufacturer = $manuf::GetList(
-                array(),
-                array(
-                    //"VALUE" => $tov['MANUFACTURER'],
-                    "IBLOCK_ID" => IBLOCK_PRODUCTS
-                )
-            );
-            if ($manufacturer = $dbManufacturer->Fetch()) {
-                $tov['MANUFACTURER_ID'] = $manufacturer['ID'];
-            } else {
-                $properties = CIBlockProperty::GetList(
-                    Array(),
-                    Array(
-                        "IBLOCK_ID" => IBLOCK_PRODUCTS,
-                        "CODE" => "MANUFACTURER"
-                    )
-                );
-                $prop_fields = $properties->GetNext();
 
-                if ($resu = $manuf->Add(
-                    Array(
-                        'PROPERTY_ID' => $prop_fields['ID'],
-                        'PROPERTY_CODE' => 'MANUFACTURER',
-                        'VALUE' => $tov['MANUFACTURER']
-                    )
+        //$get_list = $property_enums->GetNext();
+        $key = array_search($tov['MANUFACTURER'], $valu);
+        echo $key.PHP_EOL;
+
+        if($key === false)
+        {
+            echo 'Добавляем! '.$tov['MANUFACTURER'].PHP_EOL;
+
+            if ($resu = $manuf->Add(
+                Array(
+                    'PROPERTY_ID' => $prop_fields['ID'],
+                    'PROPERTY_CODE' => 'MANUFACTURER',
+                    'VALUE' => $tov['MANUFACTURER']
                 )
-                ) {
-                    $tov['MANUFACTURER_ID'] = $resu;
-                }
+            )
+            ) {
+                $tov['MANUFACTURER_ID'] = $resu;
+                $valu[$tov['MANUFACTURER_ID']] = $tov['MANUFACTURER'];
             }
 
-
         }
+        else
+        {
+            echo 'Получилось! '.$tov['MANUFACTURER'].PHP_EOL;
+            $tov['MANUFACTURER_ID'] = $key;
+        }
+                /*
+               $dbManufacturer = $manuf::GetList(
+                    array(),
+                    array(
+                        //"VALUE" => $tov['MANUFACTURER'],
+                        "IBLOCK_ID" => IBLOCK_PRODUCTS
+                    )
+                );
+                if ($manufacturer = $dbManufacturer->Fetch()) {
+                    $tov['MANUFACTURER_ID'] = $manufacturer['ID'];
+                } else {
+                    $properties = CIBlockProperty::GetList(
+                        Array(),
+                        Array(
+                            "IBLOCK_ID" => IBLOCK_PRODUCTS,
+                            "CODE" => "MANUFACTURER"
+                        )
+                    );
+                    $prop_fields = $properties->GetNext();
 
-
-
+                    if ($resu = $manuf->Add(
+                        Array(
+                            'PROPERTY_ID' => $prop_fields['ID'],
+                            'PROPERTY_CODE' => 'MANUFACTURER',
+                            'VALUE' => $tov['MANUFACTURER']
+                        )
+                    )
+                    ) {
+                        $tov['MANUFACTURER_ID'] = $resu;
+                    }
+                }
+*/
 
         $el = new CIBlockElement;
         $arFields = Array(
@@ -179,10 +218,12 @@ while (!feof($handle)) {
 
         );
         if ($id = $el->Add($arFields)) {
-            echo "Успешно";
+            echo "Успешно".PHP_EOL;
         } else {
-            echo "Error: " . $el->LAST_ERROR;
+            echo "Error: " . $el->LAST_ERROR.PHP_EOL;
         }
+        echo '====================================================='.PHP_EOL;
+
     }
 
 
@@ -190,6 +231,7 @@ while (!feof($handle)) {
 
 
 }
+
 fclose($handle);
 echo '</pre>';
 
