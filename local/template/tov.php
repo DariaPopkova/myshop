@@ -99,6 +99,29 @@ while($get_list = $property_enums->GetNext())
 {
     $valu[$get_list["ID"]] = $get_list["VALUE"];
 }
+$brandResult = (new Entity\Query($brandDataClass));
+
+
+
+$rsData = $brandDataClass::getList(array(
+    "select" => array(
+        'ID',
+        'UF_NAME',
+        'UF_XML_ID'
+    ),
+    "order" => array(),
+    "filter" => array()
+));
+$valubr = [];
+while($arData = $rsData->Fetch())
+{
+
+    $valubr[$arData['UF_XML_ID']] = $arData['UF_NAME'];
+}
+
+print_r($valubr);
+
+
 
 
 $handle = fopen("tovari.txt", "r");
@@ -123,6 +146,25 @@ while (!feof($handle)) {
             echo "Файл " . $tov['DETAIL_PICTURE'] . " не существует<br>";
             continue;
         }
+        $key2 = array_search($tov['BRAND_REF'], $valubr);
+        echo $key2.PHP_EOL;
+
+        if($key2 === false)
+        {
+            echo 'Добавляем! '.$tov['BRAND_REF'].PHP_EOL;
+            $tov['BRAND_REF_XID'] = $brandDataClass::add(array( //добавляем элемент
+                'UF_NAME' => $tov['BRAND_REF']
+            ));
+
+            $valubr[$tov['BRAND_REF_XID']] = $tov['BRAND_REF'];
+            print_r($valubr);
+
+        }
+        else
+        {
+            echo 'Получилось! '.$tov['BRAND_REF'].PHP_EOL;
+            $tov['BRAND_REF_XID'] = $key2;
+        }/*
         $brandResult = (new Entity\Query($brandDataClass))
             ->setSelect(
                 ['ID', 'UF_NAME', 'UF_XML_ID']
@@ -140,7 +182,7 @@ while (!feof($handle)) {
             $tov['BRAND_REF'] = $brandDataClass::add(array( //добавляем элемент
                 'UF_NAME' => $tov['BRAND_REF']
             ))->getId();
-        }
+        }*/
         $manuf = new CIBlockPropertyEnum;
 
         //$get_list = $property_enums->GetNext();
@@ -150,6 +192,9 @@ while (!feof($handle)) {
         if($key === false)
         {
             echo 'Добавляем! '.$tov['MANUFACTURER'].PHP_EOL;
+
+
+
 
             if ($resu = $manuf->Add(
                 Array(
@@ -212,7 +257,7 @@ while (!feof($handle)) {
             "PROPERTY_VALUES" => [
                 "ARTNUMBER" => $tov['ARTNUMBER'],
                 "DESCRIPTION" => $tov['DESCRIPTION'],
-                "BRAND_REF" => $tov['BRAND_REF'],
+                "BRAND_REF" => $tov['BRAND_REF_XID'],
                 "MANUFACTURER" => $tov['MANUFACTURER_ID'],
             ],
 
