@@ -156,9 +156,16 @@ while (!feof($handle)) {
         }
         echo '====================================================='.PHP_EOL;
 
+
     }
 }
 fclose($handle);
 echo '</pre>';
+$arSelect = Array("ID", "NAME");
+$arFilter = Array("IBLOCK_ID"=>IBLOCK_PRODUCTS, "ID"=>  7422);
+$res = CIBlockElement::GetList(Array(), $arFilter, false, Array(), $arSelect);
+$ob = $res->GetNextElement();
+$arFields = $ob->GetFields();
+
 
 

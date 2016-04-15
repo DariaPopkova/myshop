@@ -1,0 +1,706 @@
+header, section, footer, aside, nav, article {
+    display:block;
+}
+html {
+    height: 100%;
+
+}
+* {
+    margin: 0;
+    padding: 0;
+    outline: none;
+
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+body{
+    width: 100%;
+}
+header {
+
+    height: 120px;
+
+
+    border-style: none;
+    background-repeat: no-repeat;
+    background-position: 0% 0, 30% 0, 100% 0;
+    width: 100%;
+
+
+
+}
+#logo{
+    height: 100%;
+    width: 25%;
+    float: left;
+    background-color: orangered;
+}
+#phone{
+    height: 100%;
+    width: 25%;
+
+    float: left;
+
+
+    background-color: blueviolet;
+}
+#vremy{
+    height: 100%;
+    width: 25%;
+
+    float: left;
+
+
+
+    background-color: mediumaquamarine;
+
+}
+#reg{
+    height: 100%;
+    width: 25%;
+
+    float: left;
+
+
+    background-color: yellow;
+}
+nav{
+    width: 100%;
+    height: 50px;
+    background-color: rgb(112,146,190);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+#v-menu{
+    float:left;
+    width:100%;
+    list-style:none;
+    margin-bottom:10px;
+
+}
+#v-menu li{
+    float:left;
+    margin-right:10px;
+    position:relative;
+    display:block;
+    height: 100%;
+
+
+}
+#v-menu li a,.menus:link{
+    color: black;
+}
+#v-menu li a,.menus:visited
+
+{
+    color: black;
+}
+#v-menu li a{
+    display:block;
+    padding:5px;
+    padding-top: 10px;
+
+    background:rgb(112,146,190);
+    text-decoration:none;
+
+}
+#v-menu li a:hover{
+    background:rgba(112,146,190,0.75); /* Выглядит полупрозрачным */
+    height: 35px;
+    z-index: 1000;
+
+}
+#v-menu li a,.menus:visited{
+    color: black;
+}
+/*--- ВЫПАДАЮЩИЕ ПУНКТЫ ---*/
+#v-menu ul{
+    list-style:none;
+    position:absolute;
+    left:-9999px; /* Скрываем за экраном, когда не нужно (данный метод лучше, чем display:none;) */
+    opacity:0; /* Устанавливаем начальное состояние прозрачности */
+    -webkit-transition:0.25s linear opacity; /* В Webkit выпадающие пункты будут проявляться */
+}
+#v-menu ul li{
+    padding-top:1px; /* Вводим отступ между li чтобы создать иллюзию разделенных пунктов меню */
+    float:none;
+
+}
+#v-menu ul a{
+    white-space:nowrap; /* Останавливаем перенос текста и создаем многострочный выпадающий пункт */
+    display:block;
+
+}
+#v-menu li:hover ul{ /* Выводим выпадающий пункт при наведении курсора */
+    left:0; /* Приносим его обратно на экран, когда нужно */
+    opacity:1; /* Делаем непрозрачным */
+}
+#v-menu li:hover a{ /* Устанавливаем стили для верхнего уровня, когда выводится выпадающий список */
+    background:#6b0c36;
+    background:rgba(176,208,210,0.75); /* Выглядит полупрозрачным */
+}
+#nav li:hover ul a{ /* Изменяем некоторые стили верхнего уровня при выводе выпадающего пункта */
+    text-decoration:none;
+    -webkit-transition:-webkit-transform 0.075s linear;
+}
+#nav li:hover ul li a:hover{ /* Устанавливаем стили для выпадающих пунктов, когда курсор наводится на конкретный пункт */
+    background:#333;
+    background:rgba(51,51,51,0.75); /* Будет полупрозрачным */
+    text-decoration:underline;
+    -moz-transform:scale(1.05);
+    -webkit-transform:scale(1.05);
+}
+
+.menu{
+    width: 14%;
+    height: 50px;
+    background-color: rgb(112,146,190);
+
+    margin-left: auto;
+    margin-right: auto;
+
+
+    float:left;
+}
+
+
+
+
+
+
+article{
+
+    float: left;
+    width: 70%;
+    height: 100%;
+
+}
+.tov{
+    width: 30%;
+    height: 315px;
+    background-color: rgb(200,191,231);
+    margin-left: auto;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    float:left;
+
+}
+aside{
+    width: 30%;
+    height: 100%;
+
+    background-color: rgb(255,255,255);
+    margin-right: 0;
+    margin-left: auto;
+
+
+
+}
+#poisk{
+    margin-top: 20px;
+
+
+}
+#seti{
+    margin: 0;
+    height: 35px;
+}
+
+#v-menu{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+}
+
+.srch{
+    height: 30px;
+}
+#vibseti{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+#seti ul li{
+    width: 35px;
+    height: 35px;
+    margin-right: 5px;
+    float: left;
+}
+.soc{
+    background-color: lightblue;
+    background-position-x: 0px;
+    background-position-y: 0px;
+    float: left;
+    right: 5px;
+}
+li {
+    list-style-type: none;
+}
+a {
+    text-decoration: none;
+
+
+}
+
+
+h5{
+    margin: 20px 0px 0px;
+
+
+}
+h6{
+    margin: 20px 0px 0px;
+
+
+}
+#rassilka{
+    margin: 20px 0px 0px;
+}
+#podkn{
+    margin: 10px 0px 0px;
+}
+a,.info-box:link{
+    color: black;
+}
+a,.info-box:visited{
+    color: black;
+}
+#img1{
+    border-radius: 50%;
+    float: left;
+    margin-left: auto;
+    margin-right: 4px;
+    margin-top: -5px;
+    background: url(../img/011.png) cornflowerblue;
+    height: 35px;
+    width: 35px;
+}
+.info-content{
+    margin: 10px 0 0 35px;
+}
+
+#wrapper {
+
+
+}
+#menu1{
+    float: left;
+    padding-left: 0;
+    width: 60%;
+}
+#menu2{
+    float: right;
+    padding-right: 0;
+
+
+}
+
+
+
+#rabfon{
+
+}
+#panel1{
+    float: left;
+}
+#panel2{
+
+    margin-left: 25%;
+    padding-left: 10%;
+
+}
+#menuSort{
+
+
+}
+.workarea{
+    display: flex;
+
+
+}
+.fill {
+
+
+}
+footer{
+    background-color: rgb(41,45,45);
+    height: 300px;
+    width: 100%;
+    clear: left;
+
+}
+
+nav{
+    width: 100%;
+    height: 50px;
+    background-color: rgb(112,146,190);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+#v-menu{
+    float:left;
+    width:100%;
+    list-style:none;
+    margin-bottom:10px;
+
+}
+#v-menu li{
+    float:left;
+    margin-right:10px;
+    position:relative;
+    display:block;
+    height: 100%;
+
+
+}
+#v-menu li a,.menus:link{
+    color: black;
+}
+#v-menu li a,.menus:visited
+
+{
+    color: black;
+}
+#v-menu li a{
+    display:block;
+    padding:5px;
+    padding-top: 10px;
+
+    background:rgb(112,146,190);
+    text-decoration:none;
+
+}
+#v-menu li a:hover{
+    background:rgba(112,146,190,0.75); /* Выглядит полупрозрачным */
+    height: 35px;
+    z-index: 1000;
+
+}
+#v-menu li a,.menus:visited{
+    color: black;
+}
+/*--- ВЫПАДАЮЩИЕ ПУНКТЫ ---*/
+#v-menu ul{
+    list-style:none;
+    position:absolute;
+    left:-9999px; /* Скрываем за экраном, когда не нужно (данный метод лучше, чем display:none;) */
+    opacity:0; /* Устанавливаем начальное состояние прозрачности */
+    -webkit-transition:0.25s linear opacity; /* В Webkit выпадающие пункты будут проявляться */
+}
+#v-menu ul li{
+    padding-top:1px; /* Вводим отступ между li чтобы создать иллюзию разделенных пунктов меню */
+    float:none;
+
+}
+#v-menu ul a{
+    white-space:nowrap; /* Останавливаем перенос текста и создаем многострочный выпадающий пункт */
+    display:block;
+
+}
+#v-menu li:hover ul{ /* Выводим выпадающий пункт при наведении курсора */
+    left:0; /* Приносим его обратно на экран, когда нужно */
+    opacity:1; /* Делаем непрозрачным */
+}
+#v-menu li:hover a{ /* Устанавливаем стили для верхнего уровня, когда выводится выпадающий список */
+    background:#6b0c36;
+    background:rgba(176,208,210,0.75); /* Выглядит полупрозрачным */
+}
+#nav li:hover ul a{ /* Изменяем некоторые стили верхнего уровня при выводе выпадающего пункта */
+    text-decoration:none;
+    -webkit-transition:-webkit-transform 0.075s linear;
+}
+#nav li:hover ul li a:hover{ /* Устанавливаем стили для выпадающих пунктов, когда курсор наводится на конкретный пункт */
+    background:#333;
+    background:rgba(51,51,51,0.75); /* Будет полупрозрачным */
+    text-decoration:underline;
+    -moz-transform:scale(1.05);
+    -webkit-transform:scale(1.05);
+}
+
+.menu{
+    width: 14%;
+    height: 50px;
+    background-color: rgb(112,146,190);
+
+    margin-left: auto;
+    margin-right: auto;
+
+
+    float:left;
+}
+.filmenu li a:hover{
+    background-color: rgb(224, 255, 255);
+}
+#content {
+    width: 80%;
+    margin-top: 0 auto;
+}
+#catalog {
+    width: 10%;
+    margin-top: 0 auto;
+}
+#filter {
+    width: 10%;
+
+}
+
+
+
+
+
+
+
+@media screen and (max-device-width: 320px) and (orientation: portrait){
+    html, body {
+
+        width: 320px;
+        max-width: 100%;
+
+
+
+    }
+
+    #wrapper{
+        width: 320px;
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+
+
+
+    }
+    #firstcreen{
+        width: 320px;
+        max-width: 100%;
+
+
+
+        margin-left: auto;
+        margin-right: auto;
+
+    }
+    header{
+        height: 30px;
+        width: 100%;
+        max-width: 320px;
+
+    }
+    #logo{
+        width: 100%;
+        min-width: 100%;
+        float: none;
+        height: 30px;
+    }
+    #phone{
+        display: none;
+    }
+    #vremy{
+        display: none;
+
+    }
+    #reg{
+        display: none;
+    }
+
+
+    nav{
+        height: 132px;
+
+    }
+
+    #v-menu{
+        float: none;
+        width:100%;
+    }
+    #v-menu li{
+        float:none;
+    }
+
+    #v-menu{
+        float:left;
+        width:100%;
+        list-style:none;
+        margin-bottom:10px;
+
+    }
+    #v-menu li{
+        float:none;
+        display:block;
+        width: 100%;
+        height: 100%;
+
+
+    }
+
+    #v-menu li a,.menus:link{
+        color: black;
+    }
+    #v-menu li a,.menus:visited{
+        color: black;
+    }
+    #v-menu li a{
+        display:block;
+        padding:5px;
+        padding-top: 10px;
+
+        background:rgb(112,146,190);
+        text-decoration:none;
+
+    }
+    #v-menu li a:hover{
+        background:rgba(112,146,190,0.75); /* Выглядит полупрозрачным */
+        height: 35px;
+        z-index: 1000;
+
+    }
+    #v-menu li a,.menus:visited{
+        color: black;
+    }
+
+
+    /*--- ВЫПАДАЮЩИЕ ПУНКТЫ ---*/
+
+    #v-menu ul li{
+        float:left;
+    }
+
+    .menu{
+        width: 14%;
+        margin-left: auto;
+        margin-right: auto;
+        float:none;
+    }
+
+    article{
+
+
+        width: 75%;
+        height: 100%;
+        float: left;
+        display: block;
+        background-color: rgb(255,255,255);
+
+    }
+    #trendi{
+
+        width: 100%;
+
+    }
+    .tov{
+        width: 90%;
+        height: 315px;
+        background-color: rgb(200,191,231);
+        margin-left: 10px;
+        margin-right: 20px;
+        margin-bottom: 20px;
+        float:left;
+
+    }
+    aside{
+        width: 25%;
+        height: 100%;
+        background-color: rgb(255,255,255);
+
+        display: block;
+    }
+
+    #poisk{
+
+
+
+    }
+    #seti{
+        display: none;
+    }
+
+    #v-menu{
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+    }
+
+    .srch{
+        height: 30px;
+        width: 70px;
+
+
+
+    }
+    #vibseti{
+        display: none;
+    }
+    #seti ul li{
+        display: none;
+    }
+    .soc{
+        display: none;
+    }
+    li {
+        list-style-type: none;
+    }
+    a {
+        text-decoration: none;
+
+
+    }
+
+
+    h5{
+        display: none;
+
+
+    }
+    h6{
+        display: none;
+
+
+    }
+    #rassilka{
+        display: none;
+    }
+    #podkn{
+        display: none;
+    }
+    a,.info-box:link{
+        display: none;
+    }
+    a,.info-box:visited{
+        display: none;
+    }
+    #img1{
+        display: none;
+    }
+    .info-content{
+        display: none;
+    }
+    footer{
+        background-color: rgb(41,45,45);
+        height: 300px;
+        width: 100%;
+        display: block;
+        clear: left;
+
+
+    }
+    #kont{
+        height: 20%;
+        width:100%;
+        background-color: rgb(31,73,106);
+    }
+    #niz{
+
+        width: 100%;
+
+    }
+
+
+
+
+}
