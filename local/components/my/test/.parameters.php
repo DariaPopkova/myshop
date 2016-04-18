@@ -21,6 +21,13 @@ $arComponentParameters = array(
 
         ),
 
+
+        "ARTNUMBER" => array(
+            "NAME" => "артикул инфоблока",
+            "TYPE" => "STRING",
+        ),
+
+
     )
 );
 
