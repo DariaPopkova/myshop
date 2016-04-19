@@ -24,6 +24,7 @@
 
             </div>
         </header>
+        <?$APPLICATION->IncludeComponent("my:menu", ".default", array(), false);?>
         <nav>
             <ul id="v-menu">
                 <li class="menu">
@@ -77,4 +78,5 @@
 
 
         </nav>
+
         <article>

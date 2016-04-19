@@ -15,35 +15,42 @@ echo '<pre>';
 echo '</pre>';
 CModule::IncludeModule('iblock');
 
-
-//$arElement["DETAIL_PICTURE"] = array();
-if (!empty($_GET["find_section_section"]))
+/*if (!empty($_GET["find_section_section"])) //SECTION_ID
 { echo " Получены новые вводные: имя - ".$_GET["find_section_section"]."";}
-else { echo "Переменные не дошли. Проверьте все еще раз."; }
-$section_id = $_GET["find_section_section"];
-
-// ID - число, число > 0, [товар существует?]
-if(is_numeric($section_id) && intval($section_id) > 0)
+else { echo "Переменные не дошли. Проверьте все еще раз."; }*/
+if (empty($_GET["find_section_section"])) //SECTION_ID
 {
-    echo "Всё хорошо!";
-}
-else{
     LocalRedirect("/404.php", "404 Not Found");
 }
-
-
+$section_id = $_GET["find_section_section"];
+// ID - число, число > 0, [товар существует?]
+if(!is_numeric($section_id) && intval($section_id) < 0)
+{
+    LocalRedirect("/404.php", "404 Not Found");
+}
+$search_section = CIBlockSection::GetList(
+    array(),
+    array(
+        'ID' => $section_id
+    )
+);
+$arsec = $search_section->GetNext();
+if(empty($arsec))
+{
+    LocalRedirect("/404.php", "404 Not Found");
+}
 
 $rsElement = CIBlockElement::GetList(
     array(),
     array(
 
         'IBLOCK_ID' => IBLOCK_PRODUCTS,
-        'IBLOCK_SECTION_ID' => $section_id,
+        'SECTION_ID' => $section_id,
     ),
     false,
     false,
     [
-        'ID', 'IBLOCK_ID', 'NAME', 'DETAIL_PICTURE',
+        'ID', 'IBLOCK_ID','IBLOCK_SECTION_ID', 'NAME', 'DETAIL_PICTURE',
         'PROPERTY_ARTNUMBER',
         'PROPERTY_MANUFACTURER',
         'PROPERTY_DESCRIPTION',
@@ -52,7 +59,7 @@ $rsElement = CIBlockElement::GetList(
     ]
 );
 
-if($arElement = $rsElement->GetNext())
+while($arElement = $rsElement->GetNext())
 {
     echo '<pre>';
     //print_r($arElement);
@@ -76,37 +83,17 @@ if($arElement = $rsElement->GetNext())
     //$arviv = $r->GetNext();
     //print_r($arviv);
     //print_r($arElement["PROPERTY_BRAND_REF_VALUE"]);
-
-    /*
-        $propertiesCIBlockElement::GetList(
-            Array(),
-            Array(
-            "NAME" =>$arElement["NAME"]
-        )
-            );
-        $prop_fields = $properties->GetNext();
-        print_r($prop_fields);*/
-
-
-}
-else{
-    LocalRedirect("/404.php", "404 Not Found");
+    $arProduct['NAME'] = $arElement["NAME"];
+    $arProduct['DESCRIPTION']=$arElement["PROPERTY_DESCRIPTION_VALUE"];
+    $arProduct['ARTNUMBER']=$arElement["PROPERTY_ARTNUMBER_VALUE"];
+    $arProduct['MANUFACTURER']=$arElement["PROPERTY_MANUFACTURER_VALUE"];
+    $arProduct['DETAIL_PICTURE'] = CFile::GetPath($arElement["DETAIL_PICTURE"]);
+    $arProduct['BRAND'] = $array_brend;
+    $arResult[] = $arProduct;
 }
 
-$arResult['NAME'] = $arElement["NAME"];
-$arResult['DESCRIPTION']=$arElement["PROPERTY_DESCRIPTION_VALUE"];
-$arResult['ARTNUMBER']=$arElement["PROPERTY_ARTNUMBER_VALUE"];
-$arResult['MANUFACTURER']=$arElement["PROPERTY_MANUFACTURER_VALUE"];
-$arResult['DETAIL_PICTURE'] = CFile::GetPath($arElement["DETAIL_PICTURE"]);
-$arResult['BRAND'] = $array_brend;
-
-
-
+   // LocalRedirect("/404.php", "404 Not Found");
 //$arResult = array_merge($arResult,$arElement);
-
-
-
-
 $this->IncludeComponentTemplate(); // <- $arResult
 
 ?>

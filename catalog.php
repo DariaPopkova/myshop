@@ -1,7 +1,7 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 
-$APPLICATION->IncludeComponent("my:test", ".default", array(
+$APPLICATION->IncludeComponent("my:catalog", ".default", array(
 
     "NAME" => "",
     "ARTNUMBER" => "",
