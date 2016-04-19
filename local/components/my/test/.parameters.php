@@ -20,11 +20,13 @@ $arComponentParameters = array(
             "TYPE" => "STRING",
 
         ),
-
-
         "ARTNUMBER" => array(
             "NAME" => "артикул инфоблока",
             "TYPE" => "STRING",
+        ),
+        "DETAIL_PICTURE" => array(
+            "NAME" => "картинка инфоблока",
+            "TYPE" => "FILE",
         ),
 
 
