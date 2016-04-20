@@ -1,46 +1,26 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 $aMenuLinks = Array(
 	Array(
-		"Как купить", 
-		"about/howto/", 
+		"Для офиса",
+		"/Для офиса/",
 		Array(), 
 		Array(), 
 		"" 
 	),
 	Array(
-		"Доставка", 
-		"about/delivery/", 
+		"Для творчества",
+		"/Для творчества/",
 		Array(), 
 		Array(), 
 		"" 
 	),
 	Array(
-		"О магазине", 
-		"about/", 
+		"Для школы",
+		"/Для школы/",
 		Array(), 
 		Array(), 
 		"" 
 	),	
-	Array(
-		"Гарантия", 
-		"about/guaranty/", 
-		Array(), 
-		Array(), 
-		"" 
-	),
-	Array(
-		"Контакты",
-		"about/contacts/",
-		Array(),
-		Array(),
-		""
-	),
-	Array(
-		"Мой кабинет",
-		"personal/",
-		Array(),
-		Array(),
-		"CUser::IsAuthorized()"
-	),
+
 );
 ?>

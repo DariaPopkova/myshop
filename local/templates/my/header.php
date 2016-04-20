@@ -24,7 +24,29 @@
 
             </div>
         </header>
-        <?$APPLICATION->IncludeComponent("my:menu", ".default", array(), false);?>
+        <?
+        $APPLICATION->IncludeComponent(
+            "my:menu",
+            ".default",
+            array(
+                "ROOT_MENU_TYPE" => "top",
+                "MAX_LEVEL" => "1",
+                "CHILD_MENU_TYPE" => "top",
+                "USE_EXT" => "Y",
+                "DELAY" => "N",
+                "ALLOW_MULTI_SELECT" => "Y",
+                "MENU_CACHE_TYPE" => "N",
+                "MENU_CACHE_TIME" => "3600",
+                "MENU_CACHE_USE_GROUPS" => "Y",
+                "MENU_CACHE_GET_VARS" => ""
+            ),
+            false
+        );
+
+        ?>
+
+
+
         <nav>
             <ul id="v-menu">
                 <li class="menu">
