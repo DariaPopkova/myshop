@@ -1,60 +1,36 @@
 <nav>
-    <?$N=0;?>
-    <?$n=0;?>
-    <?$i=0;?>
-    <? foreach($arResult as $sect): ?>
-        <?if(empty($sect['IBLOCK_SECTION_ID'])):?>
-            <?$col[$i]= $arResult[$i];
-            //$col['NAME']= $arResult['NAME'];
-            $N++;
-            ?>
+    <?//print_r($arResult);
 
-        <?else:?>
-            <?$razdel[$i]= $arResult[$i];
-            $n++;
-            ?>
 
-        <?endif;?>
-        <?$i++;?>
-    <? endforeach;?>
-    <?
-    echo '<pre>';
-    print_r($arResult);
-    echo '</pre>';
     ?>
 
-    <? foreach($arResult as $section): ?>
+    <ul id="v-menu">
+    <?foreach($arResult as $section): ?>
 
-
-
-        <ul id="v-menu">
         <li class="menu">
             <span id="s1"></span>
-            <?if(empty($section['IBLOCK_SECTION_ID'])):?>
-                <?for($i=0; $i<$N; $i++):?>
-                    <?if($section['ID']==$col[$i]['ID']):?>
-                        <a href="#" class="menus">
-                            <?=$col['NAME'];?>
-                        </a>
-                    <?endif;?>
-                <?endfor;?>
-            <?else:?>
-                <ul class="ot">
-                    <?for($i=$N-1; $i<$n; $i++):?>
-                        <?if($section['IBLOCK_SECTION_ID']==$col[$i]['ID']):?>
-                            <li><a href="#"> <?=$section['NAME'];?></a></li>
-                            <?endif;?>
-                    <?endfor;?>
+            <?
+                if($section['NAME'] !=$name){
+                    echo '<a href="#" class="menus">';
+                    //echo $section['NAME'];
+                    echo '</a>';
+                }
+            ?>
+            <?
+            echo '<li><a href="#">';
+            echo $section['SUBSECTION'][key($section['SUBSECTION'])]['NAME'];
+            echo '</a></li>';
 
-
-
-                </ul>
-            <?endif;?>
+            ?>
 
 
         </li>
-    </ul>
+
     <? endforeach; ?>
+    </ul>
+
+
+
 
 
 </nav>
