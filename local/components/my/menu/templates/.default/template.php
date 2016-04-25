@@ -1,14 +1,15 @@
 <nav>
-    <?//print_r($arResult);
-
-
-    ?>
-
+    <?//print_r($arResult);?>
     <ul id="v-menu">
     <?$name = 0;
     foreach($arResult as $section): ?>
         <?echo '<pre>';
-print_r($section[key($section)]['CHILDRENS'][35]['NAME']);
+        $key= array_values($section);
+        print_r($key[0]);
+
+
+//print_r(key());
+
 echo '</pre>';?>
 
         <li class="menu">
@@ -22,7 +23,7 @@ echo '</pre>';?>
             ?>
             <?
             echo '<li><a href="#">';
-            echo $section[key($section)]['CHILDRENS'][key($section['CHILDRENS'])]['NAME'];
+            echo $section[key($section)]['CHILDRENS'][key($section['CHILDRENS'])][$section['NAME']];
             //echo $section[key($section)]['CHILDRENS'][]['SUBSECTION'][key($section['SUBSECTION'])]['NAME'];
             echo '</a></li>';
             $name = $section['NAME']
