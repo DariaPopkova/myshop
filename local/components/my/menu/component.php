@@ -49,9 +49,9 @@ foreach($arSections as $section)
     }
 }
 
-$arResult['MENU'] = $arMenu;
+$arResult = $arMenu;
 echo '<pre>';
-print_r($arResult);
+//print_r($arResult);
 echo '</pre>';
 
 

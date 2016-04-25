@@ -47,58 +47,5 @@
 
 
 
-        <nav>
-            <ul id="v-menu">
-                <li class="menu">
-                    <span id="s1"></span>
-
-                    <a href="#" class="menus">Для офиса</a>
-                    <ul class="ot">
-                        <li><a href="#">Ручки </a></li>
-
-                        <li><a href="#">Карандаши</a></li>
-
-                    </ul>
-
-                </li>
-                <li class="menu">
-                    <a href="#">Для дома</a>
-                    <ul class="ot">
-                        <li><a href="#">Ручки </a></li>
-
-                        <li><a href="#">Карандаши</a></li>
-                        <li><a href="#">Ручки </a></li>
-
-                        <li><a href="#">Карандаши</a></li>
-
-                    </ul>
-
-                </li>
-                <li class="menu">
-                    <a href="#">Для творчества</a>
-                    <ul class="ot">
-                        <li><a href="#">Ручки </a></li>
-
-                        <li><a href="#">Карандаши</a></li>
-
-                    </ul>
-
-                </li>
-                <li class="menu">
-                    <a href="#">Для школы</a>
-                    <ul class="ot">
-                        <li><a href="#">Ручки </a></li>
-
-                        <li><a href="#">Карандаши</a></li>
-
-                    </ul>
-
-                </li>
-
-
-            </ul>
-
-
-        </nav>
 
         <article>

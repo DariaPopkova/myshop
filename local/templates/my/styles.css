@@ -380,6 +380,7 @@ nav{
 
 }
 #v-menu{
+    height: 100%;
     float:left;
     width:100%;
     list-style:none;
@@ -387,8 +388,10 @@ nav{
 
 }
 #v-menu li{
+
     float:left;
     margin-right:10px;
+    text-align: center;
     position:relative;
     display:block;
     height: 100%;
@@ -397,10 +400,11 @@ nav{
 }
 #v-menu li a,.menus:link{
     color: black;
+
 }
 #v-menu li a,.menus:visited
-
 {
+
     color: black;
 }
 #v-menu li a{
@@ -414,8 +418,9 @@ nav{
 }
 #v-menu li a:hover{
     background:rgba(112,146,190,0.75); /* Выглядит полупрозрачным */
-    height: 35px;
+    height: 50px;
     z-index: 1000;
+
 
 }
 #v-menu li a,.menus:visited{
@@ -423,6 +428,7 @@ nav{
 }
 /*--- ВЫПАДАЮЩИЕ ПУНКТЫ ---*/
 #v-menu ul{
+    z-index: 10000;
     list-style:none;
     position:absolute;
     left:-9999px; /* Скрываем за экраном, когда не нужно (данный метод лучше, чем display:none;) */
