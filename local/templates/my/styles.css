@@ -178,6 +178,44 @@ article{
     height: 100%;
 
 }
+#cartfon{
+    width: 90%;
+    min-height: 30%;
+    background-color: rgb(200,191,231);
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 20px;
+
+    box-shadow: 0 0 10px rgba(0,0,0,0.8);
+}
+#imgcart{
+    width: 40%;
+    padding-top: 20px;
+
+}
+#imgcart img{
+    margin-left: 10%;
+    margin-right: 60%;
+    top: 20px;
+    margin-bottom: 10px;
+    display: block;
+    width:180px;
+    height:180px;
+    border: 10px solid powderblue;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+#char{
+    width: 40%;
+    margin-left: 15px;
+    margin-right: 10px;
+
+    padding-bottom: 10px;
+}
+#naz_cart{
+    float: left;
+    margin-left: 15px;
+    margin-right: 10px;
+}
 .section{
     margin-left: 20px;
     margin-right: auto;

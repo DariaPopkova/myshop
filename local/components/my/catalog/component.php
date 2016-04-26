@@ -89,6 +89,11 @@ while($arElement = $rsElement->GetNext())
     $arProduct['MANUFACTURER']=$arElement["PROPERTY_MANUFACTURER_VALUE"];
     $arProduct['DETAIL_PICTURE'] = CFile::GetPath($arElement["DETAIL_PICTURE"]);
     $arProduct['BRAND'] = $array_brend;
+    $arProduct['IBLOCK_ID']= $arElement['IBLOCK_ID'];
+    $arProduct['IBLOCK_SECTION_ID']= $arElement['IBLOCK_SECTION_ID'];
+    $arProduct['ID']= $arElement['ID'];
+
+
     $arResult[] = $arProduct;
 }
 

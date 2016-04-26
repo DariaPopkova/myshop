@@ -146,6 +146,8 @@ while (!feof($handle)) {
                 "DESCRIPTION" => $product['DESCRIPTION'],
                 "BRAND_REF" => $product['BRAND_REF_XID'],
                 "MANUFACTURER" => $product['MANUFACTURER_ID'],
+                "PRICE"=>$product['PRICE'],
+                "CHARACTERISTICS"=> $product['CHARACTERISTICS']
             ],
 
         );
