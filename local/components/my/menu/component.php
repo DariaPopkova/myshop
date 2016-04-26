@@ -33,6 +33,7 @@ foreach($arSections as $section)
         $arMenu[$section['ID']] = [
             'ID' => $section['ID'],
             'NAME' => $section['NAME'],
+            'IBLOCK_ID'=> $section['IBLOCK_ID'],
             'CHILDRENS' => []
         ];
     }
@@ -44,7 +45,8 @@ foreach($arSections as $section)
     {
         $arMenu[$section['IBLOCK_SECTION_ID']]['CHILDRENS'][$section['ID']] = [
             'ID' => $section['ID'],
-            'NAME' => $section['NAME']
+            'NAME' => $section['NAME'],
+
         ];
     }
 }

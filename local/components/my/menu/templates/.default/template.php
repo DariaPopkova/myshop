@@ -1,18 +1,18 @@
 <nav>
+
     <?//print_r($arResult);?>
     <ul id="v-menu">
-    <?foreach($arResult as $key=> $section): ?>
+    <?foreach($arResult as $section): ?>
         <li class="menu">
             <span id="s1"></span>
             <a href="#" class="menus"><?echo $section['NAME'];?></a>
-        <?foreach($section as $section=> $pod): ?>
             <ul class="ot">
-            <?foreach($pod as $pod=> $znach): ?>
-                <li><a href="#"><?echo $znach['NAME'];?></a></li>
-            <? endforeach; ?>
+        <?foreach($section['CHILDRENS'] as $val): ?>
+                 <?//echo $val['IBLOCK_ID'];?>
+                <li><a href="http://popkova.bitrix.develop.maximaster.ru/catalog.php?IBLOCK_ID=<?=$section['IBLOCK_ID'];?>&find_section_section=<?=$val['ID'];?>"><?=$val['NAME'];?></a></li>
+        <?endforeach; ?>
             </ul>
-        <? endforeach; ?>
         </li>
-    <? endforeach; ?>
+    <?endforeach; ?>
     </ul>
 </nav>
