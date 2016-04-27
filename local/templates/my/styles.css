@@ -247,6 +247,20 @@ h3{
 
 
 }
+#knop{
+    text-align: center;
+    font-size: 40px;
+    position: absolute;
+
+    margin-left:27%;
+    padding-top: 15%;
+
+}
+#but{
+    width: 70px;
+    height: 30px;
+    background-color: rgb(121,169,189);
+}
 .section{
     margin-left: 20px;
     margin-right: auto;

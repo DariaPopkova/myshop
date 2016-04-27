@@ -10,10 +10,13 @@
                 </div>
             </div>
         </div>
-        <p style="text-align: center"><button>Купить</button>
+        <p id="knop"><button id="but">Купить</button>
         <div id="imgcart"><img src="<?= $category['DETAIL_PICTURE']; ?>"></div>
         <div id="opisanie">
             <div class="prop_tov"><? echo $category['CHARACTERISTICS']; ?></div>
+        </div>
+        <div id="opisanie">
+            <div class="prop_tov"><? echo $category['QUANTITY']; ?></div>
         </div>
         <div id="char">
             <div id="naz_cart">

@@ -7,7 +7,7 @@ error_reporting(E_ALL  & ~E_NOTICE & ~E_STRICT);
 define('HLIBLOCK_BRANDS', 3);
 define('IBLOCK_PRODUCTS', 4);
 
-array_map('CModule::IncludeModule', ['iblock', 'highloadblock']);
+array_map('CModule::IncludeModule', ['iblock', 'highloadblock', 'catalog', 'sale']);
 
 $brandDataClass = HL\HighloadBlockTable::compileEntity(
     HL\HighloadBlockTable::getById(HLIBLOCK_BRANDS)
@@ -134,6 +134,7 @@ while (!feof($handle)) {
             echo 'Получилось! '.$product['MANUFACTURER'].PHP_EOL;
             $product['MANUFACTURER_ID'] = $key;
         }
+
         $el = new CIBlockElement;
         $arFields = Array(
             "NAME" => $product['NAME'],
@@ -153,21 +154,48 @@ while (!feof($handle)) {
         );
         if ($id = $el->Add($arFields)) {
             echo "Успешно".PHP_EOL;
+           echo $id;
+
         } else {
             echo "Error: " . $el->LAST_ERROR.PHP_EOL;
         }
         echo '====================================================='.PHP_EOL;
+        /*$db_res = CPrice::GetList(
+            array(),
+            array(
+                "PRODUCT_ID" => $id,
+            )
+        );
+        if ($ar_resu = $db_res->Fetch())
+        {
+            echo "ШИКАРНО!";
+            print_r($ar_resu["CATALOG_GROUP_ID"]);
+        }*/
+        $price = new CPrice();
+        $arFields = Array(
+            "PRODUCT_ID" => $id,
+            "CATALOG_GROUP_ID" => 1,
+            "PRICE" => $product['PRICE'],
+            "CURRENCY" => "RUB",
 
+        );
+        $price_id = $price->Add($arFields);
+        $quantiti = new CCatalogProduct();
+        $arFields = Array(
+            "ID" => $id,
+            "QUANTITY" => 10,
+        );
+        $quantiti_id = $quantiti->Add($arFields);
 
     }
 }
 fclose($handle);
 echo '</pre>';
-$arSelect = Array("ID", "NAME");
+/*$arSelect = Array("ID", "NAME");
 $arFilter = Array("IBLOCK_ID"=>IBLOCK_PRODUCTS, "ID"=>  7422);
 $res = CIBlockElement::GetList(Array(), $arFilter, false, Array(), $arSelect);
 $ob = $res->GetNextElement();
-$arFields = $ob->GetFields();
+$arFields = $ob->GetFields();/*
 
 
 

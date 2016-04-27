@@ -14,6 +14,8 @@ echo '<pre>';
 //print_r($arParams);
 echo '</pre>';
 CModule::IncludeModule('iblock');
+CModule::IncludeModule('catalog');
+CModule::IncludeModule('sale');
 
 if (!empty($_GET["ELEMENT_ID"]))
 {
@@ -34,11 +36,47 @@ if (!empty($_GET["ELEMENT_ID"]))
             'PROPERTY_DESCRIPTION',
             'PROPERTY_BRAND_REF',
             'PROPERTY_PRICE',
+            'PROPERTY_QUANTITY',
             'PROPERTY_CHARACTERISTICS',
             'PROPERTY_*'
+
+
         ]
     );
+    $price = [];
+    $arProduct = GetCatalogProduct(8032);
 
+    $price = CPrice::GetList(
+        array(),
+        array(
+            "PRODUCT_ID" => $_GET["ELEMENT_ID"]
+        ),
+        false,
+        false,
+        array("*")
+    );
+    if ($ar_res = $price->Fetch())
+    {
+        //echo CCurrencyLang::CurrencyFormat($ar_res["PRICE"], $ar_res["CURRENCY"]);
+    }
+    else
+    {
+        //echo "Цена не найдена!";
+    }
+    echo '<pre>';
+    //print_r($price);
+    echo '</pre>';
+    $db_res = CCatalogProduct::GetList(
+        array(),
+        array("ID" => $_GET["ELEMENT_ID"]),
+        false,
+        false,
+        array("*")
+    );
+    while ($ar_result = $db_res->Fetch())
+    {
+        echo $ar_result["QUANTITY"];
+    }
     while($arElement = $rsElement->GetNext())
     {
         echo '<pre>';
@@ -71,6 +109,7 @@ if (!empty($_GET["ELEMENT_ID"]))
         $arProduct['IBLOCK_ID']= $arElement['IBLOCK_ID'];
         $arProduct['IBLOCK_SECTION_ID']= $arElement['IBLOCK_SECTION_ID'];
         $arProduct['CHARACTERISTICS']= $arElement['PROPERTY_CHARACTERISTICS_VALUE'];
+        $arProduct['QUANTITY']= $ar_result["QUANTITY"];
         $arProduct['PRICE']= $arElement['PROPERTY_PRICE_VALUE'];
         $arProduct['ID']= $arElement['ID'];
         //print_r($arProduct['CHARACTERISTICS']);
