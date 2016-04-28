@@ -1,21 +1,42 @@
-<?
-use Bitrix\Highloadblock as HL;
-use Bitrix\Main\Entity;
-define('HLIBLOCK_BRANDS', 3);
+<?if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 define('IBLOCK_PRODUCTS', 4);
-array_map('CModule::IncludeModule', ['iblock', 'highloadblock', 'catalog', 'sale']);
+array_map('CModule::IncludeModule', ['iblock', 'catalog', 'sale']);
 
-$brandDataClass = HL\HighloadBlockTable::compileEntity(
-HL\HighloadBlockTable::getById(HLIBLOCK_BRANDS)
-->fetch()
-)->getDataClass();
-if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
+
 echo '<pre>';
-//print_r($arParams);
+print_r($_GET["find_section_section"]);
 echo '</pre>';
+if (!empty($_GET["find_section_section"]))
+{
+    $rsSection = CIBlockSection::GetList(
+        array(),
+        array(
+
+            'IBLOCK_ID' => IBLOCK_PRODUCTS,
+            'SECTION_ID' => $_GET["find_section_section"]
+
+        ),
+
+        [
+            'ID', 'IBLOCK_ID', 'NAME', 'IBLOCK_SECTION_ID'
+        ],
+        false
+
+    );
+
+    while ($section = $rsSection->fetch())
+    {
+        $arSections[] = $section;
+    }
+    print_r($arSections);
 
 
-if (!empty($_GET["ELEMENT_ID"]))
+}
+
+
+
+/*
+if (!empty($_GET[""]))
 {
     $rsElement = CIBlockElement::GetList(
         array(),
@@ -66,7 +87,7 @@ if (!empty($_GET["ELEMENT_ID"]))
     echo '</pre>';
     $ID=(int)$_GET["ELEMENT_ID"];
     $ar_result = CCatalogProduct::GetByID($ID);
-     //print_r($ar_result);
+    //print_r($ar_result);
     while($arElement = $rsElement->GetNext())
     {
         echo '<pre>';
@@ -116,5 +137,6 @@ else {
 echo '<pre>';
 //print_r($arResult);
 echo '</pre>';
+*/
 $this->IncludeComponentTemplate();
 ?>

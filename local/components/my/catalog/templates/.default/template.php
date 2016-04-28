@@ -1,7 +1,8 @@
 
 <!--<pre>
-    <?//print_r($arResult);?>
+    <?print_r($arResult);?>
 </pre>-->
+<?//if($_GET['find_section_section']=)?>
 
     <div class="section">
         <h2>Тренды сезона</h2>
@@ -26,4 +27,31 @@
             </a>
         <? endforeach; ?>
     </div>
+<aside>
+    <div id="poisk">
+        <form >
+            <input type="search" class="srch" placeholder="Поиск по сайту">
+            <input type="submit" class="srch" value="Найти">
+
+        </form>
+    </div>
+
+
+    <div id="info">
+        <h6>ПОЛЕЗНАЯ ИНФОРМАЦИЯ</h6>
+        <a target="_blank" class="info-box" href="/">
+            <div id="img1"></div>
+
+            <h6>О МАГАЗИНЕ</h6>
+            <div class="info-content">
+                Узнайте больше о нашем магазине,о наших контактах и реквизитах.
+            </div>
+
+        </a>
+
+    </div>
+</aside>
+<?
+
+?>
 

@@ -6,7 +6,7 @@
             <div id="price_cart">
                 <div class="prop_naz_cart"><h3>Цена:</h3></div>
                 <div class="prop_cart">
-                    <? echo $category['PRICE']; ?>
+                    <? echo $category['PRICE']. "  руб."; ?>
                 </div>
             </div>
         </div>
@@ -15,8 +15,9 @@
         <div id="opisanie">
             <div class="prop_tov"><? echo $category['CHARACTERISTICS']; ?></div>
         </div>
-        <div id="opisanie">
-            <div class="prop_tov"><? echo $category['QUANTITY']; ?></div>
+        <div id="skald">
+            <div class="prop_naz_sk">Доступно:</div>
+            <div class="prop_tov_sk"><? echo $category['QUANTITY']; ?></div>
         </div>
         <div id="char">
             <div id="naz_cart">

@@ -50,7 +50,7 @@ $rsElement = CIBlockElement::GetList(
     false,
     false,
     [
-        'ID', 'IBLOCK_ID','IBLOCK_SECTION_ID', 'NAME', 'DETAIL_PICTURE',
+        'ID', 'IBLOCK_ID','IBLOCK_SECTION_ID', 'NAME', 'DETAIL_PICTURE', 'SECTION_ID',
         'PROPERTY_ARTNUMBER',
         'PROPERTY_MANUFACTURER',
         'PROPERTY_DESCRIPTION',
@@ -83,20 +83,46 @@ while($arElement = $rsElement->GetNext())
     //$arviv = $r->GetNext();
     //print_r($arviv);
     //print_r($arElement["PROPERTY_BRAND_REF_VALUE"]);
-    $arProduct['NAME'] = $arElement["NAME"];
-    $arProduct['DESCRIPTION']=$arElement["PROPERTY_DESCRIPTION_VALUE"];
-    $arProduct['ARTNUMBER']=$arElement["PROPERTY_ARTNUMBER_VALUE"];
-    $arProduct['MANUFACTURER']=$arElement["PROPERTY_MANUFACTURER_VALUE"];
-    $arProduct['DETAIL_PICTURE'] = CFile::GetPath($arElement["DETAIL_PICTURE"]);
-    $arProduct['BRAND'] = $array_brend;
-    $arProduct['IBLOCK_ID']= $arElement['IBLOCK_ID'];
-    $arProduct['IBLOCK_SECTION_ID']= $arElement['IBLOCK_SECTION_ID'];
-    $arProduct['ID']= $arElement['ID'];
 
+
+    $arProduct = [
+        'NAME' => $arElement["NAME"],
+        'DESCRIPTION' => $arElement["PROPERTY_DESCRIPTION_VALUE"],
+        'ARTNUMBER' => $arElement["PROPERTY_ARTNUMBER_VALUE"],
+        'MANUFACTURER' => $arElement["PROPERTY_MANUFACTURER_VALUE"],
+        'DETAIL_PICTURE' =>  CFile::GetPath($arElement["DETAIL_PICTURE"]),
+        'BRAND' => $array_brend,
+        'IBLOCK_ID' => $arElement['IBLOCK_ID'],
+        'IBLOCK_SECTION_ID' => $arElement['IBLOCK_SECTION_ID'],
+        'ID' => $arElement['ID']
+
+
+    ];
 
     $arResult[] = $arProduct;
 }
 
+$arFilter = array(
+    'IBLOCK_ID' => IBLOCK_PRODUCTS,
+    'SECTION_ID' => $_GET['find_section_section']
+);
+
+$rsSect = CIBlockSection::GetList(
+    array(),
+    $arFilter
+);
+while ($arSect = $rsSect->GetNext())
+{
+    echo '<pre>';
+    print_r($arSect);
+    echo '</pre>';
+
+}
+
+
+echo '<pre>';
+//print_r($arSect);
+echo '</pre>';
    // LocalRedirect("/404.php", "404 Not Found");
 //$arResult = array_merge($arResult,$arElement);
 $this->IncludeComponentTemplate(); // <- $arResult

@@ -226,6 +226,22 @@ article{
     width: 20%;
 
 }
+.prop_naz_sk{
+    float: left;
+
+}
+.prop_tov_sk{
+    display: inline-block;
+    padding-left: 2%;
+    color: darkslategrey;
+}
+#skald{
+    display: inline-block;
+    position: absolute;
+    margin-top: 12%;
+    margin-left: 25%;
+    width: 20%;
+}
 .prop_naz_cart{
   float: left;
 }
