@@ -40,6 +40,123 @@ if(empty($arsec))
     LocalRedirect("/404.php", "404 Not Found");
 }
 
+$arFilter = array(
+    'IBLOCK_ID' => IBLOCK_PRODUCTS,
+
+);
+
+$rsSection = CIBlockSection::GetList(
+    array(),
+    $arFilter
+);
+while ($arSection = $rsSection->GetNext())
+{
+    echo '<pre>';
+    //print_r($arSection);
+    echo '</pre>';
+    if(($arSection['ID'] == $section_id)&&(empty($arSection['IBLOCK_SECTION_ID'])))
+    {
+        $arResult=[
+            'NAME' => $arSection['NAME'],
+            'IBLOCK_SECTION_ID' => "",
+            'SUBSECTION' => [],
+
+        ];
+        $arFilter = array(
+            'IBLOCK_ID' => IBLOCK_PRODUCTS,
+            'SECTION_ID' => $section_id
+        );
+
+        $serchSect = CIBlockSection::GetList(
+            array(),
+            $arFilter
+        );
+        while ($arraySect = $serchSect->GetNext())
+        {
+            $arResult['SUBSECTION'][$arraySect['ID']]=[
+                'NAME' => $arraySect['NAME']
+            ];
+
+            echo '<pre>';
+            //print_r($arraySect);
+            echo '</pre>';
+
+        }
+        //print_r($arSection['NAME']);
+
+
+
+
+    }
+    else if($arSection['ID'] == $section_id)
+    {
+        $rsElement = CIBlockElement::GetList(
+            array(),
+            array(
+                'IBLOCK_ID' => IBLOCK_PRODUCTS,
+                'SECTION_ID' => $section_id,
+            ),
+            false,
+            false,
+            [
+                'ID', 'IBLOCK_ID','IBLOCK_SECTION_ID', 'NAME', 'DETAIL_PICTURE', 'SECTION_ID',
+                'PROPERTY_ARTNUMBER',
+                'PROPERTY_MANUFACTURER',
+                'PROPERTY_DESCRIPTION',
+                'PROPERTY_BRAND_REF',
+                'PROPERTY_*'
+            ]
+        );
+
+        while($arElement = $rsElement->GetNext())
+        {
+            echo '<pre>';
+            //print_r($arElement);
+            echo '</pre>';
+
+            $brand_result = $brandDataClass::getList(array(
+                "select" => array(
+                    'ID',
+                    'UF_NAME',
+                    'UF_XML_ID'
+                ),
+                "order" => array(),
+                "filter" => array(
+                    'UF_XML_ID' => $arElement["PROPERTY_BRAND_REF_VALUE"]
+                )
+            ));
+            $array_brend = $brand_result->Fetch()['UF_NAME'];
+            //print_r(CFile::GetFileArray($arElement["DETAIL_PICTURE"]));
+            //print_r(CFile::GetPath($arElement["DETAIL_PICTURE"]));
+            // $rCIBlockElement::GetList(array(),array("DESCRIPTION"=>$arElement["DESCRIPTION"]));
+            //$arviv = $r->GetNext();
+            //print_r($arviv);
+            //print_r($arElement["PROPERTY_BRAND_REF_VALUE"]);
+
+
+            $arProduct = [
+                'NAME' => $arElement["NAME"],
+                'DESCRIPTION' => $arElement["PROPERTY_DESCRIPTION_VALUE"],
+                'ARTNUMBER' => $arElement["PROPERTY_ARTNUMBER_VALUE"],
+                'MANUFACTURER' => $arElement["PROPERTY_MANUFACTURER_VALUE"],
+                'DETAIL_PICTURE' =>  CFile::GetPath($arElement["DETAIL_PICTURE"]),
+                'BRAND' => $array_brend,
+                'IBLOCK_ID' => $arElement['IBLOCK_ID'],
+                'IBLOCK_SECTION_ID' => $arElement['IBLOCK_SECTION_ID'],
+                'ID' => $arElement['ID']
+
+
+            ];
+
+            $arResult[] = $arProduct;
+        }
+
+    }
+
+
+}
+
+/*
 $rsElement = CIBlockElement::GetList(
     array(),
     array(
@@ -113,13 +230,14 @@ $rsSect = CIBlockSection::GetList(
 );
 while ($arSect = $rsSect->GetNext())
 {
+
     echo '<pre>';
-    print_r($arSect);
+   //print_r($arSect);
     echo '</pre>';
 
 }
 
-
+*/
 echo '<pre>';
 //print_r($arSect);
 echo '</pre>';
