@@ -39,7 +39,37 @@ if(empty($arsec))
 {
     LocalRedirect("/404.php", "404 Not Found");
 }
+function if_est_block($iblock_sec_id)
+{
+    $arFilter = array(
+        'IBLOCK_ID' => IBLOCK_PRODUCTS,
+        'SECTION_ID' => $iblock_sec_id
+    );
 
+    $serchSect = CIBlockSection::GetList(
+        array(),
+        $arFilter
+    );
+    $arr=[];
+    while ($arraySect = $serchSect->GetNext())
+    {
+        $arr[$arraySect['IBLOCK_SECTION_ID']][$arraySect['ID']]= [
+            'ID'=> $arraySect['ID'],
+            'NAME'=> $arraySect['NAME'],
+            'IBLOCK_SECTION_ID'=> $arraySect['IBLOCK_SECTION_ID'],
+        ];
+
+
+        //echo '<pre>';
+        //print_r($arraySect);
+        //echo '</pre>';
+
+    }
+    return $arr;
+
+
+
+}
 $arFilter = array(
     'IBLOCK_ID' => IBLOCK_PRODUCTS,
 
@@ -49,14 +79,11 @@ $rsSection = CIBlockSection::GetList(
     array(),
     $arFilter
 );
-function if_est_block()
-{
 
-}
 while ($arSection = $rsSection->GetNext())
 {
     echo '<pre>';
-    print_r($arSection);
+    //print_r($arSection);
     echo '</pre>';
     if(($arSection['ID'] == $section_id)&&(empty($arSection['IBLOCK_SECTION_ID'])))
     {
@@ -82,13 +109,16 @@ while ($arSection = $rsSection->GetNext())
                 'IBLOCK_ID'=> $arraySect['IBLOCK_ID'],
                 'ID' =>$arraySect['ID']
             ];
+            //print_r($arraySect['ID']);
+
+
 
             echo '<pre>';
-            //print_r($arraySect);
+            //print_r($id);
             echo '</pre>';
 
         }
-        //print_r($arSection['NAME']);
+        //print_r($arraySect['ID']);
 
 
 
@@ -96,6 +126,8 @@ while ($arSection = $rsSection->GetNext())
     }
     else if($arSection['ID'] == $section_id)
     {
+
+
         $rsElement = CIBlockElement::GetList(
             array(),
             array(
@@ -153,8 +185,10 @@ while ($arSection = $rsSection->GetNext())
 
 
             ];
-
+            $id=[];
+            $id=if_est_block($arProduct['IBLOCK_SECTION_ID']);
             $arResult[] = $arProduct;
+            $arResult[]= $id;
         }
 
     }
