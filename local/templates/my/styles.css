@@ -167,10 +167,29 @@ nav{
 }
 
 article{
-
     float: left;
     width: 70%;
     height: 100%;
+}
+#glav_pun{
+    background-color: lightskyblue;
+    height: 30px;
+    width: 250px;
+    text-align: center;
+    margin-left: 20px;
+    margin-bottom: 5px;
+    display:block;
+    box-shadow: 0 0 10px rgba(0,0,0,0.8);
+
+}
+.podpun{
+    background-color: lightgray;
+    height: 30px;
+    width: 250px;
+    text-align: center;
+    display: block;
+    margin-left: 20px;
+    margin-bottom: 5px;
 
 }
 #cartfon{
@@ -435,7 +454,6 @@ a,.info-box:visited{
 }
 
 
-
 #rabfon{
 
 }
@@ -466,6 +484,7 @@ footer{
     height: 300px;
     width: 100%;
     clear: left;
+
 
 }
 
@@ -590,12 +609,6 @@ nav{
     width: 10%;
 
 }
-
-
-
-
-
-
 
 @media screen and (max-device-width: 320px) and (orientation: portrait){
     html, body {
