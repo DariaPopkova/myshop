@@ -53,26 +53,23 @@ function if_est_block($iblock_sec_id)
     $arr=[];
     while ($arraySect = $serchSect->GetNext())
     {
+       /* echo '<pre>';
+        print_r($arraySect);
+        echo '</pre>';*/
         $arr[$arraySect['IBLOCK_SECTION_ID']][$arraySect['ID']]= [
             'ID'=> $arraySect['ID'],
             'NAME'=> $arraySect['NAME'],
+            'IBLOCK_ID' => $arraySect['IBLOCK_ID'],
             'IBLOCK_SECTION_ID'=> $arraySect['IBLOCK_SECTION_ID'],
         ];
-
-
         //echo '<pre>';
         //print_r($arraySect);
         //echo '</pre>';
-
     }
     return $arr;
-
-
-
 }
 $arFilter = array(
     'IBLOCK_ID' => IBLOCK_PRODUCTS,
-
 );
 
 $rsSection = CIBlockSection::GetList(
@@ -85,19 +82,29 @@ while ($arSection = $rsSection->GetNext())
     echo '<pre>';
     //print_r($arSection);
     echo '</pre>';
+    $arFilter = array(
+        'IBLOCK_ID' => IBLOCK_PRODUCTS,
+        'SECTION_ID' => $section_id
+    );
+    $ss = CIBlockSection::GetList(
+        array(),
+        $arFilter
+    );
+    $arr=[];
+    $arr = $ss->GetNext();
+    //print_r($arr);
+
     if(($arSection['ID'] == $section_id)&&(empty($arSection['IBLOCK_SECTION_ID'])))
     {
         $arResult=[
             'NAME' => $arSection['NAME'],
             'IBLOCK_SECTION_ID' => "",
             'SUBSECTION' => [],
-
         ];
         $arFilter = array(
             'IBLOCK_ID' => IBLOCK_PRODUCTS,
             'SECTION_ID' => $section_id
         );
-
         $serchSect = CIBlockSection::GetList(
             array(),
             $arFilter
@@ -110,24 +117,14 @@ while ($arSection = $rsSection->GetNext())
                 'ID' =>$arraySect['ID']
             ];
             //print_r($arraySect['ID']);
-
-
-
             echo '<pre>';
             //print_r($id);
             echo '</pre>';
-
         }
         //print_r($arraySect['ID']);
-
-
-
-
     }
-    else if($arSection['ID'] == $section_id)
+    else if(($arSection['ID'] == $section_id)||($arr['IBLOCK_SECTION_ID']==$section_id))
     {
-
-
         $rsElement = CIBlockElement::GetList(
             array(),
             array(
@@ -145,13 +142,13 @@ while ($arSection = $rsSection->GetNext())
                 'PROPERTY_*'
             ]
         );
-
+        $flag = true;
+        $boo = false;
         while($arElement = $rsElement->GetNext())
         {
             echo '<pre>';
             //print_r($arElement);
             echo '</pre>';
-
             $brand_result = $brandDataClass::getList(array(
                 "select" => array(
                     'ID',
@@ -170,8 +167,16 @@ while ($arSection = $rsSection->GetNext())
             //$arviv = $r->GetNext();
             //print_r($arviv);
             //print_r($arElement["PROPERTY_BRAND_REF_VALUE"]);
-
-
+            $arFilter = array(
+                'IBLOCK_ID' => IBLOCK_PRODUCTS,
+                'ID' => $arElement['IBLOCK_SECTION_ID']
+            );
+            $rs = CIBlockSection::GetList(
+                array(),
+                $arFilter
+            );
+            $ar = $rs->GetNext();
+            //print_r($ar);
             $arProduct = [
                 'NAME' => $arElement["NAME"],
                 'DESCRIPTION' => $arElement["PROPERTY_DESCRIPTION_VALUE"],
@@ -182,13 +187,44 @@ while ($arSection = $rsSection->GetNext())
                 'IBLOCK_ID' => $arElement['IBLOCK_ID'],
                 'IBLOCK_SECTION_ID' => $arElement['IBLOCK_SECTION_ID'],
                 'ID' => $arElement['ID'],
-
-
+                'NAMESECTION'=> $ar['NAME'],
+                'PODSECTION' => [],
             ];
             $id=[];
-            $id=if_est_block($arProduct['IBLOCK_SECTION_ID']);
+            if($flag == true)
+            {
+                $id=if_est_block($_GET["find_section_section"]);
+                $arProduct['PODSECTION'] = $id;
+                //while(if_est_block($arProduct['IBLOCK_SECTION_ID'])!=false)
+                //$id=if_est_block($arProduct['IBLOCK_SECTION_ID']);
+                $flag = false;
+            }
+
             $arResult[] = $arProduct;
-            $arResult[]= $id;
+            //$arResult[]= $id;
+            $boo = true;
+        }
+        if(($arElement = $rsElement->GetNext()==false)&&($boo==false))
+        {
+            $arFilter = array(
+                'IBLOCK_ID' => IBLOCK_PRODUCTS,
+                'ID' => $section_id
+            );
+            $rs = CIBlockSection::GetList(
+                array(),
+                $arFilter
+            );
+            $ar = $rs->GetNext();
+            $arProduct=[
+                'NAMESECTION'=> $ar['NAME'],
+                'PODSECTION' => [
+                    'NAME'=>$arr['NAME'],
+                    'IBLOCK_SECTION_ID'=>$arr['IBLOCK_SECTION_ID'],
+                    'IBLOCK_ID' => $arr['IBLOCK_ID']
+                ],
+
+            ];
+            $arResult[] = $arProduct;
         }
 
     }

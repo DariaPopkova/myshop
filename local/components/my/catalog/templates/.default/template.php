@@ -1,27 +1,29 @@
-
 <pre>
     <?print_r($arResult);?>
 </pre>
-<?$flag=true;?>
-
-
-
-
 
     <?if($_GET['find_section_section'] != $arResult[0]['IBLOCK_SECTION_ID']):?>
         <div id="glav_pun"><?echo $arResult['NAME'];?></div>
-
         <? foreach($arResult['SUBSECTION'] as $section): ?>
             <div class="podpun">
                 <a href="http://popkova.bitrix.develop.maximaster.ru/catalog.php?IBLOCK_ID=<?=$section['IBLOCK_ID'];?>&find_section_section=<?=$section['ID']?>">
                 <?echo $section['NAME'];?>
                 </a>
-
             </div>
         <? endforeach;
-        ;?>
+        ?>
     <?else:?>
-
+        <?if(!empty($arResult[0]['PODSECTION'])):?>
+            <div id="glav_pun"><?echo $arResult[0]['NAMESECTION'];?></div>
+            <? foreach($arResult[0]['PODSECTION'][$arResult[0]['IBLOCK_SECTION_ID']] as $section):
+                //print_r($section);?>
+                <div class="podpun">
+                    <a href="http://popkova.bitrix.develop.maximaster.ru/catalog.php?IBLOCK_ID=<?=$section['IBLOCK_ID'];?>&find_section_section=<?=$section['ID']?>">
+                        <?echo $section['NAME'];?>
+                    </a>
+                </div>
+            <? endforeach;?>
+        <?endif;//if()?>
             <h2>Тренды сезона</h2>
         <div class="section">
         <? foreach($arResult as $category):
