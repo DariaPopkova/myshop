@@ -36,6 +36,7 @@
     </div>
 <? endforeach; ?>
 <?
+
 setcookie("surname",$_POST['surname'],time()+60*60*24*365);
 setcookie("name",$_POST['name'],time()+60*60*24*365);
 setcookie("middlename",$_POST['middlename'],time()+60*60*24*365);
@@ -43,30 +44,47 @@ setcookie("email",$_POST['email'],time()+60*60*24*365);
 setcookie("telephone",$_POST['telephone'],time()+60*60*24*365);
 
 if(isset($_POST['submit']))
-    echo $_COOKIE['surname'];
+{
+    echo '<pre>';
+    echo $_COOKIE["surname"];
+    echo '<pre>';
+    echo '<pre>';
+    echo $_COOKIE["name"];
+    echo '<pre>';
+    echo '<pre>';
+    echo $_COOKIE["middlename"];
+    echo '<pre>';
+    echo '<pre>';
+    echo $_COOKIE["email"];
+    echo '<pre>';
+    echo '<pre>';
+    echo $_COOKIE["telephone"];
+    echo '<pre>';
+    echo $_POST['surname'];
+}
+///local/components/my/cart/templates/.default/template.php
+
 ?>
-
-
-<form method="post" action="template.php">
+<form method="post" action="/local/components/my/cart/templates/.default/template.php">
     <div>
         <label for="surname">Фамилия:</label>
-        <input type="text" name="surname" id="surname" pattern="([А-ЯЁ][а-яё]+[\-\s]?){3,}">
+        <input type="text" name="surname" id="surname" pattern="([А-Я][a-я]+)">
     </div>
     <div>
         <label for="name">Имя:</label>
-        <input type="text" name="name" id="name" pattern="([А-ЯЁ][а-яё]+[\-\s]?){3,}">
+        <input type="text" name="name" id="name" pattern="([А-Я][a-я]+)">
     </div>
     <div>
         <label for="middlename">Отчество:</label>
-        <input type="text" name="middlename" id="middlename" pattern="([А-ЯЁ][а-яё]+[\-\s]?){3,}">
+        <input type="text" name="middlename" id="middlename" pattern="([А-Я][a-я]+)">
     </div>
     <div>
         <label for="email">E-Mail:</label>
-        <input type="text" name="email" id="email" required pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$">
+        <input type="text" name="email" id="email" required pattern="[a-z\A-Z\1-9\-\.\_]+@[a-z1-9]+(.[a-z]+){1,}">
     </div>
     <div>
         <label for="telephone">Телефон:</label>
-        <input type="text" name="telephone" id="telephone" required pattern="^\+\d{2}\(\d{3}\)\d{3}-\d{2}-\d{2}$">
+        <input type="text" name="telephone" id="telephone" required pattern="^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$">
     </div>
 
     <input type="submit" name="submit" value="Оформить заказ">

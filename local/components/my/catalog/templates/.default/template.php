@@ -12,6 +12,7 @@
             </div>
         <? endforeach;
         ?>
+
     <?else:?>
         <?if(!empty($arResult[0]['PODSECTION'])):?>
             <div id="glav_pun"><?echo $arResult[0]['NAMESECTION'];?></div>
