@@ -37,8 +37,9 @@
 <? endforeach; ?>
 <div id="results">вывод</div>
 <?
-
 CModule::IncludeModule('iblock');
+//CModule::IncludeModule('pokupki');
+
 $array=[];
 $array["surname"] = $_POST['surname'];
 $array["name"] = $_POST['name'];
@@ -52,11 +53,43 @@ while ($value = current($array)) {
         $value,
         time()+60*60*24*365
 );
-
     $VISITOR_ID = $APPLICATION->get_cookie(key($array));
     echo $VISITOR_ID;
     //echo $name.'<br />';
     next($array);
+}
+$res = CIBlock::GetList(
+    Array(),
+    Array(
+        'TYPE'=>'pokupki',
+
+    )
+);
+while($ar_res = $res->Fetch()) {
+    if (isset($_POST['name'])) {
+        $el = new CIBlockElement;
+        $arFields = Array(
+            "IBLOCK_TYPE" => $ar_res['IBLOCK_TYPE_ID'],
+            "IBLOCK_ID" => $ar_res['ID'],
+            "NAME" => $_POST['name'],
+            "PROPERTY_VALUES" => [
+                "NAME_POS" => $_POST['name'],
+                "SURNAME" => $_POST['surname'],
+                "MIDLENAME" => $_POST['surname'],
+                "EMAIL" => $_POST['email'],
+                "PHONE" => $_POST['telephone'],
+                "PRODUCT" => 'http://popkova.bitrix.develop.maximaster.ru/cart.php?IBLOCK_ID=<?=$_GET["IBLOCK_ID"];?>&find_section_section=<?=$_GET["find_section_section"];?>&ELEMENT_ID=<?=$_GET["ELEMENT_ID"];?>',
+            ],
+        );
+        if ($id = $el->Add($arFields)) {
+            echo "Успешно" . PHP_EOL;
+            echo $id;
+        } else {
+            echo "Error: " . $el->LAST_ERROR . PHP_EOL;
+        }
+    } else {
+        echo "Ошибка";
+    }
 }
 /*
 setcookie("surname",$_POST['surname'],time()+60*60*24*365);
@@ -95,7 +128,6 @@ if(isset($_POST['submit']))
     echo $_POST['surname'];
 }*/
 ///local/components/my/cart/templates/.default/template.php
-
 ?>
 <form method="post" id="formsub" action="" >
     <div>
@@ -123,6 +155,7 @@ if(isset($_POST['submit']))
 </form>
 <?include 'form.php';?>
 
+
 <script type="text/javascript" language="javascript">
     function viv(formsub) {
         var msg   = $("#"+formsub).serialize();
@@ -143,10 +176,10 @@ if(isset($_POST['submit']))
 </script>
 
 <script>
-
+    formsub.style.display = 'none';
     but.addEventListener("click", function() {
         alert( "sucsess" ); // сработает по окончании анимации
-        document.write('');
-    });
+        formsub.style.display = (formsub.style.display == 'none') ? '' : ''
 
+    });
 </script>
