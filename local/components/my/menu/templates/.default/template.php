@@ -12,6 +12,7 @@
                  <?//echo $val['IBLOCK_ID'];?>
                 <li><a href="http://popkova.bitrix.develop.maximaster.ru/catalog.php?IBLOCK_ID=<?=$section['IBLOCK_ID'];?>&find_section_section=<?=$val['ID'];?>"><?=$val['NAME'];?></a></li>
         <?endforeach;?>
+
             </ul>
         </li>
     <?endforeach; ?>
