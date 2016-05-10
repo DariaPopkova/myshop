@@ -18,7 +18,7 @@ CModule::IncludeModule('iblock');
 /*if (!empty($_GET["find_section_section"])) //SECTION_ID
 { echo " Получены новые вводные: имя - ".$_GET["find_section_section"]."";}
 else { echo "Переменные не дошли. Проверьте все еще раз."; }*/
-if (empty($_GET["find_section_section"])) //SECTION_ID
+if ((empty($_GET["find_section_section"]))&&(empty($_GET["IBLOCK_ID"]))) //SECTION_ID
 {
     LocalRedirect("/404.php", "404 Not Found");
 }

@@ -1,3 +1,18 @@
+<?/*
+echo '<pre>';
+print_r($arResult);
+echo '</pre>';*/
+?>
+<?
+reset($arResult);
+foreach($arResult as $brand)
+{
+    echo '<pre style="
+    margin-top: 10px;">';
+    echo $brand;
+    echo '</pre>';
+}
+?>
 
 <aside>
     <div id="poisk">

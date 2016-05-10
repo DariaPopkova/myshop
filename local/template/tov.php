@@ -51,8 +51,9 @@ while($array_brend = $brand_result->Fetch())
 {
     $massiv_brend[$array_brend['UF_XML_ID']] = $array_brend['UF_NAME'];
 
+
 }
-print_r($array_brend);
+print_r($massiv_brend);
 $handle = fopen("tovari.txt", "r");
 while (!feof($handle)) {
 
@@ -76,9 +77,7 @@ while (!feof($handle)) {
         }
 
         $key_brand = array_search($product['BRAND_REF'], $massiv_brend);
-
         echo $key_brand.PHP_EOL;
-
         if($key_brand === false)
         {
             echo 'Добавляем! '.$product['BRAND_REF'].PHP_EOL;
@@ -86,35 +85,40 @@ while (!feof($handle)) {
                 'UF_NAME' => $product['BRAND_REF']
             ))->getId();
 
+            //print_r($product['BRAND_REF']);
             $brandResult = (new Entity\Query($brandDataClass))
                 ->setSelect(
                     ['ID', 'UF_NAME', 'UF_XML_ID']
                 )
                 ->setFilter(
                     [
-                        'ID' => $product['BRAND_REF_ID']
+                        'UF_NAME' => $product['BRAND_REF']
                     ]
                 )
                 ->exec()
                 ->fetch();
+            print_r($brandResult);
             if (!empty($brandResult)) {
                 $product['BRAND_REF_XID'] = $brandResult['UF_XML_ID'];
+                echo $product['BRAND_REF_XID'];
+                echo "ДАААААА!!!!!";
+
             }
             $massiv_brend[$product['BRAND_REF_XID']] = $product['BRAND_REF'];
-            print_r($massiv_brend);
+            //print_r($massiv_brend);
         }
         else
         {
             $product['BRAND_REF_XID'] = $key_brand;
-            echo 'Получилось! '.$product['BRAND_REF'].PHP_EOL;
-            print_r($product['BRAND_REF_XID']);
+            //echo 'Получилось! '.$product['BRAND_REF'].PHP_EOL;
+            //print_r($product['BRAND_REF_XID']);
         }
         $manufacture = new CIBlockPropertyEnum;
         $key = array_search($product['MANUFACTURER'], $array_manufacture);
         echo $key.PHP_EOL;
         if($key === false)
         {
-            echo 'Добавляем! '.$product['MANUFACTURER'].PHP_EOL;
+            //echo 'Добавляем! '.$product['MANUFACTURER'].PHP_EOL;
 
             if ($result_man = $manufacture->Add(
                 Array(
@@ -131,7 +135,7 @@ while (!feof($handle)) {
         }
         else
         {
-            echo 'Получилось! '.$product['MANUFACTURER'].PHP_EOL;
+            //echo 'Получилось! '.$product['MANUFACTURER'].PHP_EOL;
             $product['MANUFACTURER_ID'] = $key;
         }
 
@@ -153,8 +157,8 @@ while (!feof($handle)) {
 
         );
         if ($id = $el->Add($arFields)) {
-            echo "Успешно".PHP_EOL;
-           echo $id;
+            //echo "Успешно".PHP_EOL;
+           //echo $id;
 
         } else {
             echo "Error: " . $el->LAST_ERROR.PHP_EOL;
