@@ -138,7 +138,6 @@ if($_GET["find_section_section"]) {
                     echo '<pre>';
                     //print_r($array_brend);
                     echo '</pre>';
-
                     $arResult[$array_brend['UF_XML_ID']] = $array_brend['UF_NAME'];
 
                 }

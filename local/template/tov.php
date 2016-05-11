@@ -93,6 +93,12 @@ while (!feof($handle)) {
                 )
                 ->exec()
                 ->fetch();
+            $result = $brandDataClass::update( //обновляем значения элемента
+                $product['BRAND_REF_ID'],	//id элемента
+                array(
+                    'UF_XML_ID' => $brandResult['ID'],
+                )
+            );
             print_r($brandResult);
             if (!empty($brandResult)) {
                 $product['BRAND_REF_XID'] = $brandResult['UF_XML_ID'];
