@@ -3,18 +3,21 @@ echo '<pre>';
 print_r($arResult);
 echo '</pre>';*/
 ?>
-<?
-reset($arResult);
-foreach($arResult as $brand)
-{
-    echo '<pre style="
-    margin-top: 10px;">';
-    echo $brand;
-    echo '</pre>';
-}
-?>
+
 
 <aside>
+    <?
+    reset($arResult);
+    foreach($arResult as $brand)
+    {
+        echo '<div class="brand">';
+        echo '<pre style="
+        margin-top: 10px;">';
+        echo $brand;
+        echo '</pre>';
+        echo '</div>';
+    }
+    ?>
     <div id="poisk">
         <form>
             <input type="search" class="srch" placeholder="Поиск по сайту">

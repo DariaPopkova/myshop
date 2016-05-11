@@ -3,12 +3,9 @@ use Bitrix\Highloadblock as HL;
 use Bitrix\Main\Entity;
 ini_set("display_errors",1);
 error_reporting(E_ALL  & ~E_NOTICE & ~E_STRICT);
-
-define('HLIBLOCK_BRANDS', 3);
+define('HLIBLOCK_BRANDS', 7);
 define('IBLOCK_PRODUCTS', 4);
-
 array_map('CModule::IncludeModule', ['iblock', 'highloadblock', 'catalog', 'sale']);
-
 $brandDataClass = HL\HighloadBlockTable::compileEntity(
     HL\HighloadBlockTable::getById(HLIBLOCK_BRANDS)
         ->fetch()
@@ -50,23 +47,18 @@ $xml_brand = [];
 while($array_brend = $brand_result->Fetch())
 {
     $massiv_brend[$array_brend['UF_XML_ID']] = $array_brend['UF_NAME'];
-
-
 }
 print_r($massiv_brend);
 $handle = fopen("tovari.txt", "r");
 while (!feof($handle)) {
-
     echo '====================================================='.PHP_EOL;
     $line = fgets($handle);
-
     if ($first == true) {
         $header = explode(",", $line);
         $first = false;
     } else {
         $product = [];
         $pieces = explode(",", $line);
-
         foreach ($pieces as $i => $value) {
             $product[trim($header[$i])] = trim($value);
         }
@@ -75,16 +67,20 @@ while (!feof($handle)) {
             echo "Файл " . $product['DETAIL_PICTURE'] . " не существует<br>";
             continue;
         }
-
         $key_brand = array_search($product['BRAND_REF'], $massiv_brend);
         echo $key_brand.PHP_EOL;
         if($key_brand === false)
         {
             echo 'Добавляем! '.$product['BRAND_REF'].PHP_EOL;
             $product['BRAND_REF_ID'] = $brandDataClass::add(array(
-                'UF_NAME' => $product['BRAND_REF']
+                'UF_NAME' => $product['BRAND_REF'],
             ))->getId();
-
+            $result = $brandDataClass::update( //обновляем значения элемента
+                $product['BRAND_REF_ID'],	//id элемента
+                array(
+                    'UF_XML_ID' => $product['BRAND_REF_ID'],
+                )
+            );
             //print_r($product['BRAND_REF']);
             $brandResult = (new Entity\Query($brandDataClass))
                 ->setSelect(
@@ -100,9 +96,7 @@ while (!feof($handle)) {
             print_r($brandResult);
             if (!empty($brandResult)) {
                 $product['BRAND_REF_XID'] = $brandResult['UF_XML_ID'];
-                echo $product['BRAND_REF_XID'];
-                echo "ДАААААА!!!!!";
-
+                //echo $product['BRAND_REF_XID'];
             }
             $massiv_brend[$product['BRAND_REF_XID']] = $product['BRAND_REF'];
             //print_r($massiv_brend);
@@ -119,7 +113,6 @@ while (!feof($handle)) {
         if($key === false)
         {
             //echo 'Добавляем! '.$product['MANUFACTURER'].PHP_EOL;
-
             if ($result_man = $manufacture->Add(
                 Array(
                     'PROPERTY_ID' => $prop_fields['ID'],
@@ -131,14 +124,12 @@ while (!feof($handle)) {
                 $product['MANUFACTURER_ID'] = $result_man;
                 $array_manufacture[$product['MANUFACTURER_ID']] = $product['MANUFACTURER'];
             }
-
         }
         else
         {
             //echo 'Получилось! '.$product['MANUFACTURER'].PHP_EOL;
             $product['MANUFACTURER_ID'] = $key;
         }
-
         $el = new CIBlockElement;
         $arFields = Array(
             "NAME" => $product['NAME'],
@@ -154,12 +145,10 @@ while (!feof($handle)) {
                 "PRICE"=>$product['PRICE'],
                 "CHARACTERISTICS"=> $product['CHARACTERISTICS']
             ],
-
         );
         if ($id = $el->Add($arFields)) {
             //echo "Успешно".PHP_EOL;
-           //echo $id;
-
+            //echo $id;
         } else {
             echo "Error: " . $el->LAST_ERROR.PHP_EOL;
         }
@@ -181,7 +170,6 @@ while (!feof($handle)) {
             "CATALOG_GROUP_ID" => 1,
             "PRICE" => $product['PRICE'],
             "CURRENCY" => "RUB",
-
         );
         $price_id = $price->Add($arFields);
         $quantiti = new CCatalogProduct();
@@ -190,7 +178,6 @@ while (!feof($handle)) {
             "QUANTITY" => 10,
         );
         $quantiti_id = $quantiti->Add($arFields);
-
     }
 }
 fclose($handle);
@@ -199,7 +186,4 @@ echo '</pre>';
 $arFilter = Array("IBLOCK_ID"=>IBLOCK_PRODUCTS, "ID"=>  7422);
 $res = CIBlockElement::GetList(Array(), $arFilter, false, Array(), $arSelect);
 $ob = $res->GetNextElement();
-$arFields = $ob->GetFields();/*
-
-
-
+$arFields = $ob->GetFields();*/

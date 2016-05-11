@@ -353,6 +353,14 @@ aside{
 
 
 }
+.brand{
+    background-color: lightgray;
+    height: 30px;
+    width: 250px;
+    text-align: center;
+    display: block;
+
+}
 #poisk{
     margin-top: 20px;
 
