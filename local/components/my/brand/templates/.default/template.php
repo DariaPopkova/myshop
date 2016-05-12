@@ -7,7 +7,7 @@ echo '</pre>';*/
 
 <aside>
     <?
-    reset($arResult);
+
     foreach($arResult as $brand)
     {
         echo '<div class="brand">';

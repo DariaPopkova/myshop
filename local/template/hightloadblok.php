@@ -10,11 +10,12 @@ $brandDataClass = HL\HighloadBlockTable::compileEntity(
     HL\HighloadBlockTable::getById(HLIBLOCK_BRANDS)
         ->fetch()
 )->getDataClass();
+//$hlblock = HL\HighloadBlockTable::getById(HLIBLOCK_BRANDS)->fetch();
+//$entity = HL\HighloadBlockTable::compileEntity($hlblock);
+//var_dump($entity ->getFields());
 $brand_result = $brandDataClass::getList(array(
     "select" => array(
-        'ID',
-        'UF_NAME',
-        'UF_XML_ID'
+        '*'
     ),
     "order" => array(),
     "filter" => array()
@@ -23,31 +24,33 @@ $massiv_brend = [];
 $xml_brand = [];
 while($array_brend = $brand_result->Fetch())
 {
+    //print_r($array_brend);
     $massiv_brend[$array_brend['UF_XML_ID']] = $array_brend['UF_NAME'];
 }
-
-$key_brand = array_search("КитайкаКитаянская", $massiv_brend);
+$key_brand = array_search("Зараза не добавляющаяся", $massiv_brend);
 echo $key_brand.PHP_EOL;
 if($key_brand === false)
 {
-    echo 'Добавляем! '."КитайкаКитаянская".PHP_EOL;
+    echo 'Добавляем! '."Зараза не добавляющаяся".PHP_EOL;
     $product['BRAND_REF_ID'] = $brandDataClass::add(array(
-        'UF_NAME' => "КитайкаКитаянская",
+        'UF_NAME' => "Зараза не добавляющаяся",
+        'UF_XML_ID' =>  md5(uniqid(""))
     ))->getId();
-   /* $result = $brandDataClass::update( //обновляем значения элемента
-        $product['BRAND_REF_ID'],	//id элемента
-        array(
-            'UF_XML_ID' => $product['BRAND_REF_ID'],
-        )
-    );*/
+    /* $result = $brandDataClass::update( //обновляем значения элемента
+         $product['BRAND_REF_ID'],	//id элемента
+         array(
+             'UF_NAME' => "КитайкаКитаянская",
+         )
+     );*/
     //print_r($product['BRAND_REF']);
+
     $brandResult = (new Entity\Query($brandDataClass))
         ->setSelect(
             ['ID', 'UF_NAME', 'UF_XML_ID']
         )
         ->setFilter(
             [
-                'UF_NAME' => "КитайкаКитаянская"
+                'UF_NAME' => "Зараза не добавляющаяся"
             ]
         )
         ->exec()
@@ -66,6 +69,7 @@ else
     echo 'Получилось! '.$product['BRAND_REF'].PHP_EOL;
     //print_r($product['BRAND_REF_XID']);
 }
+
 
 
 
