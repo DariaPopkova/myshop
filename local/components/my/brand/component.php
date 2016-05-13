@@ -14,10 +14,10 @@ echo '<pre>';
 //print_r($arParams);
 echo '</pre>';
 CModule::IncludeModule('iblock');
-if ((empty($_GET["find_section_section"]))&&(empty($_GET["IBLOCK_ID"]))) //SECTION_ID
+/*//hjfhgjfif ((empty($_GET["find_section_section"]))&&(empty($_GET["IBLOCK_ID"]))&&(empty($_GET["brand_d"]))) //SECTION_ID
 {
     LocalRedirect("/404.php", "404 Not Found");
-}
+}*/
 
 /*
 function brand_search($arFilter){
@@ -59,7 +59,7 @@ if (($_GET["IBLOCK_ID"])&&(empty($_GET["find_section_section"]))) //SECTION_ID
     $xml_brand = [];
     while($array_brend = $brand_result->Fetch())
     {
-        $arResult[$array_brend['UF_XML_ID']] = $array_brend['UF_NAME'];
+        $arResult[$array_brend['UF_XML_ID']] = $array_brend; //['UF_NAME']
     }
 
 }
@@ -138,7 +138,7 @@ if($_GET["find_section_section"]) {
                     echo '<pre>';
                     //print_r($array_brend);
                     echo '</pre>';
-                    $arResult[$array_brend['UF_XML_ID']] = $array_brend['UF_NAME'];
+                    $arResult[$array_brend['UF_XML_ID']] = $array_brend; //['UF_NAME']
 
                 }
             }
@@ -188,7 +188,7 @@ if($_GET["find_section_section"]) {
                 //print_r($array_brend);
                 echo '</pre>';
 
-                $arResult[$array_brend['UF_XML_ID']] = $array_brend['UF_NAME'];
+                $arResult[$array_brend['UF_XML_ID']] = $array_brend; //['UF_NAME']
 
             }
 

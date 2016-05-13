@@ -4,7 +4,6 @@ use Bitrix\Main\Entity;
 define('HLIBLOCK_BRANDS', 7);
 define('IBLOCK_PRODUCTS', 4);
 array_map('CModule::IncludeModule', ['iblock', 'highloadblock', 'catalog', 'sale']);
-
 $brandDataClass = HL\HighloadBlockTable::compileEntity(
 HL\HighloadBlockTable::getById(HLIBLOCK_BRANDS)
 ->fetch()
@@ -13,8 +12,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 echo '<pre>';
 //print_r($arParams);
 echo '</pre>';
-
-
 if (!empty($_GET["ELEMENT_ID"]))
 {
     $rsElement = CIBlockElement::GetList(

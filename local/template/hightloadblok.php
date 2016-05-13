@@ -13,6 +13,106 @@ $brandDataClass = HL\HighloadBlockTable::compileEntity(
 //$hlblock = HL\HighloadBlockTable::getById(HLIBLOCK_BRANDS)->fetch();
 //$entity = HL\HighloadBlockTable::compileEntity($hlblock);
 //var_dump($entity ->getFields());
+//$hlar = [
+    //'NAME' => 'VotoN',
+    //'TABLE_NAME' => 'my_table_props'//имя для базы данных
+//];
+//$hladd = HL\HighloadBlockTable::add($hlar);
+//$hlid = $hladd->getId();
+$highLoadBlockId = 9;
+$userTypeEntity    = new CUserTypeEntity();
+
+$userTypeData    = array(
+    'ENTITY_ID'         => 'HLBLOCK_'.$highLoadBlockId,
+    'FIELD_NAME'        => 'UF_NAME',
+    'USER_TYPE_ID'      => 'string',
+    'XML_ID'            => 'XML_ID_NAME',
+    'SORT'              => 500,
+    'MULTIPLE'          => 'N',
+    'MANDATORY'         => 'Y',
+    'SHOW_FILTER'       => 'N',
+    'SHOW_IN_LIST'      => '',
+    'EDIT_IN_LIST'      => '',
+    'IS_SEARCHABLE'     => 'N',
+    'SETTINGS'          => array(
+        'DEFAULT_VALUE' => '',
+        'SIZE'          => '20',
+        'ROWS'          => '1',
+        'MIN_LENGTH'    => '0',
+        'MAX_LENGTH'    => '0',
+        'REGEXP'        => '',
+    ),
+    'EDIT_FORM_LABEL'   => array(
+        'ru'    => 'Название свойства',
+        'en'    => 'Property name',
+    ),
+    'LIST_COLUMN_LABEL' => array(
+        'ru'    => 'Название свойства',
+        'en'    => 'Property name',
+    ),
+    'LIST_FILTER_LABEL' => array(
+        'ru'    => 'Название свойства',
+        'en'    => 'Property name',
+    ),
+    'ERROR_MESSAGE'     => array(
+        'ru'    => 'Ошибка при заполнении пользовательского свойства <Названия свойства>',
+        'en'    => 'An error in completing the user field <Property name>',
+    ),
+    'HELP_MESSAGE'      => array(
+        'ru'    => '',
+        'en'    => '',
+    ),
+);
+
+
+
+$userTypeId = $userTypeEntity->Add($userTypeData);
+
+/*
+$polex = new CUserTypeEntity();
+$hlp = array(
+    'ENTITY_ID' => 9,
+    'FIELD_NAME' => 'UF_NAME',
+    'USER_TYPE_ID'=> 'string',
+    'XML_ID' => 'UF_NAME',
+    'SORT'              => 500,
+    'MULTIPLE'          => 'N',
+    'MANDATORY'         => 'Y',
+    'SHOW_FILTER'       => 'N',
+    'SHOW_IN_LIST'      => '',
+    'EDIT_IN_LIST'      => '',
+    'IS_SEARCHABLE'     => 'N',
+    'SETTINGS'          => array(
+        'DEFAULT_VALUE' => '',
+        'SIZE'          => '20',
+        'ROWS'          => '1',
+        'MIN_LENGTH'    => '0',
+        'MAX_LENGTH'    => '0',
+        'REGEXP'        => '',
+    ),
+    'EDIT_FORM_LABEL'   => array(
+        'ru'    => 'Название свойства',
+        'en'    => 'Property name',
+    ),
+    'LIST_COLUMN_LABEL' => array(
+        'ru'    => 'Название свойства',
+        'en'    => 'Property name',
+    ),
+    'LIST_FILTER_LABEL' => array(
+        'ru'    => 'Название свойства',
+        'en'    => 'Property name',
+    ),
+    'ERROR_MESSAGE'     => array(
+        'ru'    => 'Ошибка при заполнении пользовательского свойства <Названия свойства>',
+        'en'    => 'An error in completing the user field <Property name>',
+    ),
+    'HELP_MESSAGE'      => array(
+        'ru'    => '',
+        'en'    => '',
+    ),
+);
+
+$addp = $polex->Add($hlp);*/
 $brand_result = $brandDataClass::getList(array(
     "select" => array(
         '*'

@@ -350,8 +350,6 @@ aside{
     margin-right: 0;
     margin-left: auto;
 
-
-
 }
 .brand{
     background-color: lightgray;
@@ -359,6 +357,8 @@ aside{
     width: 250px;
     text-align: center;
     display: block;
+    margin-top: 10px;
+
 
 }
 #poisk{
@@ -480,6 +480,9 @@ a,.info-box:visited{
 }
 .workarea{
     display: flex;
+    height: 100%;
+    min-height: 100%;
+
 
 
 }
@@ -487,14 +490,11 @@ a,.info-box:visited{
 
 
 }
-footer{
-    background-color: rgb(41,45,45);
-    height: 300px;
-    width: 100%;
-    clear: left;
-
-
+.clear {
+    clear:both;
+    height:0px;
 }
+
 
 nav{
     width: 100%;
@@ -607,17 +607,26 @@ nav{
 }
 #content {
     width: 80%;
-    margin-top: 0 auto;
+    margin-top: 0 ;
 }
 #catalog {
     width: 10%;
-    margin-top: 0 auto;
+    margin-top: 0;
 }
 #filter {
     width: 10%;
 
 }
+footer{
+    background-color: rgb(41,45,45);
+    height: 300px;
+    width: 100%;
+    margin-top: 400px;
 
+
+
+
+}
 @media screen and (max-device-width: 320px) and (orientation: portrait){
     html, body {
 
@@ -639,7 +648,7 @@ nav{
     }
     #firstcreen{
         width: 320px;
-        max-width: 100%;
+
 
 
 
@@ -848,7 +857,7 @@ nav{
         width: 100%;
         display: block;
         clear: left;
-
+        position: absolute;
 
     }
     #kont{

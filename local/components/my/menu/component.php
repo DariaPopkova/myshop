@@ -46,7 +46,6 @@ foreach($arSections as $section)
         $arMenu[$section['IBLOCK_SECTION_ID']]['CHILDRENS'][$section['ID']] = [
             'ID' => $section['ID'],
             'NAME' => $section['NAME'],
-
         ];
     }
 }

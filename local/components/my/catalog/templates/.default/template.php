@@ -1,8 +1,22 @@
 <pre>
     <?//print_r($arResult);?>
 </pre>
+<?//if(!empty($_GET['IBLOCK_ID']))
+//{
+    //echo '<div id="glav_pun">Главная</div>';
+    //echo '<div id="glav_pun">'.$arResult['NAME'].'</div>';
+//}
+?>
 
+<?
+$APPLICATION->AddChainItem("", "");
+
+?>
     <?if($_GET['find_section_section'] != $arResult[0]['IBLOCK_SECTION_ID']):?>
+        <?
+        $APPLICATION->AddChainItem($arResult['NAME'], "http://popkova.bitrix.develop.maximaster.ru/catalog.php?IBLOCK_ID=4&find_section_section=20");
+
+        ?>
         <div id="glav_pun"><?echo $arResult['NAME'];?></div>
         <? foreach($arResult['SUBSECTION'] as $section): ?>
             <div class="podpun">
@@ -12,7 +26,6 @@
             </div>
         <? endforeach;
         ?>
-
     <?else:?>
         <?if(!empty($arResult[0]['PODSECTION'])):?>
             <div id="glav_pun"><?echo $arResult[0]['NAMESECTION'];?></div>
@@ -47,9 +60,28 @@
 
                     </div>
                 </a>
-            <? endforeach;
-            ?>
+            <? endforeach;?>
             </div>
         <?endif;?>
     <?endif;?>
+<?if(!empty($_GET['brand_id'])): ?>
+    <? foreach($arResult as $prod):?>
+        <? foreach($prod as $prod_brand):?>
 
+            <div class="tov">
+                <div class="imgtov"> <img src="<?=$prod_brand['DETAIL_PICTURE'];?>"  ></div>
+                <div class="prop_tov_name"><?echo $prod_brand['NAME'];?></div>
+                <div class="naz">
+                    <div class="prop_naz">Цвет:</div>
+                    <div class="prop_naz">Артикул:</div>
+                    <div class="prop_naz">Производитель:</div>
+                    <div class="prop_naz">Бренд:</div>
+                </div>
+                <div class="prop_tov"><?echo $prod_brand['PROPERTY_DESCRIPTION_VALUE'];?></div>
+                <div class="prop_tov"><?echo $prod_brand['PROPERTY_ARTNUMBER_VALUE'];?></div>
+                <div class="prop_tov"><?echo $prod_brand['PROPERTY_MANUFACTURER_VALUE'];?></div>
+                <div class="prop_tov"><?echo $prod_brand['BRAND_REF'];?></div>
+            </div>
+        <? endforeach;?>
+    <? endforeach;?>
+<?endif;?>

@@ -3,21 +3,16 @@ echo '<pre>';
 print_r($arResult);
 echo '</pre>';*/
 ?>
-
-
 <aside>
-    <?
+    <?foreach($arResult as $brand):?>
+    <a href="http://popkova.bitrix.develop.maximaster.ru/catalog.php?brand_id=<?=$brand['ID'];?>">
+        <?echo '<div class="brand">';?>
 
-    foreach($arResult as $brand)
-    {
-        echo '<div class="brand">';
-        echo '<pre style="
-        margin-top: 10px;">';
-        echo $brand;
-        echo '</pre>';
-        echo '</div>';
-    }
-    ?>
+       <? echo $brand['UF_NAME'];
+
+        echo '</div>';?>
+       </a>
+    <?endforeach;?>
     <div id="poisk">
         <form>
             <input type="search" class="srch" placeholder="Поиск по сайту">

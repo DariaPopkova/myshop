@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     <script type="text/javascript" src="jquery.js"></script>
     <?$APPLICATION->ShowHead();?>
+
     <title><?$APPLICATION->ShowTitle()?></title>
 </head>
 <body>
+
 <div id="panel"><?$APPLICATION->ShowPanel();?></div>
 <div id="wrapper">
     <div id="firstcreen">
@@ -45,7 +47,19 @@
         );
 
         ?>
+        <?$APPLICATION->IncludeComponent("bitrix:breadcrumb","",Array(
+                "START_FROM" => "0",
+                "PATH" => "",
+                "SITE_ID" => "s1"
+            )
+        );?>
+        <?
 
+        $APPLICATION->AddChainItem($arResult['Name'], "");
+        echo '<pre>';
+        //print_r($APPLICATION);
+        echo '</pre>';
+        ?>
 
 
 
