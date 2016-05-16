@@ -1,7 +1,7 @@
 <?
 use Bitrix\Highloadblock as HL;
 use Bitrix\Main\Entity;
-define('HLIBLOCK_BRANDS', 7);
+define('HLIBLOCK_BRANDS', 3);
 define('IBLOCK_PRODUCTS', 4);
 array_map('CModule::IncludeModule', ['iblock', 'highloadblock']);
 

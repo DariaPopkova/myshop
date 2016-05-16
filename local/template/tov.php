@@ -3,7 +3,7 @@ use Bitrix\Highloadblock as HL;
 use Bitrix\Main\Entity;
 ini_set("display_errors",1);
 error_reporting(E_ALL  & ~E_NOTICE & ~E_STRICT);
-define('HLIBLOCK_BRANDS', 7);
+define('HLIBLOCK_BRANDS', 3);
 define('IBLOCK_PRODUCTS', 4);
 array_map('CModule::IncludeModule', ['iblock', 'highloadblock', 'catalog', 'sale']);
 $brandDataClass = HL\HighloadBlockTable::compileEntity(

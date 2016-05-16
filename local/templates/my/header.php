@@ -53,13 +53,8 @@
                 "SITE_ID" => "s1"
             )
         );?>
-        <?
 
-        $APPLICATION->AddChainItem($arResult['Name'], "");
-        echo '<pre>';
-        //print_r($APPLICATION);
-        echo '</pre>';
-        ?>
+
 
 
 
