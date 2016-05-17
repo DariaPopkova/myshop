@@ -20,6 +20,10 @@ $arResult['ITEMS'][ key($arResult['ITEMS']) ]['LAST'] = true;
 
 reset($arResult['ITEMS']);
 }
+if(!empty($_GET['IBLOCK_ID']))
+{
+    $arResult['ITEMS'] = "Главная";
+}
 
 $this->IncludeComponentTemplate();
 ?>
