@@ -48,12 +48,73 @@
 
         ?>
         <?
-        if(!empty($_GET['find_section_section']))
-        {
+        $APPLICATION->IncludeComponent("bitrix:breadcrumb", "", Array(
+                "START_FROM" => "0",
+                "PATH" => "",
+                "SITE_ID" => "s1"
+            )
+        );
+        if(!empty($_GET['find_section_section'])) {
             CModule::IncludeModule("iblock");
             define('IBLOCK_PRODUCTS', 4);
+            function block($iblock_sec_id)
+            {
+                $arFilter = array(
+                    'IBLOCK_ID' => IBLOCK_PRODUCTS,
+                    'ID' => $iblock_sec_id
+                );
+                $serchSect = CIBlockSection::GetList(
+                    array(),
+                    $arFilter
+                );
+
+                $arraySect = $serchSect->GetNext();
+                if (empty($arraySect['IBLOCK_SECTION_ID'])) {
+                    return false;
+                } else {
+                    return $arraySect;
+                }
+
+            }
 
             $sect = $_GET['find_section_section'];
+            $i = true;
+            $sections = [];
+            $k = 1;
+            while ($i !== false) {
+                $i = block($sect);
+                $arPS = array(
+                    'IBLOCK_ID' => 4,
+                    'ID' => $sect
+                );
+                $rsPS = CIBlockSection::GetList(
+                    array(),
+                    $arPS
+                );
+                $arPodSec = $rsPS->GetNext();
+                if ($i != false) {
+                    $sections[$k] = [
+                        'NAME' => $arPodSec['NAME'],
+                        'ID' => $arPodSec['ID']
+                    ];
+                } else {
+                    $sections[$k] = [
+                        'NAME' => $arPodSec['NAME'],
+                        'ID' => $arPodSec['ID']
+                    ];
+
+                    for ($j = count($sections); $j >= 1; $j--) {
+                        $APPLICATION->AddChainItem($sections[$j]['NAME'], "http://popkova.bitrix.develop.maximaster.ru/catalog.php?IBLOCK_ID=4&find_section_section='" . $sections[$j]['ID'] . "'");
+
+                    }
+
+                }
+                $k++;
+                $sect = $i['IBLOCK_SECTION_ID'];
+            }
+        }
+            /*//если сектид пустой то просто добалвяем эту секцию
+            //если нет находим и опять находим для этой секции
             $ar = array(
                 'IBLOCK_ID' => 4,
                 'ID' => $sect
@@ -65,6 +126,7 @@
             $ars = $rs->GetNext();
             if(!empty($ars['IBLOCK_SECTION_ID']))
             {
+
                 $arGS = array(
                     'IBLOCK_ID' => 4,
                     'ID' => $ars['IBLOCK_SECTION_ID']
@@ -81,6 +143,7 @@
                         "SITE_ID" => "s1"
                     )
                 );
+
                 $APPLICATION->AddChainItem($arGlavSect['NAME'], "/catalog.php?IBLOCK_ID=4&find_section_section='".$arGlavSect['ID']."'");
                 $APPLICATION->AddChainItem($ars['NAME'], "/catalog.php?IBLOCK_ID=4&find_section_section='".$ars['ID']."'");
 
@@ -93,23 +156,8 @@
                     )
                 );
                 $APPLICATION->AddChainItem($ars['NAME'], "/catalog.php?IBLOCK_ID=4&find_section_section='".$ars['ID']."'");
-            }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /*
+            }*/
+/*
             $ar = array(
                 'IBLOCK_ID' => 4,
                 'ID' => $sect
@@ -186,7 +234,7 @@
 
             if ($_GET['find_section_section'] == 19) {
                 $APPLICATION->AddChainItem("Бумага", "/catalog.php?IBLOCK_ID=4&find_section_section=19");*/
-        }
+
         //my:hlebnav?>
 
 
