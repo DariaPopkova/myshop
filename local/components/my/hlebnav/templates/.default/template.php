@@ -1,14 +1,12 @@
-<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
-<?if (count($arResult['ITEMS']) > 0):?>
-<div class="breadcrumbs">
-    <ul>
-        <?foreach ($arResult['ITEMS'] as $k => $item):?>
-        <?if ($item['LAST'] === true):?>
-        <li><span><?=$item['TITLE']?></span></li>
-        <?else:?>
-        <li><a href="<?=$item['LINK']?>"><?=$item['TITLE']?></a></li>
-        <?endif;?>
-        <?endforeach;?>
-    </ul>
+<?
+//print_r($arResult);
+?>
+<div >
+    <ol class="breadcrumbs">
+        <?for($i=count($arResult[0]); $i>=1; $i--):?>
+            <li><a href="http://popkova.bitrix.develop.maximaster.ru/catalog.php?IBLOCK_ID=4&find_section_section=<?=$arResult[0][$i]['ID']?>">
+            <?echo $arResult[0][$i]['NAME'];
+            echo '</li></a>';
+       endfor;?>
+    </ol>
 </div>
-<?endif;?>

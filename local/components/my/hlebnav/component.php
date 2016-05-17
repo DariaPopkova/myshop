@@ -1,28 +1,57 @@
 <?
-if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
-global $APPLICATION;
-
-// данный параметр определяет, отображать ли последний пункт цепочки как ссылку
-// по умолчанию — нет
-$arParams['SHOW_LAST_LINK'] = ($arParams['SHOW_LAST_LINK'] == 'Y') ? 'Y' : 'N';
-
-// получаем доступ к пунктам цепочки
-$arResult['ITEMS'] = $APPLICATION->arAdditionalChain;
-
-// далее можно проделать с ними любые манипуляции
-// например можно установить последнему пункту флаг LAST,
-// чтобы в шаблоне не выводить ссылку
-if ($arParams['SHOW_LAST_LINK'] == 'N')
+CModule::IncludeModule("iblock");
+define('IBLOCK_PRODUCTS', 4);
+function block($iblock_sec_id)
 {
-end($arResult['ITEMS']);
+    $arFilter = array(
+        'IBLOCK_ID' => IBLOCK_PRODUCTS,
+        'ID' => $iblock_sec_id
+    );
+    $serchSect = CIBlockSection::GetList(
+        array(),
+        $arFilter
+    );
 
-$arResult['ITEMS'][ key($arResult['ITEMS']) ]['LAST'] = true;
+    $arraySect = $serchSect->GetNext();
+    if (empty($arraySect['IBLOCK_SECTION_ID'])) {
+        return false;
+    } else {
+        return $arraySect;
+    }
 
-reset($arResult['ITEMS']);
 }
-if(!empty($_GET['IBLOCK_ID']))
-{
-    $arResult['ITEMS'] = "Главная";
+if(!empty($_GET['find_section_section'])) {
+    $sect = $_GET['find_section_section'];
+    $i = true;
+    $sections = [];
+    $k = 1;
+    while ($i !== false) {
+        $i = block($sect);
+        $arPS = array(
+            'IBLOCK_ID' => 4,
+            'ID' => $sect
+        );
+        $rsPS = CIBlockSection::GetList(
+            array(),
+            $arPS
+        );
+        $arPodSec = $rsPS->GetNext();
+        if ($i != false) {
+            $sections[$k] = [
+                'NAME' => $arPodSec['NAME'],
+                'ID' => $arPodSec['ID']
+            ];
+        } else {
+            $sections[$k] = [
+                'NAME' => $arPodSec['NAME'],
+                'ID' => $arPodSec['ID']
+            ];
+
+        }
+        $k++;
+        $sect = $i['IBLOCK_SECTION_ID'];
+    }
+    $arResult[] = $sections;
 }
 
 $this->IncludeComponentTemplate();

@@ -11,6 +11,9 @@
             </div>
         </div>
         <p id="knop"><button name="butbay" id="but" >Купить</button></p>
+        <form method="post" action="">
+            <input type="submit" name="basket" id="basket" value="Добавить в корзину">
+        </form>
         <div id="imgcart"><img src="<?= $category['DETAIL_PICTURE']; ?>"></div>
         <div id="opisanie">
             <div class="prop_tov"><? echo $category['CHARACTERISTICS']; ?></div>
@@ -90,6 +93,39 @@ while($ar_res = $res->Fetch()) {
     } else {
         echo "Ошибка";
     }
+}
+
+if(isset($_POST['basket']))
+{
+    array_map('CModule::IncludeModule', ['iblock', 'sale']);
+    $property=CIBlockElement::GetList(
+        array(),
+        array(
+            "IBLOCK_ID" => $_GET['IBLOCK_ID'],
+            "SECTION_ID" => $_GET['find_section_section'],
+            "ID" => $_GET['ELEMENT_ID'],
+        )
+    );
+    $ar_propprod = $property->Fetch();
+
+    $price = CPrice::GetList(
+        array(),
+        array(
+            "PRODUCT_ID" => $_GET['ELEMENT_ID'],
+        )
+    );
+    $ar_price = $price->Fetch();
+
+    print_r($rsElement);
+    $arFields = array(
+        "PRODUCT_ID" => $_GET['ELEMENT_ID'],
+        "PRICE" => $ar_price['PRICE'],
+        "CURRENCY" => "RUB",
+        "LID" => 's1',
+        "NAME" => $ar_propprod['NAME'],
+    );
+    CSaleBasket::Add($arFields);
+
 }
 /*
 setcookie("surname",$_POST['surname'],time()+60*60*24*365);

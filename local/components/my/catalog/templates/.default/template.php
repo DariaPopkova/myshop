@@ -8,15 +8,9 @@
 //}
 ?>
 
-<?
-$APPLICATION->AddChainItem("", "");
 
-?>
     <?if($_GET['find_section_section'] != $arResult[0]['IBLOCK_SECTION_ID']):?>
-        <?
-        $APPLICATION->AddChainItem($arResult['NAME'], "http://popkova.bitrix.develop.maximaster.ru/catalog.php?IBLOCK_ID=4&find_section_section=20");
 
-        ?>
         <div id="glav_pun"><?echo $arResult['NAME'];?></div>
         <? foreach($arResult['SUBSECTION'] as $section): ?>
             <div class="podpun">

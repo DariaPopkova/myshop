@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     <script type="text/javascript" src="jquery.js"></script>
     <?$APPLICATION->ShowHead();?>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript"></script>
 
     <title><?$APPLICATION->ShowTitle()?></title>
 </head>
@@ -21,12 +22,107 @@
 
             </div>
             <div id="vremy">
-
+                Канцтовары
             </div>
             <div id="reg">
 
             </div>
+            <?$APPLICATION->IncludeComponent("bitrix:sale.basket.basket.line","",Array(
+                    "HIDE_ON_BASKET_PAGES" => "Y",
+                    "PATH_TO_BASKET" => SITE_DIR."personal/cart/",
+                    "PATH_TO_ORDER" => SITE_DIR."personal/order/make/",
+                    "PATH_TO_PERSONAL" => SITE_DIR."personal/",
+                    "PATH_TO_PROFILE" => SITE_DIR."personal/",
+                    "PATH_TO_REGISTER" => SITE_DIR."login/",
+                    "POSITION_FIXED" => "Y",
+                    "POSITION_HORIZONTAL" => "right",
+                    "POSITION_VERTICAL" => "top",
+                    "SHOW_AUTHOR" => "Y",
+                    "SHOW_DELAY" => "N",
+                    "SHOW_EMPTY_VALUES" => "Y",
+                    "SHOW_IMAGE" => "Y",
+                    "SHOW_NOTAVAIL" => "N",
+                    "SHOW_NUM_PRODUCTS" => "Y",
+                    "SHOW_PERSONAL_LINK" => "N",
+                    "SHOW_PRICE" => "Y",
+                    "SHOW_PRODUCTS" => "Y",
+                    "SHOW_SUBSCRIBE" => "Y",
+                    "SHOW_SUMMARY" => "Y",
+                    "SHOW_TOTAL_PRICE" => "Y"
+                )
+            );?>
+            <?$APPLICATION->IncludeComponent(
+                "bitrix:sale.basket.basket",
+                "",
+                Array(
+                    "ACTION_VARIABLE" => "action",
+                    "COLUMNS_LIST" => array("NAME","DISCOUNT","WEIGHT","DELETE","DELAY","TYPE","PRICE","QUANTITY"),
+                    "COMPONENT_TEMPLATE" => ".default",
+                    "COUNT_DISCOUNT_4_ALL_QUANTITY" => "N",
+                    "GIFTS_BLOCK_TITLE" => "Выберите один из подарков",
+                    "GIFTS_CONVERT_CURRENCY" => "Y",
+                    "GIFTS_HIDE_BLOCK_TITLE" => "N",
+                    "GIFTS_HIDE_NOT_AVAILABLE" => "N",
+                    "GIFTS_MESS_BTN_BUY" => "Выбрать",
+                    "GIFTS_MESS_BTN_DETAIL" => "Подробнее",
+                    "GIFTS_PAGE_ELEMENT_COUNT" => "4",
+                    "GIFTS_PRODUCT_PROPS_VARIABLE" => "prop",
+                    "GIFTS_PRODUCT_QUANTITY_VARIABLE" => "",
+                    "GIFTS_SHOW_DISCOUNT_PERCENT" => "Y",
+                    "GIFTS_SHOW_IMAGE" => "Y",
+                    "GIFTS_SHOW_NAME" => "Y",
+                    "GIFTS_SHOW_OLD_PRICE" => "Y",
+                    "GIFTS_TEXT_LABEL_GIFT" => "Подарок",
+                    "HIDE_COUPON" => "N",
+                    "OFFERS_PROPS" => array("SIZES_SHOES","SIZES_CLOTHES"),
+                    "PATH_TO_ORDER" => "/personal/order.php",
+                    "PRICE_VAT_SHOW_VALUE" => "N",
+                    "QUANTITY_FLOAT" => "N",
+                    "SET_TITLE" => "Y",
+                    "TEMPLATE_THEME" => "blue",
+                    "USE_GIFTS" => "Y",
+                    "USE_PREPAYMENT" => "N"
+                )
+            );?>
+            <?$APPLICATION->IncludeComponent(
+                "bitrix:sale.order.ajax",
+                "",
+                Array(
+                    "ALLOW_NEW_PROFILE" => "Y",
+                    "SHOW_PAYMENT_SERVICES_NAMES" => "Y",
+                    "SHOW_STORES_IMAGES" => "N",
+                    "PATH_TO_BASKET" => "basket.php",
+                    "PATH_TO_PERSONAL" => "index.php",
+                    "PATH_TO_PAYMENT" => "payment.php",
+                    "PATH_TO_AUTH" => "/auth/",
+                    "PAY_FROM_ACCOUNT" => "Y",
+                    "ONLY_FULL_PAY_FROM_ACCOUNT" => "N",
+                    "COUNT_DELIVERY_TAX" => "N",
+                    "ALLOW_AUTO_REGISTER" => "N",
+                    "SEND_NEW_USER_NOTIFY" => "Y",
+                    "DELIVERY_NO_AJAX" => "N",
+                    "DELIVERY_NO_SESSION" => "N",
+                    "TEMPLATE_LOCATION" => ".default",
+                    "DELIVERY_TO_PAYSYSTEM" => "d2p",
+                    "SET_TITLE" => "Y",
+                    "USE_PREPAYMENT" => "N",
+                    "DISABLE_BASKET_REDIRECT" => "Y",
+                    "PRODUCT_COLUMNS" => array("DISCOUNT_PRICE_PERCENT_FORMATED", "WEIGHT_FORMATED"),
+                    "PROP_1" => array(),
+                    "PROP_2" => array()
+                )
+            );?>
+            <?$APPLICATION->IncludeComponent("bitrix:sale.basket.basket.small","",Array(
+                    "PATH_TO_BASKET" => "/personal/basket.php",
+                    "PATH_TO_ORDER" => "/personal/order.php",
+                    "SHOW_DELAY" => "Y",
+                    "SHOW_NOTAVAIL" => "Y",
+                    "SHOW_SUBSCRIBE" => "Y"
+                )
+            );?>
+
         </header>
+
         <?
         $APPLICATION->IncludeComponent(
             "my:menu",
@@ -47,197 +143,15 @@
         );
 
         ?>
-        <?
-        $APPLICATION->IncludeComponent("bitrix:breadcrumb", "", Array(
-                "START_FROM" => "0",
-                "PATH" => "",
-                "SITE_ID" => "s1"
-            )
-        );
-        if(!empty($_GET['find_section_section'])) {
-            CModule::IncludeModule("iblock");
-            define('IBLOCK_PRODUCTS', 4);
-            function block($iblock_sec_id)
-            {
-                $arFilter = array(
-                    'IBLOCK_ID' => IBLOCK_PRODUCTS,
-                    'ID' => $iblock_sec_id
-                );
-                $serchSect = CIBlockSection::GetList(
-                    array(),
-                    $arFilter
-                );
 
-                $arraySect = $serchSect->GetNext();
-                if (empty($arraySect['IBLOCK_SECTION_ID'])) {
-                    return false;
-                } else {
-                    return $arraySect;
-                }
-
-            }
-
-            $sect = $_GET['find_section_section'];
-            $i = true;
-            $sections = [];
-            $k = 1;
-            while ($i !== false) {
-                $i = block($sect);
-                $arPS = array(
-                    'IBLOCK_ID' => 4,
-                    'ID' => $sect
-                );
-                $rsPS = CIBlockSection::GetList(
-                    array(),
-                    $arPS
-                );
-                $arPodSec = $rsPS->GetNext();
-                if ($i != false) {
-                    $sections[$k] = [
-                        'NAME' => $arPodSec['NAME'],
-                        'ID' => $arPodSec['ID']
-                    ];
-                } else {
-                    $sections[$k] = [
-                        'NAME' => $arPodSec['NAME'],
-                        'ID' => $arPodSec['ID']
-                    ];
-
-                    for ($j = count($sections); $j >= 1; $j--) {
-                        $APPLICATION->AddChainItem($sections[$j]['NAME'], "http://popkova.bitrix.develop.maximaster.ru/catalog.php?IBLOCK_ID=4&find_section_section='" . $sections[$j]['ID'] . "'");
-
-                    }
-
-                }
-                $k++;
-                $sect = $i['IBLOCK_SECTION_ID'];
-            }
-        }
-            /*//если сектид пустой то просто добалвяем эту секцию
-            //если нет находим и опять находим для этой секции
-            $ar = array(
-                'IBLOCK_ID' => 4,
-                'ID' => $sect
-            );
-            $rs = CIBlockSection::GetList(
-                array(),
-                $ar
-            );
-            $ars = $rs->GetNext();
-            if(!empty($ars['IBLOCK_SECTION_ID']))
-            {
-
-                $arGS = array(
-                    'IBLOCK_ID' => 4,
-                    'ID' => $ars['IBLOCK_SECTION_ID']
-                );
-                $rsGS = CIBlockSection::GetList(
-                    array(),
-                    $arGS
-                );
-                $arGlavSect = $rsGS->GetNext();
-                print_r($arGlavSect);
-                $APPLICATION->IncludeComponent("bitrix:breadcrumb", "", Array(
+            <?
+                $APPLICATION->IncludeComponent("my:hlebnav", ".default", Array(
                         "START_FROM" => "0",
-                        "PATH" => "/catalog.php?IBLOCK_ID=4&find_section_section='".$arGlavSect['ID']."'",
+                        "PATH" => "",
                         "SITE_ID" => "s1"
                     )
                 );
-
-                $APPLICATION->AddChainItem($arGlavSect['NAME'], "/catalog.php?IBLOCK_ID=4&find_section_section='".$arGlavSect['ID']."'");
-                $APPLICATION->AddChainItem($ars['NAME'], "/catalog.php?IBLOCK_ID=4&find_section_section='".$ars['ID']."'");
-
-            }
-            else{
-                $APPLICATION->IncludeComponent("bitrix:breadcrumb", "", Array(
-                        "START_FROM" => "0",
-                        "PATH" => "/catalog.php?IBLOCK_ID=4&find_section_section='".$ars['ID']."'",
-                        "SITE_ID" => "s1"
-                    )
-                );
-                $APPLICATION->AddChainItem($ars['NAME'], "/catalog.php?IBLOCK_ID=4&find_section_section='".$ars['ID']."'");
-            }*/
-/*
-            $ar = array(
-                'IBLOCK_ID' => 4,
-                'ID' => $sect
-            );
-            $rs = CIBlockSection::GetList(
-                array(),
-                $ar
-            );
-            $ars = $rs->GetNext();
-                $arFil = array(
-                    'IBLOCK_ID' => 4,
-                    'SECTION_ID' => ''
-                );
-                $rsSec = CIBlockSection::GetList(
-                    array(),
-                    $arFil
-                );
-                $gsect =[];
-                while ($arSec = $rsSec->GetNext()) {
-                    echo '<pre>';
-                    print_r($arSec);
-                    echo '</pre>';
-                    $gsect[$arSec['ID']] = $arSec['NAME'];
-                }
-                print_r($gsect);
-                $key = array_search($ars['NAME'], $gsect);
-                if($key !== false)
-                {
-                    $APPLICATION->IncludeComponent("bitrix:breadcrumb", "", Array(
-                            "START_FROM" => "0",
-                            "PATH" => "/catalog.php?IBLOCK_ID=4&find_section_section='".$arSec['ID']."'",
-                            "SITE_ID" => "s1"
-                        )
-                    );
-
-
-
-
-
-                }
-
-                $arFilter = array(
-                    'IBLOCK_ID' => IBLOCK_PRODUCTS,
-                    'ID' => $sect
-                );
-                $rsSection = CIBlockSection::GetList(
-                    array(),
-                    $arFilter
-                );
-                while ($arSection = $rsSection->GetNext()) {
-
-                    $APPLICATION->AddChainItem($arSection['NAME'], "/catalog.php?IBLOCK_ID=4&find_section_section='".$arSection['ID']."'");
-                    $arFilter = array(
-                        'IBLOCK_ID' => IBLOCK_PRODUCTS,
-                        'ID' => $sect
-                    );
-                    $rsSection = CIBlockSection::GetList(
-                        array(),
-                        $arFilter
-                    );
-                    while ($arSection = $rsSection->GetNext()) {}
-                    //$gsect[$arSection['ID']] = $arSection;
-
-                }*/
-
-            /*$APPLICATION->IncludeComponent("bitrix:breadcrumb", "", Array(
-                    "START_FROM" => "0",
-                    "PATH" => "/catalog.php?IBLOCK_ID=4&find_section_section=16",
-                    "SITE_ID" => "s1"
-                )
-            );
-
-                $APPLICATION->AddChainItem("Для офиса", "/catalog.php?IBLOCK_ID=4&find_section_section=16");
-
-            if ($_GET['find_section_section'] == 19) {
-                $APPLICATION->AddChainItem("Бумага", "/catalog.php?IBLOCK_ID=4&find_section_section=19");*/
-
-        //my:hlebnav?>
-
-
+            ?>
 
 
 
