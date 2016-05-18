@@ -27,17 +27,19 @@
             <div id="reg">
 
             </div>
-            <?$APPLICATION->IncludeComponent("bitrix:sale.basket.basket.line","",Array(
+
+            <?//Одностраничный компонент, который отображает специальный блок корзины.
+            $APPLICATION->IncludeComponent("bitrix:sale.basket.basket.line","",Array(
                     "HIDE_ON_BASKET_PAGES" => "Y",
                     "PATH_TO_BASKET" => SITE_DIR."personal/cart/",
-                    "PATH_TO_ORDER" => SITE_DIR."personal/order/make/",
+                    //"PATH_TO_ORDER" => SITE_DIR."personal/order/make/",
                     "PATH_TO_PERSONAL" => SITE_DIR."personal/",
                     "PATH_TO_PROFILE" => SITE_DIR."personal/",
                     "PATH_TO_REGISTER" => SITE_DIR."login/",
                     "POSITION_FIXED" => "Y",
                     "POSITION_HORIZONTAL" => "right",
                     "POSITION_VERTICAL" => "top",
-                    "SHOW_AUTHOR" => "Y",
+                    //"SHOW_AUTHOR" => "Y",
                     "SHOW_DELAY" => "N",
                     "SHOW_EMPTY_VALUES" => "Y",
                     "SHOW_IMAGE" => "Y",
@@ -48,10 +50,12 @@
                     "SHOW_PRODUCTS" => "Y",
                     "SHOW_SUBSCRIBE" => "Y",
                     "SHOW_SUMMARY" => "Y",
-                    "SHOW_TOTAL_PRICE" => "Y"
+                    "SHOW_TOTAL_PRICE" => "Y",
+
                 )
             );?>
-            <?$APPLICATION->IncludeComponent(
+            <?//Сама корзина. Одностраничный компонент отображает список товаров, отправленных пользователем в корзину.
+            $APPLICATION->IncludeComponent(
                 "bitrix:sale.basket.basket",
                 "",
                 Array(
@@ -75,7 +79,7 @@
                     "GIFTS_TEXT_LABEL_GIFT" => "Подарок",
                     "HIDE_COUPON" => "N",
                     "OFFERS_PROPS" => array("SIZES_SHOES","SIZES_CLOTHES"),
-                    "PATH_TO_ORDER" => "/personal/order.php",
+                    //"PATH_TO_ORDER" => "/personal/order.php",
                     "PRICE_VAT_SHOW_VALUE" => "N",
                     "QUANTITY_FLOAT" => "N",
                     "SET_TITLE" => "Y",
@@ -84,35 +88,9 @@
                     "USE_PREPAYMENT" => "N"
                 )
             );?>
-            <?$APPLICATION->IncludeComponent(
-                "bitrix:sale.order.ajax",
-                "",
-                Array(
-                    "ALLOW_NEW_PROFILE" => "Y",
-                    "SHOW_PAYMENT_SERVICES_NAMES" => "Y",
-                    "SHOW_STORES_IMAGES" => "N",
-                    "PATH_TO_BASKET" => "basket.php",
-                    "PATH_TO_PERSONAL" => "index.php",
-                    "PATH_TO_PAYMENT" => "payment.php",
-                    "PATH_TO_AUTH" => "/auth/",
-                    "PAY_FROM_ACCOUNT" => "Y",
-                    "ONLY_FULL_PAY_FROM_ACCOUNT" => "N",
-                    "COUNT_DELIVERY_TAX" => "N",
-                    "ALLOW_AUTO_REGISTER" => "N",
-                    "SEND_NEW_USER_NOTIFY" => "Y",
-                    "DELIVERY_NO_AJAX" => "N",
-                    "DELIVERY_NO_SESSION" => "N",
-                    "TEMPLATE_LOCATION" => ".default",
-                    "DELIVERY_TO_PAYSYSTEM" => "d2p",
-                    "SET_TITLE" => "Y",
-                    "USE_PREPAYMENT" => "N",
-                    "DISABLE_BASKET_REDIRECT" => "Y",
-                    "PRODUCT_COLUMNS" => array("DISCOUNT_PRICE_PERCENT_FORMATED", "WEIGHT_FORMATED"),
-                    "PROP_1" => array(),
-                    "PROP_2" => array()
-                )
-            );?>
-            <?$APPLICATION->IncludeComponent("bitrix:sale.basket.basket.small","",Array(
+
+            <?//Малая корзина.Одностраничный компонент отображает все товары, которые находятся в корзине в различных состояниях.
+            $APPLICATION->IncludeComponent("bitrix:sale.basket.basket.small","",Array(
                     "PATH_TO_BASKET" => "/personal/basket.php",
                     "PATH_TO_ORDER" => "/personal/order.php",
                     "SHOW_DELAY" => "Y",

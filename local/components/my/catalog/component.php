@@ -1,8 +1,7 @@
 <?
 use Bitrix\Highloadblock as HL;
 use Bitrix\Main\Entity;
-define('HLIBLOCK_BRANDS', 3);
-define('IBLOCK_PRODUCTS', 4);
+
 array_map('CModule::IncludeModule', ['iblock', 'highloadblock']);
 
 $brandDataClass = HL\HighloadBlockTable::compileEntity(
@@ -73,34 +72,7 @@ if((!is_numeric($section_id) && intval($section_id) < 0)&&(!is_numeric($_GET["IB
 {
     LocalRedirect("/404.php", "404 Not Found");
 }
-function if_est_block($iblock_sec_id)
-{
-    $arFilter = array(
-        'IBLOCK_ID' => IBLOCK_PRODUCTS,
-        'SECTION_ID' => $iblock_sec_id
-    );
-    $serchSect = CIBlockSection::GetList(
-        array(),
-        $arFilter
-    );
-    $arr=[];
-    while ($arraySect = $serchSect->GetNext())
-    {
-       /* echo '<pre>';
-        print_r($arraySect);
-        echo '</pre>';*/
-       $arr[$arraySect['IBLOCK_SECTION_ID']][$arraySect['ID']]= [
-            'ID'=> $arraySect['ID'],
-            'NAME'=> $arraySect['NAME'],
-            'IBLOCK_ID' => $arraySect['IBLOCK_ID'],
-            'IBLOCK_SECTION_ID'=> $arraySect['IBLOCK_SECTION_ID'],
-        ];
-        //echo '<pre>';
-        //print_r($arraySect);
-        //echo '</pre>';
-    }
-    return $arr;
-}
+
 $arFilter = array(
     'IBLOCK_ID' => IBLOCK_PRODUCTS,
     'SECTION_ID' => $section_id
@@ -140,6 +112,7 @@ while ($arSection = $rsSection->GetNext()) {
     echo '<pre>';
     //print_r($arSection);
     echo '</pre>';
+
     if ($arSection['ID'] == $section_id) {
         $arResult = [
             'NAME' => $arSection['NAME'],
@@ -168,6 +141,9 @@ while ($arSection = $rsSection->GetNext()) {
         //print_r($arraySect['ID']);
     }
 }
+
+$arResult['SECTIONS'] = [];
+
 if($ar['ID'] == $section_id)
 {
     $rsElement = CIBlockElement::GetList(
@@ -259,28 +235,7 @@ if($ar['ID'] == $section_id)
             ];
         $id=if_est_block($_GET["find_section_section"]);
         $arProduct['PODSECTION'] = $id;
-        /*
-        $arFilter = array(
-            'IBLOCK_ID' => IBLOCK_PRODUCTS,
-            'ID' => $section_id
-        );
-        $rs = CIBlockSection::GetList(
-            array(),
-            $arFilter
-        );
-        $ar = $rs->GetNext();*/
-        /*$arProduct=[
-            'NAMESECTION'=> $ar['NAME'],
-            'PODSECTION' => [
-                $section_id =>[
 
-                ]
-                'NAME'=>$arr['NAME'],
-                'IBLOCK_SECTION_ID'=>$arr['IBLOCK_SECTION_ID'],
-                'IBLOCK_ID' => $arr['IBLOCK_ID']
-            ],
-
-        ];*/
         $arResult[] = $arProduct;
     }
 }
@@ -327,7 +282,7 @@ if(!empty($_GET['brand_id']))
     $arResult[] = $prod_br;
 
 }
-
+$arResult['PRODUCTS'] = [];
 
 echo '<pre>';
 //print_r($arSect);

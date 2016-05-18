@@ -14,7 +14,7 @@
         <div id="glav_pun"><?echo $arResult['NAME'];?></div>
         <? foreach($arResult['SUBSECTION'] as $section): ?>
             <div class="podpun">
-                <a href="http://popkova.bitrix.develop.maximaster.ru/catalog.php?IBLOCK_ID=<?=$section['IBLOCK_ID'];?>&find_section_section=<?=$section['ID']?>">
+                <a href="/catalog.php?IBLOCK_ID=<?=$section['IBLOCK_ID'];?>&find_section_section=<?=$section['ID']?>">
                 <?echo $section['NAME'];?>
                 </a>
             </div>
@@ -26,7 +26,7 @@
             <? foreach($arResult[0]['PODSECTION'][$arResult[0]['IBLOCK_SECTION_ID']] as $section):
                 //print_r($section);?>
                 <div class="podpun">
-                    <a href="http://popkova.bitrix.develop.maximaster.ru/catalog.php?IBLOCK_ID=<?=$section['IBLOCK_ID'];?>&find_section_section=<?=$section['ID']?>">
+                    <a href="/catalog.php?IBLOCK_ID=<?=$section['IBLOCK_ID'];?>&find_section_section=<?=$section['ID']?>">
                         <?echo $section['NAME'];?>
                     </a>
                 </div>
@@ -37,7 +37,7 @@
             <div class="section">
             <? foreach($arResult as $category):
                 ?>
-                <a href="http://popkova.bitrix.develop.maximaster.ru/cart.php?IBLOCK_ID=<?=$category['IBLOCK_ID'];?>&find_section_section=<?=$category['IBLOCK_SECTION_ID']?>&ELEMENT_ID=<?=$category['ID'];?>">
+                <a href="/cart.php?IBLOCK_ID=<?=$category['IBLOCK_ID'];?>&find_section_section=<?=$category['IBLOCK_SECTION_ID']?>&ELEMENT_ID=<?=$category['ID'];?>">
                     <div class="tov">
                         <div class="imgtov"> <img src="<?=$category['DETAIL_PICTURE'];?>"  ></div>
                         <div class="prop_tov_name"><?echo $category['NAME'];?></div>
@@ -79,3 +79,5 @@
         <? endforeach;?>
     <? endforeach;?>
 <?endif;?>
+
+
