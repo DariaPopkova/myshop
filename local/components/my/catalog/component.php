@@ -82,7 +82,6 @@ $glav_section = CIBlockSection::GetList(
 );
 $arSection=[];
 $arSection = $glav_section->GetNext();
-print_r($arSection);
 $arResult['NAMESECTION']['NAME'] = $arSection['NAME'];
 $arFilter_for_podsection = array(
     'IBLOCK_ID' => IBLOCK_PRODUCTS,
@@ -102,6 +101,7 @@ $searchElement = CIBlockElement::GetList(
     array(
         'IBLOCK_ID' => IBLOCK_PRODUCTS,
         'SECTION_ID' => $section_id,
+        "INCLUDE_SUBSECTIONS"=>"Y"
     ),
     false,
     false,
@@ -111,10 +111,15 @@ $searchElement = CIBlockElement::GetList(
         'PROPERTY_MANUFACTURER',
         'PROPERTY_DESCRIPTION',
         'PROPERTY_BRAND_REF',
+        '*',
         'PROPERTY_*'
     ]
 );
 while($arElement = $searchElement->GetNext()) {
+    echo '<pre>';
+    //print_r($arElement);
+    echo '</pre>';
+
     $brand_result = $brandDataClass::getList(array(
         "select" => array(
             'ID',
@@ -139,111 +144,23 @@ while($arElement = $searchElement->GetNext()) {
         'ID' => $arElement['ID'],
 
     ];
+    //$arResult['PRODUCTS'][] = $arProduct;
     if(!empty($_GET['brand_id']))
     {
         if($_GET['brand_id']==$array_brend['ID'])
         {
             $arResult['PRODUCTS'][] = $arProduct;
         }
-
     }
     else{
-        $arResult['PRODUCTS'][] = $arProduct;
+        if($arElement['IBLOCK_SECTION_ID'] === $section_id)
+        {
+            $arResult['PRODUCTS'][] = $arProduct;
+        }
     }
 
 }
 //INCLUDE_SUBSECTIONS
-/*
-if(!empty($_GET['find_section_section']))
-{
-
-}
-
-$flag_block=[];
-foreach($arResult['SECTIONS'] as $podpodsection)
-{
-    //$flag_block = if_est_block($podpodsection['ID']);
-    while($flag_block = if_est_block($podpodsection['ID']))
-    {
-        foreach($flag_block as $promegsection)
-        {
-
-        }
-
-    }
-
-        print_r($flag_block);
-    print_r($flag_block[$flag_block['ID']]['ID']);
-        //$podpodsection['ID'] = $flag_block[$flag_block['ID']]['NAME'];
-
-
-
-}*/
-/*echo '<pre>';
-    print_r($flag_block);
-    echo '</pre>';*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*if(!empty($_GET['brand_id']))
-{
-    $brand_result = $brandDataClass::getList(array(
-        "select" => array(
-            'ID',
-            'UF_NAME',
-            'UF_XML_ID'
-        ),
-        "order" => array(),
-        "filter" => array(
-            'ID' => $_GET['brand_id']
-        )
-    ));
-    $array_brend = $brand_result->Fetch();
-    //print_r($array_brend['UF_XML_ID']);
-    $rsElement = CIBlockElement::GetList(
-        array(),
-        array(
-            'IBLOCK_ID' => IBLOCK_PRODUCTS,
-            'PROPERTY_BRAND_REF' => $array_brend['UF_XML_ID'],
-        ),
-        false,
-        false,
-        [
-            'ID', 'IBLOCK_ID','IBLOCK_SECTION_ID', 'NAME', 'DETAIL_PICTURE', 'SECTION_ID',
-            'PROPERTY_ARTNUMBER',
-            'PROPERTY_MANUFACTURER',
-            'PROPERTY_DESCRIPTION',
-            'PROPERTY_BRAND_REF',
-            'PROPERTY_*'
-        ]
-    );
-    $prod_br = [];
-    while($arElement = $rsElement->GetNext())
-    {
-        $arElement["DETAIL_PICTURE"] = CFile::GetPath($arElement["DETAIL_PICTURE"]);
-        $arElement["BRAND_REF"] = $array_brend['UF_NAME'];
-        $prod_br[$arElement['ID']] = $arElement;
-        //print_r($arElement);
-    }
-    $arResult[] = $prod_br;
-
-}*/
-//$arResult['PRODUCTS'] = [];
-
-
-   // LocalRedirect("/404.php", "404 Not Found");
-//$arResult = array_merge($arResult,$arElement);
 $this->IncludeComponentTemplate(); // <- $arResult
 
 ?>
