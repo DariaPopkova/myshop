@@ -1,6 +1,10 @@
-<div id="glav_pun"><? echo $arResult['NAMESECTION']['NAME']; ?></div>
+<?
+echo '<pre>';
+print_r($arResult);
+echo '</pre>';
+?>
 <? foreach ($arResult['SECTIONS'] as $section): ?>
-    <div class="podpun">
+    <div class="<?=($section['MAIN'] == 'Y') ? "glav_pun" : "podpun"?>">
         <a href="/catalog.php?IBLOCK_ID=<?= $section['IBLOCK_ID']; ?>&find_section_section=<?= $section['ID'] ?>">
             <? echo $section['NAME']; ?>
         </a>
@@ -21,10 +25,10 @@
                         <div class="prop_naz">Производитель:</div>
                         <div class="prop_naz">Бренд:</div>
                     </div>
-                    <div class="prop_tov"><? echo $category['DESCRIPTION']; ?></div>
-                    <div class="prop_tov"><? echo $category['ARTNUMBER']; ?></div>
-                    <div class="prop_tov"><? echo $category['MANUFACTURER']; ?></div>
-                    <div class="prop_tov"><? echo $category['BRAND']; ?></div>
+                    <div class="prop_tov"><? echo $category['PROPERTIES']['DESCRIPTION']['DISPLAY_VALUE']; ?></div>
+                    <div class="prop_tov"><? echo $category['PROPERTIES']['ARTNUMBER']['DISPLAY_VALUE']; ?></div>
+                    <div class="prop_tov"><? echo $category['PROPERTIES']['MANUFACTURER']['DISPLAY_VALUE']; ?></div>
+                    <div class="prop_tov"><? echo $category['PROPERTIES']['BRAND_REF']['DISPLAY_VALUE']; ?></div>
 
                 </div>
             </a>

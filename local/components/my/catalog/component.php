@@ -1,122 +1,46 @@
-<?
+<?if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
+
 use Bitrix\Highloadblock as HL;
 use Bitrix\Main\Entity;
 
 array_map('CModule::IncludeModule', ['iblock', 'highloadblock']);
 
+echo '<pre>';
+//print_r($arParams);
+echo '</pre>';
+
+/* Входные данные и валидация */
+
+$sectionID = intval($_GET["find_section_section"]);
+$brandID = intval($_GET["brand_id"]);
+$brandXML_ID = false;
+
 $brandDataClass = HL\HighloadBlockTable::compileEntity(
     HL\HighloadBlockTable::getById(HLIBLOCK_BRANDS)
         ->fetch()
 )->getDataClass();
-if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
-echo '<pre>';
-//print_r($arParams);
-echo '</pre>';
-CModule::IncludeModule('iblock');
-if((empty($_GET["find_section_section"]))&&(empty($_GET["IBLOCK_ID"]))&&(empty($_GET["brand_id"]))) //SECTION_ID
-{
-    LocalRedirect("/404.php", "404 Not Found");
-}
-else{
-    if(!empty($_GET["IBLOCK_ID"]))
-    {
-        $res = CIBlock::GetList(
-            Array(),
-            Array(
-                'ID' => $_GET["IBLOCK_ID"]
-            ), true
-        );
-        $ar_res = $res->Fetch();
-        if(empty($ar_res))
-        {
-            LocalRedirect("/404.php", "404 Not Found");
-        }
-    }
-    if(!empty($_GET["find_section_section"]))
-    {
-        $search_section = CIBlockSection::GetList(
-            array(),
-            array(
-                'ID' => $_GET["find_section_section"]
-            )
-        );
-        $arsec = $search_section->GetNext();
-        if(empty($arsec))
-        {
-            LocalRedirect("/404.php", "404 Not Found");
-        }
-    }
-    if(!empty($_GET["brand_id"]))
-    {
-        $brand_result = $brandDataClass::getList(array(
-            "select" => array(
-                'ID',
-                'UF_NAME',
-                'UF_XML_ID'
-            ),
-            "order" => array(),
-            "filter" => array(
-                'ID' => $_GET['brand_id']
-            )
-        ));
-        $array_brend = $brand_result->Fetch();
-        if(empty($array_brend))
-        {
-            LocalRedirect("/404.php", "404 Not Found");
-        }
-    }
 
-}
-$section_id = $_GET["find_section_section"];
-if((!is_numeric($section_id) && intval($section_id) < 0)&&(!is_numeric($_GET["IBLOCK_ID"]) && intval($_GET["IBLOCK_ID"]) < 0)&&(!is_numeric($_GET["brand_id"]) && intval($_GET["brand_id"]) < 0))
+if($sectionID > 0)
 {
-    LocalRedirect("/404.php", "404 Not Found");
+    $search_section = CIBlockSection::GetList(
+        array(),
+        array(
+            'ACTIVE' => 'Y',
+            'IBLOCK_ID' => IBLOCK_PRODUCTS,
+            'ID' => $sectionID
+        )
+    )->GetNext();
+
+    if(empty($search_section))
+    {
+        LocalRedirect("/catalog.php");
+    }
 }
-$arFilter_for_section = array(
-    'IBLOCK_ID' => IBLOCK_PRODUCTS,
-    'ID' => $section_id
-);
-$glav_section = CIBlockSection::GetList(
-    array(),
-    $arFilter_for_section
-);
-$arSection=[];
-$arSection = $glav_section->GetNext();
-$arResult['NAMESECTION']['NAME'] = $arSection['NAME'];
-$arFilter_for_podsection = array(
-    'IBLOCK_ID' => IBLOCK_PRODUCTS,
-    'SECTION_ID' => $section_id
-);
-$podsection = CIBlockSection::GetList(
-    array(),
-    $arFilter_for_podsection
-);
-$arPodsection=[];
-while($arPodsection = $podsection->GetNext())
+
+
+if($brandID > 0)
 {
-    $arResult['SECTIONS'][] = $arPodsection;
-}
-$searchElement = CIBlockElement::GetList(
-    array(),
-    array(
-        'IBLOCK_ID' => IBLOCK_PRODUCTS,
-        'SECTION_ID' => $section_id,
-        "INCLUDE_SUBSECTIONS"=>"Y"
-    ),
-    false,
-    false,
-    [
-        'ID', 'IBLOCK_ID','IBLOCK_SECTION_ID', 'NAME', 'DETAIL_PICTURE', 'SECTION_ID',
-        'PROPERTY_ARTNUMBER',
-        'PROPERTY_MANUFACTURER',
-        'PROPERTY_DESCRIPTION',
-        'PROPERTY_BRAND_REF',
-        '*',
-        'PROPERTY_*'
-    ]
-);
-while($arElement = $searchElement->GetNext()) {
-    $brand_result = $brandDataClass::getList(array(
+    $brand = $brandDataClass::getList(array(
         "select" => array(
             'ID',
             'UF_NAME',
@@ -124,39 +48,89 @@ while($arElement = $searchElement->GetNext()) {
         ),
         "order" => array(),
         "filter" => array(
-            'UF_XML_ID' => $arElement["PROPERTY_BRAND_REF_VALUE"]
+            'ID' => $_GET['brand_id']
         )
-    ));
-    $array_brend = $brand_result->Fetch();
-    $arProduct = [
-        'NAME' => $arElement["NAME"],
-        'DESCRIPTION' => $arElement["PROPERTY_DESCRIPTION_VALUE"],
-        'ARTNUMBER' => $arElement["PROPERTY_ARTNUMBER_VALUE"],
-        'MANUFACTURER' => $arElement["PROPERTY_MANUFACTURER_VALUE"],
-        'DETAIL_PICTURE' => CFile::GetPath($arElement["DETAIL_PICTURE"]),
-        'BRAND' => $array_brend['UF_NAME'],
-        'IBLOCK_ID' => $arElement['IBLOCK_ID'],
-        'IBLOCK_SECTION_ID' => $arElement['IBLOCK_SECTION_ID'],
-        'ID' => $arElement['ID'],
-
-    ];
-    //$arResult['PRODUCTS'][] = $arProduct;
-    if(!empty($_GET['brand_id']))
+    ))->Fetch();
+    if ( ! empty($brand))
     {
-        if($_GET['brand_id']==$array_brend['ID'])
-        {
-            $arResult['PRODUCTS'][] = $arProduct;
-        }
+        $brandXML_ID = $brand['UF_XML_ID'];
     }
-    else{
-        if($arElement['IBLOCK_SECTION_ID'] === $section_id)
-        {
-            $arResult['PRODUCTS'][] = $arProduct;
-        }
+    else
+    {
+        LocalRedirect("/404.php", "404 Not Found");
     }
+}
+
+
+/* Разделы каталога */
+$arParentSection = CIBlockSection::GetList(
+    array(),
+    array(
+        'ACTIVE' => 'Y',
+        'IBLOCK_ID' => IBLOCK_PRODUCTS,
+        'ID' => $sectionID
+    )
+)->GetNext();
+$arResult['SECTIONS'][] = array_merge(
+    array(
+        'MAIN' => 'Y'
+    ),
+    $arParentSection
+);
+
+//$arResult['NAMESECTION']['NAME'] = $arSection['NAME'];
+
+$podsection = CIBlockSection::GetList(
+    array(),
+    array(
+        'ACTIVE' => 'Y',
+        'IBLOCK_ID' => IBLOCK_PRODUCTS,
+        'SECTION_ID' => $sectionID
+    )
+);
+
+while($arPodsection = $podsection->GetNext())
+{
+    $arResult['SECTIONS'][] = $arPodsection;
+}
+
+/* Товары */
+$arFilter = array(
+    'IBLOCK_ID' => IBLOCK_PRODUCTS,
+    'SECTION_ID' => $sectionID
+);
+
+if ( ! empty($brandXML_ID))
+{
+    $arFilter['PROPERTY_BRAND_REF'] = $brandXML_ID;
+    $arFilter['INCLUDE_SUBSECTIONS'] = "Y";
+}
+
+$searchElement = CIBlockElement::GetList(
+    array(),
+    $arFilter,
+    false,
+    false,
+    [
+        'ID', 'IBLOCK_ID','IBLOCK_SECTION_ID', 'NAME', 'DETAIL_PICTURE', 'SECTION_ID'
+    ]
+);
+while($product = $searchElement->GetNextElement())
+{
+
+    $arFields = $product->GetFields();
+    $arProps = $product->GetProperties();
+
+    foreach($arProps as $pid => $prop)
+    {
+        $arProps[$pid] = CIBlockFormatProperties::GetDisplayValue($arFields, $prop);
+    }
+
+    $arFields['DETAIL_PICTURE'] = CFile::GetPath($arFields["DETAIL_PICTURE"]);
+    $arFields['PROPERTIES'] = $arProps;
+
+    $arResult['PRODUCTS'][] = $arFields;
 
 }
-//INCLUDE_SUBSECTIONS
-$this->IncludeComponentTemplate(); // <- $arResult
 
-?>
+$this->IncludeComponentTemplate(); // <- $arResult
