@@ -1,76 +1,78 @@
+<? foreach ($arResult as $category): ?>
 
-        <? foreach ($arResult as $category): ?>
-
-            <h2><? echo $category['NAME']; ?></h2>
-            <div id="cartfon">
-                <div id="pokupka">
-                    <div id="price_cart">
-                        <div class="prop_naz_cart"><h3>Цена:</h3></div>
-                        <div class="prop_cart">
-                            <? echo $category['PRICE']. "  руб."; ?>
-                        </div>
-                    </div>
+    <h2><? echo $category['NAME']; ?></h2>
+    <div id="cartfon">
+        <div id="pokupka">
+            <div id="price_cart">
+                <div class="prop_naz_cart"><h3>Цена:</h3></div>
+                <div class="prop_cart">
+                    <? echo $category['PRICE'] . "  руб."; ?>
                 </div>
-                <p id="knop"><button name="butbay" id="but" >Купить</button></p>
-                <form method="post" action="">
-                    <input type="submit" name="basket" id="basket" value="Добавить в корзину" ">
-                </form>
-                <div id="imgcart"><img src="<?= $category['DETAIL_PICTURE']; ?>"></div>
-                <div id="opisanie">
-                    <div class="prop_tov"><? echo $category['CHARACTERISTICS']; ?></div>
-                </div>
-                <div id="skald">
-                    <div class="prop_naz_sk">Доступно:</div>
-                    <div class="prop_tov_sk"><? echo $category['QUANTITY']; ?></div>
-                </div>
-                <div id="char">
-                    <div id="naz_cart">
-                        <div class="prop_naz">Цвет:</div>
-                        <div class="prop_naz">Артикул:</div>
-                        <div class="prop_naz">Производитель:</div>
-                        <div class="prop_naz">Бренд:</div>
-                    </div>
-                    <div class="prop_tov"><? echo $category['DESCRIPTION']; ?></div>
-                    <div class="prop_tov"><? echo $category['ARTNUMBER']; ?></div>
-                    <div class="prop_tov"><? echo $category['MANUFACTURER']; ?></div>
-                    <div class="prop_tov"><? echo $category['BRAND']; ?></div>
-                </div>
-
-
             </div>
-        <? endforeach; ?>
-        <div id="results">вывод</div>
-        <form method="post" id="formsub" action="" >
-            <div>
-                <label for="surname">Фамилия:</label>
-                <input type="text" name="surname" id="surname" pattern="([А-Я][a-я]+)">
-            </div>
-            <div>
-                <label for="name">Имя:</label>
-                <input type="text" name="name" id="name" pattern="([А-Я][a-я]+)">
-            </div>
-            <div>
-                <label for="middlename">Отчество:</label>
-                <input type="text" name="middlename" id="middlename" pattern="([А-Я][a-я]+)">
-            </div>
-            <div>
-                <label for="email">E-Mail:</label>
-                <input type="text" name="email" id="email" required pattern="[a-z\A-Z\1-9\-\.\_]+@[a-z1-9]+(.[a-z]+){1,}">
-            </div>
-            <div>
-                <label for="telephone">Телефон:</label>
-                <input type="text" name="telephone" id="telephone" required pattern="^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$">
-            </div>
-
-            <input type="submit" name="submit" id="submit" value="Оформить заказ" onclick="viv('formsub')">
+        </div>
+        <p id="knop">
+            <button name="butbay" id="but">Купить</button>
+        </p>
+        <form method="post" action="">
+            <input type="submit" name="basket" id="basket" value="Добавить в корзину" ">
         </form>
-    <?include 'form.php';?>
+        <div id="imgcart"><img src="<?= $category['DETAIL_PICTURE']; ?>"></div>
+        <div id="opisanie">
+            <div class="prop_tov"><? echo $category['CHARACTERISTICS']; ?></div>
+        </div>
+        <div id="skald">
+            <div class="prop_naz_sk">Доступно:</div>
+            <div class="prop_tov_sk"><? echo $category['QUANTITY']; ?></div>
+        </div>
+        <div id="char">
+            <div id="naz_cart">
+                <div class="prop_naz">Цвет:</div>
+                <div class="prop_naz">Артикул:</div>
+                <div class="prop_naz">Производитель:</div>
+                <div class="prop_naz">Бренд:</div>
+            </div>
+            <div class="prop_tov"><? echo $category['DESCRIPTION']; ?></div>
+            <div class="prop_tov"><? echo $category['ARTNUMBER']; ?></div>
+            <div class="prop_tov"><? echo $category['MANUFACTURER']; ?></div>
+            <div class="prop_tov"><? echo $category['BRAND']; ?></div>
+        </div>
+
+
+    </div>
+<? endforeach; ?>
+<div id="results">вывод</div>
+<form method="post" id="formsub" action="">
+    <div>
+        <label for="surname">Фамилия:</label>
+        <input type="text" name="surname" id="surname" pattern="([А-Я][a-я]+)">
+    </div>
+    <div>
+        <label for="name">Имя:</label>
+        <input type="text" name="name" id="name" pattern="([А-Я][a-я]+)">
+    </div>
+    <div>
+        <label for="middlename">Отчество:</label>
+        <input type="text" name="middlename" id="middlename" pattern="([А-Я][a-я]+)">
+    </div>
+    <div>
+        <label for="email">E-Mail:</label>
+        <input type="text" name="email" id="email" required pattern="[a-z\A-Z\1-9\-\.\_]+@[a-z1-9]+(.[a-z]+){1,}">
+    </div>
+    <div>
+        <label for="telephone">Телефон:</label>
+        <input type="text" name="telephone" id="telephone" required
+               pattern="^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$">
+    </div>
+
+    <input type="submit" name="submit" id="submit" value="Оформить заказ" onclick="viv('formsub')">
+</form>
+<? include 'form.php'; ?>
 
 <?
 CModule::IncludeModule('iblock');
 //CModule::IncludeModule('pokupki');
 
-$array=[];
+$array = [];
 $array["surname"] = $_POST['surname'];
 $array["name"] = $_POST['name'];
 $array["middlename"] = $_POST['middlename'];
@@ -81,8 +83,8 @@ while ($value = current($array)) {
     $APPLICATION->set_cookie(
         key($array),
         $value,
-        time()+60*60*24*365
-);
+        time() + 60 * 60 * 24 * 365
+    );
     $VISITOR_ID = $APPLICATION->get_cookie(key($array));
     echo $VISITOR_ID;
     //echo $name.'<br />';
@@ -91,11 +93,11 @@ while ($value = current($array)) {
 $res = CIBlock::GetList(
     Array(),
     Array(
-        'TYPE'=>'pokupki',
+        'TYPE' => 'pokupki',
 
     )
 );
-while($ar_res = $res->Fetch()) {
+while ($ar_res = $res->Fetch()) {
     if (isset($_POST['name'])) {
         $el = new CIBlockElement;
         $arFields = Array(
@@ -121,11 +123,9 @@ while($ar_res = $res->Fetch()) {
         echo "Ошибка";
     }
 }
-
-if(isset($_POST['basket']))
-{
+if (isset($_POST['basket'])) {
     array_map('CModule::IncludeModule', ['iblock', 'catalog', 'sale']);
-    $property=CIBlockElement::GetList(
+    $property = CIBlockElement::GetList(
         array(),
         array(
             "IBLOCK_ID" => $_GET['IBLOCK_ID'],
@@ -142,7 +142,6 @@ if(isset($_POST['basket']))
         )
     );
     $ar_price = $price->Fetch();
-    print_r($ar_price['ID']);
     $product = CIBlockElement::GetList(
         array(),
         array(
@@ -150,18 +149,6 @@ if(isset($_POST['basket']))
         )
     );
     $ar_pro = $product->Fetch();
-
-    print_r($ar_pro['NAME']);
-
-    //print_r($rsElement);
-    /*$arFields = array(
-        "PRODUCT_ID" => $_GET['ELEMENT_ID'],
-        "PRICE" => $ar_price['PRICE'],
-        "CURRENCY" => "RUB",
-        "LID" => 's1',
-        "NAME" => $ar_propprod['NAME'],
-    );
-    $bask_id=CSaleBasket::Add($arFields);*/
     Add2BasketByProductID(
         $_GET['ELEMENT_ID']
     );
@@ -175,81 +162,31 @@ if(isset($_POST['basket']))
 
     echo '<div id="cartfon">';
     echo '</div>';
-   // LocalRedirect("basket.php");
-    /*Add2Basket(
-        $ar_price['ID'],
-        1,
-        array(),
-        array(
-            array(
-                "NAME" => $product['NAME']
-            )
-        )
-    );
-    /*$basket=CSaleOrder::GetList(
-        array(),
-        array(
-            "PRODUCT_ID" => $_GET['ELEMENT_ID']
-        )
-    );
-    while($ar_probas = $basket->Fetch())
-    {
-        //if($ar_probas['ORDER_ID'] !== NULL)
-       // {
-            echo '<pre>';
-            echo 'Я ЗДЕСЬ!!!!!!!!! НАЙДИ МЕНЯ!!!!!!!!!!!!';
-            print_r( $ar_probas['ID']);
-            echo '</pre>';
-       // }
 
-    }*/
 }
-
 ?>
-
-
-
-<script type="text/javascript" language="javascript">
-    function viv(formsub) {
-        var msg   = $("#"+formsub).serialize();
-
-        $.ajax({
-            type: 'POST',
-            url: 'form.php',
-            data: msg,
-            success: function(data) {
-                $('.results').html(data);
-            },
-            error:  function(xhr, str){
-                alert('Возникла ошибка: ' + xhr.responseCode);
-            }
-        });
-
-    }
-
-</script>
 <script>
-   /* function subbasket(){
-        var submit = true;
-        //alert(submit);
-        $.ajax({
-            type: 'POST',
-            url: 'basket.php',
-            data: submit,
-            success: function(data) {
-                alert(data);
-            },
-            error:  function(xhr, str){
-                alert('Возникла ошибка: ' + xhr.responseCode);
-            }
-        });
-    }*/
+    /* function subbasket(){
+     var submit = true;
+     //alert(submit);
+     $.ajax({
+     type: 'POST',
+     url: 'basket.php',
+     data: submit,
+     success: function(data) {
+     alert(data);
+     },
+     error:  function(xhr, str){
+     alert('Возникла ошибка: ' + xhr.responseCode);
+     }
+     });
+     }*/
 </script>
 
 <script>
     formsub.style.display = 'none';
-    but.addEventListener("click", function() {
-        alert( "sucsess" ); // сработает по окончании анимации
+    but.addEventListener("click", function () {
+        alert("sucsess"); // сработает по окончании анимации
         formsub.style.display = (formsub.style.display == 'none') ? '' : ''
 
     });

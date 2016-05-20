@@ -50,17 +50,7 @@ if (!empty($_GET["ELEMENT_ID"]))
         false,
         array("*")
     );
-    if ($ar_res = $price->Fetch())
-    {
-        //echo CCurrencyLang::CurrencyFormat($ar_res["PRICE"], $ar_res["CURRENCY"]);
-    }
-    else
-    {
-        //echo "Цена не найдена!";
-    }
-    echo '<pre>';
-    //print_r($price);
-    echo '</pre>';
+    $ar_res = $price->Fetch();
     $ID=(int)$_GET["ELEMENT_ID"];
     $ar_result = CCatalogProduct::GetByID($ID);
      //print_r($ar_result);

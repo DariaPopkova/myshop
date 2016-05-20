@@ -14,35 +14,80 @@ echo '<pre>';
 //print_r($arParams);
 echo '</pre>';
 CModule::IncludeModule('iblock');
-/*//hjfhgjfif ((empty($_GET["find_section_section"]))&&(empty($_GET["IBLOCK_ID"]))&&(empty($_GET["brand_d"]))) //SECTION_ID
+$brand_result = $brandDataClass::getList(array(
+    "select" => array(
+        'ID',
+        'UF_NAME',
+        'UF_XML_ID'
+    ),
+    "order" => array(),
+    "filter" => array()
+));
+$massiv_brend = [];
+while($array_brend = $brand_result->Fetch())
 {
-    LocalRedirect("/404.php", "404 Not Found");
-}*/
+    $massiv_brend[$array_brend['UF_XML_ID']] = $array_brend;
+   // $xml_id[$array_brend['UF_NAME']] = $array_brend['UF_XML_ID'];
+}
+if (($_GET["IBLOCK_ID"])&&(empty($_GET["find_section_section"])))
+{
+    $arResult['BRAND'] = $massiv_brend;
+}
+else
+{
+    $rsElement = CIBlockElement::GetList(
+        array(),
+        array(
+            'IBLOCK_ID' => $_GET["IBLOCK_ID"],
+            'SECTION_ID' => $_GET["find_section_section"],
+        ),
+        false,
+        false,
+        [
+            'ID', 'IBLOCK_ID', 'IBLOCK_SECTION_ID', 'XML_ID', 'NAME', 'DETAIL_PICTURE', 'SECTION_ID',
+            'PROPERTY_ARTNUMBER',
+            'PROPERTY_MANUFACTURER',
+            'PROPERTY_DESCRIPTION',
+            'PROPERTY_BRAND_REF',
+            'PROPERTY_*'
+        ]
+    );
+    while ($arElement = $rsElement->GetNext()){
+
+        foreach($massiv_brend as $xml_id)
+        {
+            if(!empty($_GET['ELEMENT_ID']))
+            {
+                if($_GET['ELEMENT_ID'] === $arElement['ID'])
+                {
+                    if ($xml_id['UF_XML_ID'] === $arElement['PROPERTY_BRAND_REF_VALUE']) {
+                        $arResult['BRAND'][$xml_id['UF_XML_ID']] = $xml_id;
+                    }
+                }
+            }
+            else {
+                if ($xml_id['UF_XML_ID'] === $arElement['PROPERTY_BRAND_REF_VALUE']) {
+                    $arResult['BRAND'][$xml_id['UF_XML_ID']] = $xml_id;
+                }
+            }
+        }
+
+
+
+    }
+
+}
+
+
+
+
+
+
+
+
 
 /*
-function brand_search($arFilter){
-    $brandDataClass = HL\HighloadBlockTable::compileEntity(
-        HL\HighloadBlockTable::getById(HLIBLOCK_BRANDS)
-            ->fetch()
-    )->getDataClass();
-    $brand_result = $brandDataClass::getList(array(
-        array(
-            'ID',
-            'UF_NAME',
-            'UF_XML_ID'
-        ),
-        array(),
-        $arFilter,
-    ));
-    $arr = [];
-    while($array_brend = $brand_result->Fetch()){
-        $arr[$brand_result['ID']] = $array_brend ;
-    }
-    return $arr;
-}*/
-/*if (!empty($_GET["find_section_section"])) //SECTION_ID
-{ echo " Получены новые вводные: имя - ".$_GET["find_section_section"]."";}
-else { echo "Переменные не дошли. Проверьте все еще раз."; }*/
+
 if (($_GET["IBLOCK_ID"])&&(empty($_GET["find_section_section"]))) //SECTION_ID
 {
     $arFilterBr = array();
@@ -65,21 +110,6 @@ if (($_GET["IBLOCK_ID"])&&(empty($_GET["find_section_section"]))) //SECTION_ID
 }
 if($_GET["find_section_section"]) {
     $section_id = $_GET["find_section_section"];
-    if(!is_numeric($section_id) && intval($section_id) < 0)
-    {
-        LocalRedirect("/404.php", "404 Not Found");
-    }
-    $search_section = CIBlockSection::GetList(
-        array(),
-        array(
-            'ID' => $section_id
-        )
-    );
-    $arsec = $search_section->GetNext();
-    if(empty($arsec))
-    {
-        LocalRedirect("/404.php", "404 Not Found");
-    }
     $arFilter = array(
         'IBLOCK_ID' => IBLOCK_PRODUCTS,
         'SECTION_ID' => '',
@@ -194,71 +224,9 @@ if($_GET["find_section_section"]) {
 
         }
     }
-}
-
-/*
-$section_id = $_GET["find_section_section"];
-// ID - число, число > 0, [товар существует?]
-if(!is_numeric($section_id) && intval($section_id) < 0)
-{
-    LocalRedirect("/404.php", "404 Not Found");
-}
-$search_section = CIBlockSection::GetList(
-    array(),
-    array(
-        'ID' => $section_id
-    )
-);
-$arsec = $search_section->GetNext();
-if(empty($arsec))
-{
-    LocalRedirect("/404.php", "404 Not Found");
-}
-$arFilter = array(
-    'IBLOCK_ID' => IBLOCK_PRODUCTS,
-    'ID' => $section_id
-);
-$sser = CIBlockSection::GetList(
-    array(),
-    $arFilter
-);
-$ar=[];
-$ar = $sser->GetNext();
-echo '<pre>';
-//print_r($ar);
-echo '</pre>';
-$arFilter = array(
-    'IBLOCK_ID' => IBLOCK_PRODUCTS,
-    'SECTION_ID' => ''
-);
-$rsSection = CIBlockSection::GetList(
-    array(),
-    $arFilter
-);
-while ($arSection = $rsSection->GetNext())
-{
-    $arFil = array(
-        'IBLOCK_ID' => IBLOCK_PRODUCTS,
-        'IBLOCK_SECTION_ID' => $arSection['ID']
-    );
-    $rsSect = CIBlockSection::GetList(
-        array(),
-        $arFilter
-    );
-    while($arPodS = $rsSect -> GetNext())
-    {
-        echo '<pre>';
-        //print_r($arPodS);
-        echo '</pre>';
-    }
+}*/
 
 
-    echo '<pre>';
-    //print_r($arSection);
-    echo '</pre>';
-
-}
-$arResult[] = $arProduct;*/
 echo '<pre>';
 //print_r($arSect);
 echo '</pre>';

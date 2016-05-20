@@ -31,7 +31,8 @@
             <?//Одностраничный компонент, который отображает специальный блок корзины.
             $APPLICATION->IncludeComponent("bitrix:sale.basket.basket.line","",Array(
                     "HIDE_ON_BASKET_PAGES" => "Y",
-                    "PATH_TO_BASKET" => SITE_DIR."personal/cart/",
+                    //"PATH_TO_BASKET" => SITE_DIR."personal/cart/",
+                    "PATH_TO_BASKET" => SITE_DIR."basket.php",
                     //"PATH_TO_ORDER" => SITE_DIR."personal/order/make/",
                     "PATH_TO_PERSONAL" => SITE_DIR."personal/",
                     "PATH_TO_PROFILE" => SITE_DIR."personal/",
@@ -54,8 +55,9 @@
 
                 )
             );?>
+           
             <?//Сама корзина. Одностраничный компонент отображает список товаров, отправленных пользователем в корзину.
-            $APPLICATION->IncludeComponent(
+            /*$APPLICATION->IncludeComponent(
                 "bitrix:sale.basket.basket",
                 "",
                 Array(
@@ -87,17 +89,17 @@
                     "USE_GIFTS" => "Y",
                     "USE_PREPAYMENT" => "N"
                 )
-            );?>
+            );*/?>
 
             <?//Малая корзина.Одностраничный компонент отображает все товары, которые находятся в корзине в различных состояниях.
-            $APPLICATION->IncludeComponent("bitrix:sale.basket.basket.small","",Array(
-                    "PATH_TO_BASKET" => "/personal/basket.php",
+            /*$APPLICATION->IncludeComponent("bitrix:sale.basket.basket.small","",Array(
+                    "PATH_TO_BASKET" => "my/basket/",
                     "PATH_TO_ORDER" => "/personal/order.php",
                     "SHOW_DELAY" => "Y",
                     "SHOW_NOTAVAIL" => "Y",
                     "SHOW_SUBSCRIBE" => "Y"
                 )
-            );?>
+            );*/?>
 
         </header>
 

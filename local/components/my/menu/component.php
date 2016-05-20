@@ -38,7 +38,6 @@ foreach($arSections as $section)
         ];
     }
 }
-
 foreach($arSections as $section)
 {
     if ( ! empty($section['IBLOCK_SECTION_ID']) && isset($arMenu[$section['IBLOCK_SECTION_ID']]))
@@ -49,7 +48,6 @@ foreach($arSections as $section)
         ];
     }
 }
-
 $arResult = $arMenu;
 echo '<pre>';
 //print_r($arResult);

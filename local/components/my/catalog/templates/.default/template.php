@@ -1,6 +1,3 @@
-<pre>
-    <? //print_r($arResult); ?>
-</pre>
 <div id="glav_pun"><? echo $arResult['NAMESECTION']['NAME']; ?></div>
 <? foreach ($arResult['SECTIONS'] as $section): ?>
     <div class="podpun">

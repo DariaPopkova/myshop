@@ -116,10 +116,6 @@ $searchElement = CIBlockElement::GetList(
     ]
 );
 while($arElement = $searchElement->GetNext()) {
-    echo '<pre>';
-    //print_r($arElement);
-    echo '</pre>';
-
     $brand_result = $brandDataClass::getList(array(
         "select" => array(
             'ID',

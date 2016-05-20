@@ -1,6 +1,4 @@
 <nav>
-
-    <?//print_r($arResult);?>
     <ul id="v-menu">
     <?foreach($arResult as $section): ?>
         <li class="menu">

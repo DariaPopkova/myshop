@@ -1,10 +1,10 @@
-<?/*
+<?
 echo '<pre>';
-print_r($arResult);
-echo '</pre>';*/
+//print_r($arResult);
+echo '</pre>';
 ?>
 <aside>
-    <?foreach($arResult as $brand):?>
+    <?foreach($arResult['BRAND'] as $brand):?>
     <a href="http://popkova.bitrix.develop.maximaster.ru/catalog.php?IBLOCK_ID=4&find_section_section=<?=$_GET['find_section_section'];?>&brand_id=<?=$brand['ID'];?>">
         <?echo '<div class="brand">';?>
 
