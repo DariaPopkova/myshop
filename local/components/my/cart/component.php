@@ -1,105 +1,58 @@
-<?
-use Bitrix\Highloadblock as HL;
-use Bitrix\Main\Entity;
-define('HLIBLOCK_BRANDS', 3);
-define('IBLOCK_PRODUCTS', 4);
-array_map('CModule::IncludeModule', ['iblock', 'highloadblock', 'catalog', 'sale']);
-$brandDataClass = HL\HighloadBlockTable::compileEntity(
-HL\HighloadBlockTable::getById(HLIBLOCK_BRANDS)
-->fetch()
-)->getDataClass();
-if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
-echo '<pre>';
-//print_r($arParams);
-echo '</pre>';
-if (!empty($_GET["ELEMENT_ID"]))
+<?if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
+
+array_map('CModule::IncludeModule', ['iblock','catalog', 'sale']);
+$sectionID = intval($_GET["SECTION_ID"]);
+$elementID = intval($_GET["ID"]);
+
+if($sectionID > 0)
 {
-    $rsElement = CIBlockElement::GetList(
+    $search_section = CIBlockSection::GetList(
         array(),
         array(
+            'ACTIVE' => 'Y',
+            'IBLOCK_ID' => IBLOCK_PRODUCTS,
+            'ID' => $sectionID
+        )
+    )->GetNext();
 
-            'IBLOCK_ID' => $_GET["IBLOCK_ID"],
-            'SECTION_ID' => $_GET["find_section_section"],
-            'ID' => $_GET["ELEMENT_ID"],
+    if(empty($search_section))
+    {
+        LocalRedirect("/catalog.php");
+    }
+}
+if ($elementID > 0) {
+    $arElement = CIBlockElement::GetList(
+        array(),
+        array(
+            'IBLOCK_ID' => IBLOCK_PRODUCTS,
+            'SECTION_ID' => $sectionID,
+            'ID' => $elementID
         ),
         false,
         false,
         [
-            'ID', 'IBLOCK_ID','IBLOCK_SECTION_ID', 'NAME', 'DETAIL_PICTURE',
-            'PROPERTY_ARTNUMBER',
-            'PROPERTY_MANUFACTURER',
-            'PROPERTY_DESCRIPTION',
-            'PROPERTY_BRAND_REF',
-            'PROPERTY_PRICE',
-            'PROPERTY_CHARACTERISTICS',
-            'PROPERTY_*'
-
-
+            'ID', 'IBLOCK_ID','IBLOCK_SECTION_ID', 'NAME', 'DETAIL_PICTURE', 'SECTION_ID', 'CATALOG_GROUP_1'
         ]
-    );
-
-    $price = [];
-    $arProduct = GetCatalogProduct(8032);
-
-    $price = CPrice::GetList(
-        array(),
-        array(
-            "PRODUCT_ID" => $_GET["ELEMENT_ID"]
-        ),
-        false,
-        false,
-        array("*")
-    );
-    $ar_res = $price->Fetch();
-    $ID=(int)$_GET["ELEMENT_ID"];
-    $ar_result = CCatalogProduct::GetByID($ID);
-     //print_r($ar_result);
-    while($arElement = $rsElement->GetNext())
+    )->GetNextElement();
+    if(empty($arElement))
     {
-        echo '<pre>';
-        //print_r($arElement);
-        echo '</pre>';
-        $brand_result = $brandDataClass::getList(array(
-            "select" => array(
-                'ID',
-                'UF_NAME',
-                'UF_XML_ID'
-            ),
-            "order" => array(),
-            "filter" => array(
-                'UF_XML_ID' => $arElement["PROPERTY_BRAND_REF_VALUE"]
-            )
-        ));
-        $array_brend = $brand_result->Fetch()['UF_NAME'];
-        //print_r(CFile::GetFileArray($arElement["DETAIL_PICTURE"]));
-        //print_r(CFile::GetPath($arElement["DETAIL_PICTURE"]));
-        // $rCIBlockElement::GetList(array(),array("DESCRIPTION"=>$arElement["DESCRIPTION"]));
-        //$arviv = $r->GetNext();
-        //print_r($arviv);
-        //print_r($arElement["PROPERTY_BRAND_REF_VALUE"]);
-        $arProduct['NAME'] = $arElement["NAME"];
-        $arProduct['DESCRIPTION']=$arElement["PROPERTY_DESCRIPTION_VALUE"];
-        $arProduct['ARTNUMBER']=$arElement["PROPERTY_ARTNUMBER_VALUE"];
-        $arProduct['MANUFACTURER']=$arElement["PROPERTY_MANUFACTURER_VALUE"];
-        $arProduct['DETAIL_PICTURE'] = CFile::GetPath($arElement["DETAIL_PICTURE"]);
-        $arProduct['BRAND'] = $array_brend;
-        $arProduct['IBLOCK_ID']= $arElement['IBLOCK_ID'];
-        $arProduct['IBLOCK_SECTION_ID']= $arElement['IBLOCK_SECTION_ID'];
-        $arProduct['CHARACTERISTICS']= $arElement['PROPERTY_CHARACTERISTICS_VALUE'];
-        $arProduct['QUANTITY']= $ar_result["QUANTITY"];
-        $arProduct['PRICE']= $arElement['PROPERTY_PRICE_VALUE'];
-        $arProduct['ID']= $arElement['ID'];
-        //print_r($arProduct['CHARACTERISTICS']);
-
-
-        $arResult[] = $arProduct;
-
+        LocalRedirect("/catalog.php");
     }
 
+
 }
-else {
-    echo "Переменные не дошли. Проверьте все еще раз.";
+
+$arFields = $arElement->GetFields();
+$arProps = $arElement->GetProperties();
+
+foreach($arProps as $property_id => $property)
+{
+    $arProps[$property_id] = CIBlockFormatProperties::GetDisplayValue($arFields, $property);
 }
+
+$arFields['DETAIL_PICTURE'] = CFile::GetPath($arFields["DETAIL_PICTURE"]);
+$arFields['PROPERTIES'] = $arProps;
+$arResult[] = $arFields;
 echo '<pre>';
 //print_r($arResult);
 echo '</pre>';

@@ -3,15 +3,9 @@
 use Bitrix\Highloadblock as HL;
 use Bitrix\Main\Entity;
 
-array_map('CModule::IncludeModule', ['iblock', 'highloadblock']);
-
-echo '<pre>';
-//print_r($arParams);
-echo '</pre>';
-
+array_map('CModule::IncludeModule', ['iblock','catalog', 'sale', 'highloadblock']);
 /* Входные данные и валидация */
-
-$sectionID = intval($_GET["find_section_section"]);
+$sectionID = intval($_GET["SECTION_ID"]);
 $brandID = intval($_GET["brand_id"]);
 $brandXML_ID = false;
 
@@ -19,7 +13,6 @@ $brandDataClass = HL\HighloadBlockTable::compileEntity(
     HL\HighloadBlockTable::getById(HLIBLOCK_BRANDS)
         ->fetch()
 )->getDataClass();
-
 if($sectionID > 0)
 {
     $search_section = CIBlockSection::GetList(
@@ -36,8 +29,6 @@ if($sectionID > 0)
         LocalRedirect("/catalog.php");
     }
 }
-
-
 if($brandID > 0)
 {
     $brand = $brandDataClass::getList(array(
@@ -48,7 +39,7 @@ if($brandID > 0)
         ),
         "order" => array(),
         "filter" => array(
-            'ID' => $_GET['brand_id']
+            'ID' => $brandID
         )
     ))->Fetch();
     if ( ! empty($brand))
@@ -60,8 +51,6 @@ if($brandID > 0)
         LocalRedirect("/404.php", "404 Not Found");
     }
 }
-
-
 /* Разделы каталога */
 $arParentSection = CIBlockSection::GetList(
     array(),
@@ -77,9 +66,7 @@ $arResult['SECTIONS'][] = array_merge(
     ),
     $arParentSection
 );
-
 //$arResult['NAMESECTION']['NAME'] = $arSection['NAME'];
-
 $podsection = CIBlockSection::GetList(
     array(),
     array(
@@ -88,7 +75,6 @@ $podsection = CIBlockSection::GetList(
         'SECTION_ID' => $sectionID
     )
 );
-
 while($arPodsection = $podsection->GetNext())
 {
     $arResult['SECTIONS'][] = $arPodsection;
@@ -97,27 +83,27 @@ while($arPodsection = $podsection->GetNext())
 /* Товары */
 $arFilter = array(
     'IBLOCK_ID' => IBLOCK_PRODUCTS,
-    'SECTION_ID' => $sectionID
 );
-
+if ($sectionID > 0)
+{
+    $arFilter['SECTION_ID'] = $sectionID;
+}
 if ( ! empty($brandXML_ID))
 {
     $arFilter['PROPERTY_BRAND_REF'] = $brandXML_ID;
     $arFilter['INCLUDE_SUBSECTIONS'] = "Y";
 }
-
 $searchElement = CIBlockElement::GetList(
     array(),
     $arFilter,
     false,
     false,
     [
-        'ID', 'IBLOCK_ID','IBLOCK_SECTION_ID', 'NAME', 'DETAIL_PICTURE', 'SECTION_ID'
+        'ID', 'IBLOCK_ID','IBLOCK_SECTION_ID', 'NAME', 'DETAIL_PICTURE', 'SECTION_ID', 'CATALOG_GROUP_1'
     ]
 );
 while($product = $searchElement->GetNextElement())
 {
-
     $arFields = $product->GetFields();
     $arProps = $product->GetProperties();
 

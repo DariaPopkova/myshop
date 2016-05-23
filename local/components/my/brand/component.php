@@ -1,19 +1,16 @@
-<?
+<?if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
+
 use Bitrix\Highloadblock as HL;
 use Bitrix\Main\Entity;
-define('HLIBLOCK_BRANDS', 3);
-define('IBLOCK_PRODUCTS', 4);
-array_map('CModule::IncludeModule', ['iblock', 'highloadblock']);
+
+array_map('CModule::IncludeModule', ['iblock','catalog', 'sale', 'highloadblock']);
+/* Входные данные и валидация */
+$sectionID = intval($_GET["SECTION_ID"]);
+
 $brandDataClass = HL\HighloadBlockTable::compileEntity(
     HL\HighloadBlockTable::getById(HLIBLOCK_BRANDS)
         ->fetch()
 )->getDataClass();
-
-if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
-echo '<pre>';
-//print_r($arParams);
-echo '</pre>';
-CModule::IncludeModule('iblock');
 $brand_result = $brandDataClass::getList(array(
     "select" => array(
         'ID',
@@ -24,11 +21,54 @@ $brand_result = $brandDataClass::getList(array(
     "filter" => array()
 ));
 $massiv_brend = [];
+$name_brend = [];
 while($array_brend = $brand_result->Fetch())
 {
-    $massiv_brend[$array_brend['UF_XML_ID']] = $array_brend;
-   // $xml_id[$array_brend['UF_NAME']] = $array_brend['UF_XML_ID'];
+    $name_brend[$array_brend['UF_XML_ID']] = $array_brend;
+    $massiv_brend[$array_brend['UF_XML_ID']] = $array_brend['UF_NAME'];
 }
+$arFilter = [
+    'IBLOCK_ID' => IBLOCK_PRODUCTS,
+];
+if($sectionID > 0)
+{
+    $arFilter['SECTION_ID'] = $sectionID;
+    $arFilter['INCLUDE_SUBSECTIONS'] = "Y";
+}
+$searchElement = CIBlockElement::GetList(
+    array(),
+    $arFilter,
+    false,
+    false,
+    [
+        'ID', 'IBLOCK_ID','IBLOCK_SECTION_ID', 'NAME', 'DETAIL_PICTURE', 'SECTION_ID', 'CATALOG_GROUP_1'
+    ]
+);
+while($product = $searchElement->GetNextElement())
+{
+    $arFields = $product->GetFields();
+    $arProps = $product->GetProperties();
+
+    foreach($arProps as $pid => $prop)
+    {
+        $arProps[$pid] = CIBlockFormatProperties::GetDisplayValue($arFields, $prop);
+    }
+    $arFields['PROPERTIES'] = $arProps;
+
+    $key_search = array_search($arFields['PROPERTIES']['BRAND_REF']['DISPLAY_VALUE'],$massiv_brend);
+    if($key_search !== false)
+    {
+        $arResult[$key_search] = $name_brend[$key_search];
+
+    }
+
+}
+
+
+/*
+
+
+
 if (($_GET["IBLOCK_ID"])&&(empty($_GET["find_section_section"])))
 {
     $arResult['BRAND'] = $massiv_brend;
@@ -78,7 +118,7 @@ else
 
 }
 
-
+*/
 
 
 
@@ -228,7 +268,7 @@ if($_GET["find_section_section"]) {
 
 
 echo '<pre>';
-//print_r($arSect);
+//print_r($arResult);
 echo '</pre>';
 // LocalRedirect("/404.php", "404 Not Found");
 //$arResult = array_merge($arResult,$arElement);

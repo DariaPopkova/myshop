@@ -6,7 +6,7 @@
             <div id="price_cart">
                 <div class="prop_naz_cart"><h3>Цена:</h3></div>
                 <div class="prop_cart">
-                    <? echo $category['PRICE'] . "  руб."; ?>
+                    <? echo $category['CATALOG_PRICE_1'] . " " . $category['CATALOG_CURRENCY_1'];?>
                 </div>
             </div>
         </div>
@@ -18,11 +18,11 @@
         </form>
         <div id="imgcart"><img src="<?= $category['DETAIL_PICTURE']; ?>"></div>
         <div id="opisanie">
-            <div class="prop_tov"><? echo $category['CHARACTERISTICS']; ?></div>
+            <div class="prop_tov"><? echo $category['PROPERTIES']['CHARACTERISTICS']['DISPLAY_VALUE']; ?></div>
         </div>
         <div id="skald">
             <div class="prop_naz_sk">Доступно:</div>
-            <div class="prop_tov_sk"><? echo $category['QUANTITY']; ?></div>
+            <div class="prop_tov_sk"><? echo $category['CATALOG_QUANTITY']; ?></div>
         </div>
         <div id="char">
             <div id="naz_cart">
@@ -31,10 +31,10 @@
                 <div class="prop_naz">Производитель:</div>
                 <div class="prop_naz">Бренд:</div>
             </div>
-            <div class="prop_tov"><? echo $category['DESCRIPTION']; ?></div>
-            <div class="prop_tov"><? echo $category['ARTNUMBER']; ?></div>
-            <div class="prop_tov"><? echo $category['MANUFACTURER']; ?></div>
-            <div class="prop_tov"><? echo $category['BRAND']; ?></div>
+            <div class="prop_tov"><? echo $category['PROPERTIES']['DESCRIPTION']['DISPLAY_VALUE']; ?></div>
+            <div class="prop_tov"><? echo $category['PROPERTIES']['ARTNUMBER']['DISPLAY_VALUE']; ?></div>
+            <div class="prop_tov"><? echo $category['PROPERTIES']['MANUFACTURER']['DISPLAY_VALUE']; ?></div>
+            <div class="prop_tov"><? echo $category['PROPERTIES']['BRAND_REF']['DISPLAY_VALUE']; ?></div>
         </div>
 
 
