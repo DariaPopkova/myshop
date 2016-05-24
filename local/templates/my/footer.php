@@ -64,5 +64,13 @@
     }
 
 </script>
+<script>
+    formsub.style.display = 'none';
+    but.addEventListener("click", function () {
+        //alert("sucsess"); // сработает по окончании анимации
+        formsub.style.display = (formsub.style.display == 'none') ? '' : ''
+
+    });
+</script>
 </body>
 </html>

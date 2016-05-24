@@ -40,7 +40,7 @@
 
     </div>
 <? endforeach; ?>
-<div id="results">вывод</div>
+
 <form method="post" id="formsub" action="">
     <div>
         <label for="surname">Фамилия:</label>
@@ -183,11 +183,3 @@ if (isset($_POST['basket'])) {
      }*/
 </script>
 
-<script>
-    formsub.style.display = 'none';
-    but.addEventListener("click", function () {
-        alert("sucsess"); // сработает по окончании анимации
-        formsub.style.display = (formsub.style.display == 'none') ? '' : ''
-
-    });
-</script>

@@ -35,6 +35,9 @@ if($brandID > 0)
         LocalRedirect("/404.php", "404 Not Found");
     }
 }
+$arFilter = array(
+    'IBLOCK_ID' => IBLOCK_PRODUCTS,
+);
 if($sectionID > 0)
 {
     $search_section = CIBlockSection::GetList(
@@ -50,15 +53,38 @@ if($sectionID > 0)
     {
         LocalRedirect("/catalog.php");
     }
-
     $arResult['SECTIONS'][] = array_merge(
         array(
             'MAIN' => 'Y'
         ),
         $search_section
     );
+
     $arFilter['SECTION_ID'] = $sectionID;
-    if ( ! empty($brandXML_ID))
+}
+
+/* Разделы каталога */
+
+
+//$arResult['NAMESECTION']['NAME'] = $arSection['NAME'];
+$podsection = CIBlockSection::GetList(
+    array(),
+    array(
+        'ACTIVE' => 'Y',
+        'IBLOCK_ID' => IBLOCK_PRODUCTS,
+        'SECTION_ID' => $sectionID
+    )
+);
+while($arPodsection = $podsection->GetNext())
+{
+    $arResult['SECTIONS'][] = $arPodsection;
+}
+
+/* Товары */
+
+if(($sectionID !== 0)||($brandID !== 0))
+{
+    if (!empty($brandXML_ID))
     {
         $arFilter['PROPERTY_BRAND_REF'] = $brandXML_ID;
         $arFilter['INCLUDE_SUBSECTIONS'] = "Y";
@@ -89,29 +115,4 @@ if($sectionID > 0)
 
     }
 }
-
-/* Разделы каталога */
-
-
-//$arResult['NAMESECTION']['NAME'] = $arSection['NAME'];
-$podsection = CIBlockSection::GetList(
-    array(),
-    array(
-        'ACTIVE' => 'Y',
-        'IBLOCK_ID' => IBLOCK_PRODUCTS,
-        'SECTION_ID' => $sectionID
-    )
-);
-while($arPodsection = $podsection->GetNext())
-{
-    $arResult['SECTIONS'][] = $arPodsection;
-}
-
-/* Товары */
-$arFilter = array(
-    'IBLOCK_ID' => IBLOCK_PRODUCTS,
-);
-
-
-
 $this->IncludeComponentTemplate(); // <- $arResult
