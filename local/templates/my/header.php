@@ -21,9 +21,7 @@
             <div id="phone">
 
             </div>
-            <div id="vremy">
-                Канцтовары
-            </div>
+
             <div id="reg">
 
             </div>
@@ -105,32 +103,118 @@
 
         <?
         $APPLICATION->IncludeComponent(
+            "bitrix:menu",
+            "horizontal_multilevel",
+            Array(
+                "ROOT_MENU_TYPE" => "top",
+                "MAX_LEVEL" => "2",
+                "CHILD_MENU_TYPE" => "left",
+                "USE_EXT" => "Y"
+            )
+        );
+
+        /*
+        if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
+        CModule::IncludeModule("iblock");
+
+        global $APPLICATION;
+        $APPLICATION->IncludeComponent(
+            "bitrix:menu",
+            "horizontal_multilevel",
+            Array(
+                "ROOT_MENU_TYPE" => "top",
+                "MAX_LEVEL" => "2",
+                "CHILD_MENU_TYPE" => "left",
+                "USE_EXT" => "Y"
+            )
+        );
+        $aMenuLinks = Array(
+            Array(
+                "Для офиса",
+                "/catalog.php?SECTION_ID=16",
+                Array(),
+                Array(),
+                ""
+            ),
+
+            Array(
+                "Для творчества",
+                "/catalog.php?SECTION_ID=17",
+                Array(),
+                Array(),
+                ""
+            ),
+
+            Array(
+                "Для школы",
+                "/catalog.php?SECTION_ID=18",
+                Array(),
+                Array(),
+                ""
+            ),
+        );
+        $IBlock = CIBlock::GetList(
+            Array(),
+            Array(
+                'ID' => IBLOCK_PRODUCTS
+            ), true
+        )->Fetch();
+        $arFilter = array(
+            'IBLOCK_ID'=>IBLOCK_PRODUCTS,
+            );
+        $db_list = CIBlockSection::GetList(
+            array(),
+            $arFilter
+        );
+        while($ar_list = $db_list->GetNext())
+        {
+
+            echo '<pre>';
+            print_r($ar_list);
+            echo '</pre>';
+        }
+
+
+
+
+        $aMenuLinksExt=$APPLICATION->IncludeComponent("bitrix:menu.sections", "", array(
+            "IS_SEF" => "N",
+            "SEF_BASE_URL" => "",
+            "ID" =>20,
+            "SECTION_URL" => "/catalog.php?SECTION_ID=#SECTION_ID#",
+
+            "IBLOCK_TYPE" => $IBlock['TYPE'],
+            "IBLOCK_ID" => IBLOCK_PRODUCTS,
+            "DEPTH_LEVEL" => "2",
+            "CACHE_TYPE" => "A",
+            "CACHE_TIME" => "36000000"
+        ),
+            false
+        );
+
+        $aMenuLinks = array_merge($aMenuLinks, $aMenuLinksExt);*/
+
+
+        /*$APPLICATION->IncludeComponent(
             "my:menu",
             ".default",
             array(
-                "ROOT_MENU_TYPE" => "top",
-                "MAX_LEVEL" => "1",
-                "CHILD_MENU_TYPE" => "top",
-                "USE_EXT" => "Y",
-                "DELAY" => "N",
-                "ALLOW_MULTI_SELECT" => "Y",
-                "MENU_CACHE_TYPE" => "N",
-                "MENU_CACHE_TIME" => "3600",
-                "MENU_CACHE_USE_GROUPS" => "Y",
-                "MENU_CACHE_GET_VARS" => ""
+
             ),
             false
-        );
+        );*/
 
         ?>
 
             <?
-                $APPLICATION->IncludeComponent("my:hlebnav", ".default", Array(
-                        "START_FROM" => "0",
-                        "PATH" => "",
-                        "SITE_ID" => "s1"
-                    )
-                );
+
+            $APPLICATION->IncludeComponent("bitrix:breadcrumb", "", Array(
+                    "START_FROM" => "0",
+                    "PATH" => "",
+                    "SITE_ID" => "s1"
+                )
+            );
+
             ?>
 
 
