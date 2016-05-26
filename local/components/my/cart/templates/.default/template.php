@@ -125,12 +125,14 @@ while ($ar_res = $res->Fetch()) {
 }
 if (isset($_POST['basket'])) {
     array_map('CModule::IncludeModule', ['iblock', 'catalog', 'sale']);
+    $sectionID = $_GET['SECTION_ID'];
+    $elementID = $_GET['ID'];
     $property = CIBlockElement::GetList(
         array(),
         array(
-            "IBLOCK_ID" => $_GET['IBLOCK_ID'],
-            "SECTION_ID" => $_GET['find_section_section'],
-            "ID" => $_GET['ELEMENT_ID'],
+            "IBLOCK_ID" => IBLOCK_PRODUCTS,
+            "SECTION_ID" => $sectionID,
+            "ID" => $elementID,
         )
     );
     $ar_propprod = $property->Fetch();
@@ -138,24 +140,24 @@ if (isset($_POST['basket'])) {
     $price = CPrice::GetList(
         array(),
         array(
-            "PRODUCT_ID" => $_GET['ELEMENT_ID'],
+            "PRODUCT_ID" => $elementID,
         )
     );
     $ar_price = $price->Fetch();
     $product = CIBlockElement::GetList(
         array(),
         array(
-            "ID" => $_GET['ELEMENT_ID']
+            "ID" => $elementID
         )
     );
     $ar_pro = $product->Fetch();
     Add2BasketByProductID(
-        $_GET['ELEMENT_ID']
+        $elementID
     );
     $get_bask = CSaleBasket::GetList(
         array(),
         array(
-            "PRODUCT_ID" => $_GET['ELEMENT_ID']
+            "PRODUCT_ID" => $elementID
         )
     );
     $ar_bask = $get_bask->Fetch();
