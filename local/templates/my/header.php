@@ -206,6 +206,7 @@
 
         ?>
 
+
             <?
 
             $APPLICATION->IncludeComponent("bitrix:breadcrumb", "", Array(

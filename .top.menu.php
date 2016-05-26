@@ -18,12 +18,86 @@ $aMenuLinksExt=$APPLICATION->IncludeComponent("bitrix:menu.sections", "", array(
 	"IBLOCK_ID" => IBLOCK_PRODUCTS,
 	"DEPTH_LEVEL" => "2",
 	"CACHE_TYPE" => "A",
-	"CACHE_TIME" => "36000000"
+	"CACHE_TIME" => "36000000",
+
 ),
 	false
 );
 
+/*$arFilter = array(
+	"IBLOCK_ID" => IBLOCK_PRODUCTS,
+	"SECTION_ID" => ""
+);
+$rsSect = CIBlockSection::GetList(
+	array(),
+	$arFilter
+);
+while ($arSect = $rsSect->GetNext())
+{
+	$aMenuLinks[$arSect['ID']] = [
+		"NAME" => $arSect['NAME'],
+		"LINK" => "/catalog.php?SECTION_ID={$arSect['ID']}"
+	];
+}*/
+/*
+
+$aMenuLinks = Array(
+	Array(
+		"Для офиса",
+		"/catalog.php?SECTION_ID=16",
+		Array(),
+		Array(),
+		""
+	),
+
+	Array(
+		"Для творчества",
+		"/catalog.php?SECTION_ID=17",
+		Array(),
+		Array(),
+		""
+	),
+
+	Array(
+		"Для школы",
+		"/catalog.php?SECTION_ID=18",
+		Array(),
+		Array(),
+		""
+	),
+);*/
 $aMenuLinks = array_merge($aMenuLinks, $aMenuLinksExt);
+for($i = 0; $i < count($aMenuLinks); $i++)
+{
+	if (intval($aMenuLinks[$i][3]['DEPTH_LEVEL']) == 1)
+	{
+		$arResult[$i]= $aMenuLinks[$i];
+		$k = $i;
+		$i++;
+		while($aMenuLinks[$i][3]['DEPTH_LEVEL'] == 2)
+		{
+			$arResult[$k]["SUBSECTION"][$i] = $aMenuLinks[$i];
+			$i++;
+		}
+		$i--;
+
+	}
+
+}
+
+
+/*
+foreach($aMenuLinks as $section) {
+	if ($section[3]['DEPTH_LEVEL'] === 2) {
+		$section[] = [
+			"SUBSECTION" => ''
+		];
+	}
+}*/
+
+
+
+
 /*
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 
@@ -56,4 +130,10 @@ echo '<nav>
 	</ul>
 </nav>';
 */
+
+
 ?>
+
+
+
+
