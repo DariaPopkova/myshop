@@ -31,7 +31,7 @@ echo '</pre>';
                     <div class="prop_tov"><? echo $category['PROPERTIES']['MANUFACTURER']['DISPLAY_VALUE']; ?></div>
                     <div class="prop_tov"><? echo $category['PROPERTIES']['BRAND_REF']['DISPLAY_VALUE']; ?></div>
                     <div class="prop_tov"><? echo $category['CATALOG_PRICE_1'] . " " . $category['CATALOG_CURRENCY_1']; ?></div>
-
+                    <a class="url_buy" href="/cart.php?SECTION_ID=<?= $category['IBLOCK_SECTION_ID'] ?>&ID=<?= $category['ID']; ?>">Купить</a>
                 </div>
             </a>
         <? endforeach; ?>
