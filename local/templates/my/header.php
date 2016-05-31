@@ -228,6 +228,65 @@
             )
         );?>
 
+        <?
+
+       //$_SERVER['QUERY_STRING']  == '/personal/cart/')
+
+            $APPLICATION->IncludeComponent(
+                "bitrix:sale.order.full",
+                "",
+                Array(
+                    "PATH_TO_BASKET" => "/personal/cart/",
+                    "PATH_TO_PERSONAL" => "index.php",
+                    "PATH_TO_AUTH" => "/auth.php",
+                    "PATH_TO_PAYMENT" => "payment.php",
+                    "ALLOW_PAY_FROM_ACCOUNT" => "Y",
+                    "SHOW_MENU" => "Y",
+                    "USE_AJAX_LOCATIONS" => "Y",
+                    "SHOW_AJAX_DELIVERY_LINK" => "N",
+                    "CITY_OUT_LOCATION" => "Y",
+                    "COUNT_DELIVERY_TAX" => "Y",
+                    "COUNT_DISCOUNT_4_ALL_QUANTITY" => "N",
+                    "SET_TITLE" => "Y",
+                    "PRICE_VAT_INCLUDE" => "Y",
+                    "PRICE_VAT_SHOW_VALUE" => "Y",
+                    "ONLY_FULL_PAY_FROM_ACCOUNT" => "N",
+                    "SEND_NEW_USER_NOTIFY" => "Y",
+                    "DELIVERY_NO_SESSION" => "Y",
+                    "PROP_1" => array("6"),
+                    "PROP_2" => array("10"),
+                    "DELIVERY2PAY_SYSTEM" => Array(Array(1 => Array(2,4)), Array(3 => Array(6,8)))
+                )
+            );
+        if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
+        array_map('CModule::IncludeModule', ['iblock','catalog', 'sale']);
+        $db_dtype = CSaleDelivery::GetList(
+            array(
+            ),
+            array(
+
+                "ACTIVE" => "Y",
+
+            ),
+            false,
+            false,
+            array()
+        );
+        if ($ar_dtype = $db_dtype->Fetch())
+        {
+            echo "Вам доступны следующие способы доставки:<br>";
+            do
+            {
+                echo $ar_dtype["NAME"]." - стоимость ".CurrencyFormat($ar_dtype["PRICE"], $ar_dtype["CURRENCY"])."<br>";
+            }
+            while ($ar_dtype = $db_dtype->Fetch());
+        }
+        else
+        {
+            echo "Доступных способов доставки не найдено<br>";
+        }
+        ?>
+
 
 
         <article>
