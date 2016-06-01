@@ -54,10 +54,11 @@
             url: 'form.php',
             data: msg,
             success: function(data) {
-                $('.results').html(data);
+                alert(data);
             },
             error:  function(xhr, str){
                 alert('Возникла ошибка: ' + xhr.responseCode);
+
             }
         });
 
@@ -71,6 +72,23 @@
         formsub.style.display = (formsub.style.display == 'none') ? '' : ''
 
     });
+</script>
+<script>
+    function subbasket(){
+        var submit = true;
+        //alert(submit);
+        $.ajax({
+            type: 'POST',
+            url: 'basket.php',
+            data: submit,
+            success: function(data) {
+                alert(data);
+            },
+            error:  function(xhr, str){
+                alert('Возникла ошибка: ' + xhr.responseCode);
+            }
+        });
+    }
 </script>
 </body>
 </html>

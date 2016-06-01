@@ -6,7 +6,7 @@
             <div id="price_cart">
                 <div class="prop_naz_cart"><h3>Цена:</h3></div>
                 <div class="prop_cart">
-                    <? echo $category['CATALOG_PRICE_1'] . " " . $category['CATALOG_CURRENCY_1'];?>
+                    <? echo $category['CATALOG_PRICE_1'] . " " . $category['CATALOG_CURRENCY_1']; ?>
                 </div>
             </div>
         </div>
@@ -14,7 +14,11 @@
             <button name="butbay" id="but">Купить</button>
         </p>
         <form method="post" action="">
-            <input type="submit" name="basket" id="basket" value="Добавить в корзину" ">
+            <input type="submit" name="basket" id="basket" value="Добавить в корзину" onclick="
+            var val = $('#select option:selected').val();
+            $('#select option').removeAttr('selected'); //Снимаем все выбранные элементы
+                $('#select option[value='.val.']').attr('selected', 'selected'); //Выбираем элемент со значением value равным 4
+                return false;">
         </form>
         <div id="imgcart"><img src="<?= $category['DETAIL_PICTURE']; ?>"></div>
         <div id="opisanie">
@@ -22,8 +26,25 @@
         </div>
         <div id="skald">
             <div class="prop_naz_sk">Доступно:</div>
-            <div class="prop_tov_sk"><? echo $category['CATALOG_QUANTITY']; ?></div>
+            <!--<form id="formazak" method="get">-->
+                <select name="option" id="select">
+                    <? for ($i = 1; $i <= $category['CATALOG_QUANTITY']; $i++): ?>
+                        <?if($i == 1)
+                        {?>
+                            <option selected="selected" value="<?= $i; ?>"><?= $i; ?></option>
+                        <?}
+                        else
+                        {?>
+                            <option value="<?= $i; ?>"><?= $i; ?></option>
+                        <?}?>
+
+                    <? endfor; ?>
+                </select>
+            <!--</form>-->
+
+
         </div>
+
         <div id="char">
             <div id="naz_cart">
                 <div class="prop_naz">Цвет:</div>
@@ -66,8 +87,9 @@
 
     <input type="submit" name="submit" id="submit" value="Оформить заказ" onclick="viv('formsub')">
 </form>
-<? include 'form.php'; ?>
 
+<? include 'form.php'; ?>
+<div id="res"></div>
 <?
 CModule::IncludeModule('iblock');
 //CModule::IncludeModule('pokupki');
@@ -123,7 +145,10 @@ while ($ar_res = $res->Fetch()) {
         echo "Ошибка";
     }
 }
+//include 'addbasket.php';
+
 if (isset($_POST['basket'])) {
+
     array_map('CModule::IncludeModule', ['iblock', 'catalog', 'sale']);
     $sectionID = $_GET['SECTION_ID'];
     $elementID = $_GET['ID'];
@@ -151,8 +176,10 @@ if (isset($_POST['basket'])) {
         )
     );
     $ar_pro = $product->Fetch();
+    $option = isset($_GET['option']) ? (int)$_GET['option'] : 1;
     Add2BasketByProductID(
-        $elementID
+        $elementID,
+        $option
     );
     $get_bask = CSaleBasket::GetList(
         array(),
@@ -161,27 +188,48 @@ if (isset($_POST['basket'])) {
         )
     );
     $ar_bask = $get_bask->Fetch();
-
-    echo '<div id="cartfon">';
-    echo '</div>';
-
 }
+
 ?>
 <script>
-    /* function subbasket(){
-     var submit = true;
-     //alert(submit);
-     $.ajax({
-     type: 'POST',
-     url: 'basket.php',
-     data: submit,
-     success: function(data) {
-     alert(data);
-     },
-     error:  function(xhr, str){
-     alert('Возникла ошибка: ' + xhr.responseCode);
-     }
-     });
-     }*/
+   /* function add_to_basket() {
+
+        var value = $("select#select").val();
+        $("#select option[value=4]").attr('selected', 'selected');
+        alert(value);
+
+    }*/
+
+
+</script>
+
+<script>
+    /*
+    $(document).ready(function(){
+      function add_to_basket(){
+            var value=jQuery("select#select").val();
+
+
+            alert(val);
+            $.ajax({
+                type: 'POST',
+                dataType: 'text',
+                url: 'addbasket.php',
+                data: {kol: "4"},
+                success: function(data) {
+                    alert(data);
+
+
+                },
+                error:function(xhr, status, errorThrown) {
+                    alert(errorThrown+'\n'+status+'\n'+xhr.statusText);
+                }
+            });
+
+        }
+    });*/
+
+
+
 </script>
 

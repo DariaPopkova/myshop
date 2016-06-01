@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     <script type="text/javascript" src="jquery.js"></script>
     <?$APPLICATION->ShowHead();?>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"  type="text/javascript"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+
 
     <title><?$APPLICATION->ShowTitle()?></title>
 </head>
@@ -101,7 +103,14 @@
             );*/?>
 
         </header>
-
+        <?$APPLICATION->IncludeComponent("bitrix:sale.basket.basket.small","saleBasket",Array(
+                "PATH_TO_BASKET" => "/personal/cart/",
+                "PATH_TO_ORDER" => "/cart.php",
+                "SHOW_DELAY" => "N",
+                "SHOW_NOTAVAIL" => "N",
+                "SHOW_SUBSCRIBE" => "N"
+            )
+        );?>
         <?
         $APPLICATION->IncludeComponent(
             "bitrix:menu",
@@ -219,52 +228,20 @@
 
             ?>
 
-        <?$APPLICATION->IncludeComponent("bitrix:sale.basket.basket.small","saleBasket",Array(
-                "PATH_TO_BASKET" => "/personal/cart/",
-                "PATH_TO_ORDER" => "/cart.php",
-                "SHOW_DELAY" => "N",
-                "SHOW_NOTAVAIL" => "N",
-                "SHOW_SUBSCRIBE" => "N"
-            )
-        );?>
+
 
         <?
 
-       //$_SERVER['QUERY_STRING']  == '/personal/cart/')
+        if (!CModule::IncludeModule("sale"))
+        {
+            ShowError(GetMessage("SALE_MODULE_NOT_INSTALL"));
+            return;
+        }
 
-            $APPLICATION->IncludeComponent(
-                "bitrix:sale.order.full",
-                "",
-                Array(
-                    "PATH_TO_BASKET" => "/personal/cart/",
-                    "PATH_TO_PERSONAL" => "index.php",
-                    "PATH_TO_AUTH" => "/auth.php",
-                    "PATH_TO_PAYMENT" => "payment.php",
-                    "ALLOW_PAY_FROM_ACCOUNT" => "Y",
-                    "SHOW_MENU" => "Y",
-                    "USE_AJAX_LOCATIONS" => "Y",
-                    "SHOW_AJAX_DELIVERY_LINK" => "N",
-                    "CITY_OUT_LOCATION" => "Y",
-                    "COUNT_DELIVERY_TAX" => "Y",
-                    "COUNT_DISCOUNT_4_ALL_QUANTITY" => "N",
-                    "SET_TITLE" => "Y",
-                    "PRICE_VAT_INCLUDE" => "Y",
-                    "PRICE_VAT_SHOW_VALUE" => "Y",
-                    "ONLY_FULL_PAY_FROM_ACCOUNT" => "N",
-                    "SEND_NEW_USER_NOTIFY" => "Y",
-                    "DELIVERY_NO_SESSION" => "Y",
-                    "PROP_1" => array("6"),
-                    "PROP_2" => array("10"),
-                    "DELIVERY2PAY_SYSTEM" => Array(Array(1 => Array(2,4)), Array(3 => Array(6,8)))
-                )
-            );
-        if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
-        array_map('CModule::IncludeModule', ['iblock','catalog', 'sale']);
         $db_dtype = CSaleDelivery::GetList(
             array(
             ),
             array(
-
                 "ACTIVE" => "Y",
 
             ),
@@ -274,9 +251,10 @@
         );
         if ($ar_dtype = $db_dtype->Fetch())
         {
-            echo "Вам доступны следующие способы доставки:<br>";
+            $delivery = [];
             do
             {
+                $delivery[] = $ar_dtype["ID"];
                 echo $ar_dtype["NAME"]." - стоимость ".CurrencyFormat($ar_dtype["PRICE"], $ar_dtype["CURRENCY"])."<br>";
             }
             while ($ar_dtype = $db_dtype->Fetch());
@@ -285,6 +263,61 @@
         {
             echo "Доступных способов доставки не найдено<br>";
         }
+
+        $db_ptype = CSalePaySystem::GetList(
+            array(),
+            array(
+                "CURRENCY"=>"RUB",
+                "ACTIVE"=>"Y",
+                "NAME" => 'Наличные курьеру'
+            )
+        );
+
+        while ($ptype = $db_ptype->Fetch())
+        {
+            $payment[] = $ptype['ID'];
+
+        }
+       //$_SERVER['QUERY_STRING']  == '/personal/cart/')
+        $ar_fields = array(
+            "PATH_TO_BASKET" => "/personal/cart/",
+            "PATH_TO_PERSONAL" => "index.php",
+            "PATH_TO_AUTH" => "/auth.php",
+            "PATH_TO_PAYMENT" => "payment.php",
+            "ALLOW_PAY_FROM_ACCOUNT" => "Y",
+            "SHOW_MENU" => "Y",
+            "USE_AJAX_LOCATIONS" => "Y",
+            "SHOW_AJAX_DELIVERY_LINK" => "N",
+            "CITY_OUT_LOCATION" => "Y",
+            "COUNT_DELIVERY_TAX" => "Y",
+            "COUNT_DISCOUNT_4_ALL_QUANTITY" => "N",
+            "SET_TITLE" => "Y",
+            "PRICE_VAT_INCLUDE" => "Y",
+            "PRICE_VAT_SHOW_VALUE" => "Y",
+            "ONLY_FULL_PAY_FROM_ACCOUNT" => "N",
+            "SEND_NEW_USER_NOTIFY" => "Y",
+            "DELIVERY_NO_SESSION" => "Y",
+            "PROP_1" => array("6"),
+            "PROP_2" => array("10"),
+
+
+        );
+        foreach($delivery as $elem_delivery)
+        {
+            $ar_fields["DELIVERY2PAY_SYSTEM"] = array(
+                array(
+                    $elem_delivery => $payment
+                ),
+
+            );
+        }
+
+        $APPLICATION->IncludeComponent(
+                "bitrix:sale.order.full",
+                "",
+                $ar_fields
+            );
+
         ?>
 
 

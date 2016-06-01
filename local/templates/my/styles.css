@@ -163,7 +163,7 @@ article{
     height: 80px;
     background-color: rgb(211, 225, 231);
     right: 1%;
-    margin-top: -16%;
+
     margin-bottom: 20px;
     position: fixed;
     z-index: 10000;
@@ -310,6 +310,7 @@ article{
 }
 #char{
     width: 40%;
+
     margin-left: 15px;
     margin-right: 10px;
 
