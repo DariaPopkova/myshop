@@ -14,11 +14,7 @@
             <button name="butbay" id="but">Купить</button>
         </p>
         <form method="post" action="">
-            <input type="submit" name="basket" id="basket" value="Добавить в корзину" onclick="
-            var val = $('#select option:selected').val();
-            $('#select option').removeAttr('selected'); //Снимаем все выбранные элементы
-                $('#select option[value='.val.']').attr('selected', 'selected'); //Выбираем элемент со значением value равным 4
-                return false;">
+            <input type="submit" name="basket" id="basket" value="Добавить в корзину" onClick="add_to_basket()">
         </form>
         <div id="imgcart"><img src="<?= $category['DETAIL_PICTURE']; ?>"></div>
         <div id="opisanie">
@@ -29,7 +25,7 @@
             <!--<form id="formazak" method="get">-->
                 <select name="option" id="select">
                     <? for ($i = 1; $i <= $category['CATALOG_QUANTITY']; $i++): ?>
-                        <?if($i == 1)
+                        <?if($i == 2)
                         {?>
                             <option selected="selected" value="<?= $i; ?>"><?= $i; ?></option>
                         <?}
@@ -176,7 +172,7 @@ if (isset($_POST['basket'])) {
         )
     );
     $ar_pro = $product->Fetch();
-    $option = isset($_GET['option']) ? (int)$_GET['option'] : 1;
+    $option = isset($_GET['i']) ? (int)$_GET['i'] : 1;
     Add2BasketByProductID(
         $elementID,
         $option
@@ -204,30 +200,46 @@ if (isset($_POST['basket'])) {
 </script>
 
 <script>
-    /*
-    $(document).ready(function(){
-      function add_to_basket(){
-            var value=jQuery("select#select").val();
 
 
-            alert(val);
-            $.ajax({
-                type: 'POST',
-                dataType: 'text',
-                url: 'addbasket.php',
-                data: {kol: "4"},
-                success: function(data) {
-                    alert(data);
 
+      /*  $('#select').change(function() {
+            alert('option нажат');
+            var value=$("select#select").val();
+            alert(value);
+        });*/
 
-                },
-                error:function(xhr, status, errorThrown) {
-                    alert(errorThrown+'\n'+status+'\n'+xhr.statusText);
-                }
+        $(document).ready(function(){
+            $('#select').change(function() {
+                alert('option нажат');
+               var value=$("select#select").val();
+                alert(value);
+                $('#select option').removeAttr('selected');
+
+                $('#select option[value="'+value+'"]').attr('selected', 'selected');
             });
+            var value=$("select#select").val();
 
-        }
-    });*/
+           alert(value);
+     /* function add_to_basket(){
+
+        var value = 4;
+          $.ajax({
+              type: 'POST,
+              url: 'addbasket.php',
+              data: {
+                  'kol='+value
+
+              }
+          }).done(function( msg ) {
+              alert( "Data Saved: " + msg );
+          });
+
+
+
+        }*/
+        });
+
 
 
 
