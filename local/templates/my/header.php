@@ -278,6 +278,9 @@
             $payment[] = $ptype['ID'];
 
         }
+        echo '<pre>';
+        print_r($payment);
+        echo '</pre>';
        //$_SERVER['QUERY_STRING']  == '/personal/cart/')
         $ar_fields = array(
             "PATH_TO_BASKET" => "/personal/cart/",
@@ -295,28 +298,28 @@
             "PRICE_VAT_INCLUDE" => "Y",
             "PRICE_VAT_SHOW_VALUE" => "Y",
             "ONLY_FULL_PAY_FROM_ACCOUNT" => "N",
-            "SEND_NEW_USER_NOTIFY" => "Y",
+
             "DELIVERY_NO_SESSION" => "Y",
-            "PROP_1" => array("6"),
-            "PROP_2" => array("10"),
+
 
 
         );
         foreach($delivery as $elem_delivery)
         {
             $ar_fields["DELIVERY2PAY_SYSTEM"] = array(
-                array(
+
                     $elem_delivery => $payment
-                ),
+
 
             );
+            print_r($ar_fields);
         }
 
-        $APPLICATION->IncludeComponent(
+       /* $APPLICATION->IncludeComponent(
                 "bitrix:sale.order.full",
                 "",
                 $ar_fields
-            );
+            );*/
 
         ?>
 

@@ -1,7 +1,7 @@
 <? foreach ($arResult as $category): ?>
 
     <h2><? echo $category['NAME']; ?></h2>
-    <div id="cartfon">
+    <div id="cartfon" class =>
         <div id="pokupka">
             <div id="price_cart">
                 <div class="prop_naz_cart"><h3>Цена:</h3></div>
@@ -13,9 +13,10 @@
         <p id="knop">
             <button name="butbay" id="but">Купить</button>
         </p>
-        <form method="post" action="">
+        <a href="" id="basket" >Добавить в корзину</a>
+        <!--<form method="post" action="">
             <input type="submit" name="basket" id="basket" value="Добавить в корзину" onClick="add_to_basket()">
-        </form>
+        </form>-->
         <div id="imgcart"><img src="<?= $category['DETAIL_PICTURE']; ?>"></div>
         <div id="opisanie">
             <div class="prop_tov"><? echo $category['PROPERTIES']['CHARACTERISTICS']['DISPLAY_VALUE']; ?></div>
@@ -141,8 +142,8 @@ while ($ar_res = $res->Fetch()) {
         echo "Ошибка";
     }
 }
-//include 'addbasket.php';
-
+include 'addbasket.php';
+/*
 if (isset($_POST['basket'])) {
 
     array_map('CModule::IncludeModule', ['iblock', 'catalog', 'sale']);
@@ -185,19 +186,8 @@ if (isset($_POST['basket'])) {
     );
     $ar_bask = $get_bask->Fetch();
 }
-
+*/
 ?>
-<script>
-   /* function add_to_basket() {
-
-        var value = $("select#select").val();
-        $("#select option[value=4]").attr('selected', 'selected');
-        alert(value);
-
-    }*/
-
-
-</script>
 
 <script>
 
@@ -208,7 +198,7 @@ if (isset($_POST['basket'])) {
             var value=$("select#select").val();
             alert(value);
         });*/
-
+/*
         $(document).ready(function(){
             $('#select').change(function() {
                 alert('option нажат');
@@ -220,7 +210,7 @@ if (isset($_POST['basket'])) {
             });
             var value=$("select#select").val();
 
-           alert(value);
+           alert(value);*/
      /* function add_to_basket(){
 
         var value = 4;
@@ -237,8 +227,8 @@ if (isset($_POST['basket'])) {
 
 
 
-        }*/
-        });
+        }
+        });*/
 
 
 

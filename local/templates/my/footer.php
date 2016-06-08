@@ -90,5 +90,59 @@
         });
     }
 </script>
+<script>
+    $(function() {
+        $a = $('.cart a');
+        $('#select').change(function() {
+
+            var value=$("select#select").val();
+            //alert(value);
+          //  $('#select option').removeAttr('selected');
+
+           // $('#select option[value="'+value+'"]').attr('selected', 'selected');
+        });
+
+        $a.click(function(event) {
+           event.preventDefault();
+            var value=$("select#select").val();
+            //если есть search
+            //var x = decodeURIComponent(location.search.substr(1)).slice(stroka.search(/=/)+1);
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i=0;i<vars.length;i++) {
+                var pair = vars[i].split("=");
+                if(pair[0] == "ID"){
+                    alert(pair[1]);
+                   var id = pair[1];
+                }
+            }
+
+            alert(id);
+            //alert(result);
+            $.ajax({
+                url: '/local/templates/my/addbasket.php', // куда отправляем
+                type: 'POST', // метод передачи
+                dataType: 'json', // тип передачи данных
+                data: { // что отправляем
+                    kol: value,
+                    ID: id
+                },
+                success: function (data) {
+                    alert(data.ID);
+                }
+            });
+        });
+    });
+    /* function add_to_basket() {
+
+     var value = $("select#select").val();
+     $("#select option[value=4]").attr('selected', 'selected');
+     alert(value);
+
+     }*/
+
+
+</script>
+
 </body>
 </html>
