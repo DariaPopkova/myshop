@@ -92,16 +92,7 @@
                 )
             );*/?>
 
-            <?//Малая корзина.Одностраничный компонент отображает все товары, которые находятся в корзине в различных состояниях.
-            /*$APPLICATION->IncludeComponent("bitrix:sale.basket.basket.small","",Array(
-                    "PATH_TO_BASKET" => "my/basket/",
-                    "PATH_TO_ORDER" => "/personal/order.php",
-                    "SHOW_DELAY" => "Y",
-                    "SHOW_NOTAVAIL" => "Y",
-                    "SHOW_SUBSCRIBE" => "Y"
-                )
-            );*/?>
-
+            
         </header>
         <?$APPLICATION->IncludeComponent("bitrix:sale.basket.basket.small","saleBasket",Array(
                 "PATH_TO_BASKET" => "/personal/cart/",
@@ -281,10 +272,10 @@
         echo '<pre>';
         print_r($payment);
         echo '</pre>';
-       //$_SERVER['QUERY_STRING']  == '/personal/cart/')
-        //if($_SERVER['REQUEST_URI'] == '/personal/cart/')
-       // {
-           /* $ar_fields = array(
+
+        if($_SERVER['REQUEST_URI'] == '/personal/cart/')
+        {
+           $ar_fields = array(
                 "PATH_TO_BASKET" => "/personal/cart/",
                 "ALLOW_PAY_FROM_ACCOUNT" => "Y",
                 "SHOW_MENU" => "Y",
@@ -302,8 +293,8 @@
 
 
 
-            );*/
-            $ar_fields = array(
+            );
+            /*$ar_fields = array(
                 "ALLOW_NEW_PROFILE" => "Y",
                     "SHOW_PAYMENT_SERVICES_NAMES" => "Y",
                     "SHOW_STORES_IMAGES" => "N",
@@ -322,32 +313,30 @@
                     "DISABLE_BASKET_REDIRECT" => "Y",
 
 
-                );
+                );*/
             foreach($delivery as $elem_delivery)
             {
                 $ar_fields["DELIVERY2PAY_SYSTEM"] = array(
-
                     $elem_delivery => $payment
-
-
                 );
                 //print_r($ar_fields);
             }
+
             echo '<pre>';
-            print_r($ar_fields);
+            print_r($delivery);
             echo '</pre>';
-            $APPLICATION->IncludeComponent(
+            /*$APPLICATION->IncludeComponent(
                 "bitrix:sale.order.ajax",
                 "",
                 $ar_fields
 
-            );
-            /*$APPLICATION->IncludeComponent(
+            )*/;
+            $APPLICATION->IncludeComponent(
                      "bitrix:sale.order.full",
                      "",
                      $ar_fields
-                 );*/
-       // }
+                 );
+       }
 
 
         ?>

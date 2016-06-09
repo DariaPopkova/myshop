@@ -13,6 +13,7 @@
         <p id="knop">
             <button name="butbay" id="but">Купить</button>
         </p>
+
         <a href="" id="basket" class="basket" >Добавить в корзину</a>
         <!--<form method="post" action="">
             <input type="submit" name="basket" id="basket" value="Добавить в корзину" onClick="add_to_basket()">
@@ -26,7 +27,7 @@
             <!--<form id="formazak" method="get">-->
                 <select name="option" id="select">
                     <? for ($i = 1; $i <= $category['CATALOG_QUANTITY']; $i++): ?>
-                        <?if($i == 2)
+                        <?if($i == 1)
                         {?>
                             <option selected="selected" value="<?= $i; ?>"><?= $i; ?></option>
                         <?}

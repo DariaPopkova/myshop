@@ -103,7 +103,14 @@ if (!empty($arBasketItems))
 
 if (!empty($arReadyItems))
 {
-    $allWeight = count($arBasketItems);
+    if($arParams['KOLICH'])
+    {
+        $allWeight = count($arBasketItems) + 1;
+    }
+    else{
+        $allWeight = count($arBasketItems);
+    }
+
     $arOrder = array(
         'SITE_ID' => SITE_ID,
         'USER_ID' => $USER->GetID(),
