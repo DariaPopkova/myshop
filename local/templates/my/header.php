@@ -225,7 +225,7 @@
                     "SITE_ID" => "s1"
                 )
             );
-
+            print_r($_SERVER['REQUEST_URI']);
             ?>
 
 
@@ -282,44 +282,73 @@
         print_r($payment);
         echo '</pre>';
        //$_SERVER['QUERY_STRING']  == '/personal/cart/')
-        $ar_fields = array(
-            "PATH_TO_BASKET" => "/personal/cart/",
-            "PATH_TO_PERSONAL" => "index.php",
-            "PATH_TO_AUTH" => "/auth.php",
-            "PATH_TO_PAYMENT" => "payment.php",
-            "ALLOW_PAY_FROM_ACCOUNT" => "Y",
-            "SHOW_MENU" => "Y",
-            "USE_AJAX_LOCATIONS" => "Y",
-            "SHOW_AJAX_DELIVERY_LINK" => "N",
-            "CITY_OUT_LOCATION" => "Y",
-            "COUNT_DELIVERY_TAX" => "Y",
-            "COUNT_DISCOUNT_4_ALL_QUANTITY" => "N",
-            "SET_TITLE" => "Y",
-            "PRICE_VAT_INCLUDE" => "Y",
-            "PRICE_VAT_SHOW_VALUE" => "Y",
-            "ONLY_FULL_PAY_FROM_ACCOUNT" => "N",
+        //if($_SERVER['REQUEST_URI'] == '/personal/cart/')
+       // {
+           /* $ar_fields = array(
+                "PATH_TO_BASKET" => "/personal/cart/",
+                "ALLOW_PAY_FROM_ACCOUNT" => "Y",
+                "SHOW_MENU" => "Y",
+                "USE_AJAX_LOCATIONS" => "Y",
+                "SHOW_AJAX_DELIVERY_LINK" => "N",
+                "CITY_OUT_LOCATION" => "Y",
+                "COUNT_DELIVERY_TAX" => "Y",
+                "COUNT_DISCOUNT_4_ALL_QUANTITY" => "N",
+                "SET_TITLE" => "Y",
+                "PRICE_VAT_INCLUDE" => "Y",
+                "PRICE_VAT_SHOW_VALUE" => "Y",
+                "ONLY_FULL_PAY_FROM_ACCOUNT" => "N",
 
-            "DELIVERY_NO_SESSION" => "Y",
-
+                "DELIVERY_NO_SESSION" => "Y",
 
 
-        );
-        foreach($delivery as $elem_delivery)
-        {
-            $ar_fields["DELIVERY2PAY_SYSTEM"] = array(
+
+            );*/
+            $ar_fields = array(
+                "ALLOW_NEW_PROFILE" => "Y",
+                    "SHOW_PAYMENT_SERVICES_NAMES" => "Y",
+                    "SHOW_STORES_IMAGES" => "N",
+                    "PATH_TO_BASKET" => "/personal/cart/",
+                    "PAY_FROM_ACCOUNT" => "Y",
+                    "ONLY_FULL_PAY_FROM_ACCOUNT" => "N",
+                    "COUNT_DELIVERY_TAX" => "N",
+                    "ALLOW_AUTO_REGISTER" => "N",
+                    "SEND_NEW_USER_NOTIFY" => "Y",
+                    "DELIVERY_NO_AJAX" => "N",
+                    "DELIVERY_NO_SESSION" => "N",
+                    //"TEMPLATE_LOCATION" => ".default",
+                    "DELIVERY_TO_PAYSYSTEM" => "d2p",
+                    "SET_TITLE" => "Y",
+                    "USE_PREPAYMENT" => "N",
+                    "DISABLE_BASKET_REDIRECT" => "Y",
+
+
+                );
+            foreach($delivery as $elem_delivery)
+            {
+                $ar_fields["DELIVERY2PAY_SYSTEM"] = array(
 
                     $elem_delivery => $payment
 
 
-            );
+                );
+                //print_r($ar_fields);
+            }
+            echo '<pre>';
             print_r($ar_fields);
-        }
-
-       /* $APPLICATION->IncludeComponent(
-                "bitrix:sale.order.full",
+            echo '</pre>';
+            $APPLICATION->IncludeComponent(
+                "bitrix:sale.order.ajax",
                 "",
                 $ar_fields
-            );*/
+
+            );
+            /*$APPLICATION->IncludeComponent(
+                     "bitrix:sale.order.full",
+                     "",
+                     $ar_fields
+                 );*/
+       // }
+
 
         ?>
 

@@ -1,7 +1,7 @@
 <? foreach ($arResult as $category): ?>
 
     <h2><? echo $category['NAME']; ?></h2>
-    <div id="cartfon" class =>
+    <div id="cartfon" class="cart_aj">
         <div id="pokupka">
             <div id="price_cart">
                 <div class="prop_naz_cart"><h3>Цена:</h3></div>
@@ -13,7 +13,7 @@
         <p id="knop">
             <button name="butbay" id="but">Купить</button>
         </p>
-        <a href="" id="basket" >Добавить в корзину</a>
+        <a href="" id="basket" class="basket" >Добавить в корзину</a>
         <!--<form method="post" action="">
             <input type="submit" name="basket" id="basket" value="Добавить в корзину" onClick="add_to_basket()">
         </form>-->

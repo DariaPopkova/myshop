@@ -92,19 +92,20 @@
 </script>
 <script>
     $(function() {
-        $a = $('.cart a');
+        $a = $('.cart_aj a');
         $('#select').change(function() {
 
             var value=$("select#select").val();
-            //alert(value);
+
           //  $('#select option').removeAttr('selected');
 
            // $('#select option[value="'+value+'"]').attr('selected', 'selected');
         });
-
         $a.click(function(event) {
+
            event.preventDefault();
             var value=$("select#select").val();
+
             //если есть search
             //var x = decodeURIComponent(location.search.substr(1)).slice(stroka.search(/=/)+1);
             var query = window.location.search.substring(1);
@@ -116,7 +117,6 @@
                    var id = pair[1];
                 }
             }
-
             alert(id);
             //alert(result);
             $.ajax({
