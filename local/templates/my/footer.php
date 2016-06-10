@@ -105,32 +105,37 @@
 
            event.preventDefault();
             var value=$("select#select").val();
+            var path = "/local/templates/my/addbasket.php";
 
-            //если есть search
-            //var x = decodeURIComponent(location.search.substr(1)).slice(stroka.search(/=/)+1);
             var query = window.location.search.substring(1);
             var vars = query.split("&");
             for (var i=0;i<vars.length;i++) {
                 var pair = vars[i].split("=");
                 if(pair[0] == "ID"){
-                    alert(pair[1]);
+                    //alert(pair[1]);
                    var id = pair[1];
                 }
             }
-            alert(id);
-            //alert(result);
+
             $.ajax({
-                url: '/local/templates/my/addbasket.php', // куда отправляем
+                url: path, // куда отправляем
                 type: 'POST', // метод передачи
                 dataType: 'json', // тип передачи данных
                 data: { // что отправляем
                     kol: value,
                     ID: id
+
                 },
                 success: function (data) {
-                    alert(data.ID);
+                    $("#basket_S").html(data);
                 }
             });
+
+
+
+
+            //document.getElementByID("kolich").innerHTML=5;
+
         });
     });
     /* function add_to_basket() {
@@ -143,6 +148,22 @@
 
 
 </script>
+<!--<script>
+    $(function() {
+        $a = $('.cart_aj a');
 
+        $a.click(function (event) {
+            var kolich = $('#kolich').text();
+            var kolich_elem = $('#temp_kolich').text();
+            alert(kolich_elem);
+            var price_elem = $('#price_for').text();
+            document.getElementById('kolich').innerHTML++;
+            //alert(document.getElementById('kolich').innerHTML);
+            var price = $('#price').text();
+            document.getElementById('price').innerHTML+=document.getElementById('temp_kolich').innerHTML*document.getElementById('temp_price').innerHTML;
+            alert(price_elem);
+        });
+    });
+</script>-->
 </body>
 </html>

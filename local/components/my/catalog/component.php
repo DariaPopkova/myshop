@@ -230,6 +230,12 @@ while($serchSect['DEPTH_LEVEL'] > 1)
     array_unshift($ar_novigation,$serchSect);
 
 }
+/*$res = CIBlockSection::GetNavChain(IBLOCK_PRODUCTS, $sectionID);
+while($bc = $res->Fetch())
+{
+    $bca[] = $bc;
+}
+print_r($bca);*/
 foreach($ar_novigation as $hleb)
 {
     $APPLICATION->AddChainItem($hleb['NAME'], "/catalog.php?SECTION_ID={$hleb['ID']}");

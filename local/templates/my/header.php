@@ -216,7 +216,7 @@
                     "SITE_ID" => "s1"
                 )
             );
-            print_r($_SERVER['REQUEST_URI']);
+           // print_r($_SERVER['REQUEST_URI']);
             ?>
 
 
@@ -246,13 +246,13 @@
             do
             {
                 $delivery[] = $ar_dtype["ID"];
-                echo $ar_dtype["NAME"]." - стоимость ".CurrencyFormat($ar_dtype["PRICE"], $ar_dtype["CURRENCY"])."<br>";
+                //echo $ar_dtype["NAME"]." - стоимость ".CurrencyFormat($ar_dtype["PRICE"], $ar_dtype["CURRENCY"])."<br>";
             }
             while ($ar_dtype = $db_dtype->Fetch());
         }
         else
         {
-            echo "Доступных способов доставки не найдено<br>";
+            //echo "Доступных способов доставки не найдено<br>";
         }
 
         $db_ptype = CSalePaySystem::GetList(
@@ -270,7 +270,7 @@
 
         }
         echo '<pre>';
-        print_r($payment);
+        //print_r($payment);
         echo '</pre>';
 
         if($_SERVER['REQUEST_URI'] == '/personal/cart/')
@@ -323,7 +323,7 @@
             }
 
             echo '<pre>';
-            print_r($delivery);
+           // print_r($delivery);
             echo '</pre>';
             /*$APPLICATION->IncludeComponent(
                 "bitrix:sale.order.ajax",
@@ -331,11 +331,11 @@
                 $ar_fields
 
             )*/;
-            $APPLICATION->IncludeComponent(
+            /*$APPLICATION->IncludeComponent(
                      "bitrix:sale.order.full",
                      "",
                      $ar_fields
-                 );
+                 );*/
        }
 
 

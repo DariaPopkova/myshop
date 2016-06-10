@@ -267,9 +267,6 @@ if($_GET["find_section_section"]) {
 }*/
 
 
-echo '<pre>';
-//print_r($arResult);
-echo '</pre>';
 // LocalRedirect("/404.php", "404 Not Found");
 //$arResult = array_merge($arResult,$arElement);
 $this->IncludeComponentTemplate(); // <- $arResult

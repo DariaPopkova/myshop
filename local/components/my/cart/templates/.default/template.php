@@ -5,7 +5,7 @@
         <div id="pokupka">
             <div id="price_cart">
                 <div class="prop_naz_cart"><h3>Цена:</h3></div>
-                <div class="prop_cart">
+                <div class="prop_cart" id="price_for">
                     <? echo $category['CATALOG_PRICE_1'] . " " . $category['CATALOG_CURRENCY_1']; ?>
                 </div>
             </div>

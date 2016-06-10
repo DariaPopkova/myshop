@@ -36,8 +36,6 @@ if ($fuserId > 0)
             "PRODUCT_XML_ID", "SUBSCRIBE", "DISCOUNT_PRICE", "PRODUCT_PROVIDER_CLASS", "TYPE", "SET_PARENT_ID"
         )
     );
-
-
     while ($arItem = $rsBaskets->GetNext())
     {
 
@@ -103,14 +101,7 @@ if (!empty($arBasketItems))
 
 if (!empty($arReadyItems))
 {
-    if($arParams['KOLICH'])
-    {
-        $allWeight = count($arBasketItems) + 1;
-    }
-    else{
-        $allWeight = count($arBasketItems);
-    }
-
+    $allWeight = count($arBasketItems);
     $arOrder = array(
         'SITE_ID' => SITE_ID,
         'USER_ID' => $USER->GetID(),
@@ -144,7 +135,10 @@ $arResult = array(
     'SUMM' => $arOrder
 );
 
+//echo json_encode($_POST['kol'], JSON_UNESCAPED_UNICODE);
+
 
 
 
 ?>
+
