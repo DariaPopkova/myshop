@@ -93,23 +93,15 @@
 <script>
     $(function() {
         $a = $('.cart_aj a');
-        $('#select').change(function() {
-
-            var value=$("select#select").val();
-
-          //  $('#select option').removeAttr('selected');
-
-           // $('#select option[value="'+value+'"]').attr('selected', 'selected');
-        });
         $a.click(function(event) {
 
            event.preventDefault();
             var value=$("select#select").val();
-            var path = "/local/templates/my/addbasket.php";
-            $.get( path , function( data ) {
-                $("#basket_S").html(data);
-                // alert( "Load was performed." );
-            });
+           // var path = "/local/templates/my/addbasket.php";
+            //$.get( path , function( data ) {
+
+                //$("#basket_S").html(data);
+           // });
             var query = window.location.search.substring(1);
             var vars = query.split("&");
             for (var i=0;i<vars.length;i++) {
@@ -119,20 +111,32 @@
                    var id = pair[1];
                 }
             }
-
+            $.post(
+                '/local/templates/my/addbasket.php',
+                {
+                    kol: value,
+                    ID: id
+                },
+                function (data)
+                {
+                    $("#basket_S").html(data);
+                    alert(data);
+                }
+            );
+            /*
             $.ajax({
-                url: path, // куда отправляем
+                url: '/local/templates/my/addbasket.php', // куда отправляем
                 type: 'POST', // метод передачи
                 dataType: 'json', // тип передачи данных
                 data: { // что отправляем
                     kol: value,
                     ID: id
-
                 },
                 success: function (data) {
-                   // $("#basket_S").html(data);
+                    alert(data);
+                   //$("#basket_S").html();
                 }
-            });
+            });*/
 
 
 

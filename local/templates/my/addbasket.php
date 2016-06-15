@@ -3,7 +3,6 @@
 //error_reporting(E_ALL ^E_NOTICE);
 array_map('CModule::IncludeModule', ['iblock', 'catalog', 'sale']);
 
-
 $elementID = $_POST['ID'];
 $kolich = $_POST['kol'];
 $fuserId = (int)CSaleBasket::GetBasketUserID(true);

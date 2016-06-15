@@ -135,9 +135,6 @@ $arResult = array(
     'SUMM' => $arOrder
 );
 
-//echo json_encode($_POST['kol'], JSON_UNESCAPED_UNICODE);
-
-
 
 
 ?>

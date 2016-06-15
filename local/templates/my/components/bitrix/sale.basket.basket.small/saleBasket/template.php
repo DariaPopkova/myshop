@@ -14,20 +14,6 @@
     <div id="basket_url"><a href="<?=$arParams['PATH_TO_BASKET'];?>">Перейти в корзину</a></div>
 </div>
 
-<!--<script>
-    $(function() {
-        $a = $('.cart_aj a');
-
-        $a.click(function (event) {
-            var kolich = $('#kolich').text();
-            //document.getElementById('kolich').innerHTML++;
-            alert(document.getElementById('kolich').innerHTML);
-            var price = $('#price').text();
-            //document.getElementById('price').innerHTML++;
-            alert(price);
-        });
-    });
-</script>-->
 
 
 
