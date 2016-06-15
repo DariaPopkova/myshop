@@ -106,7 +106,10 @@
            event.preventDefault();
             var value=$("select#select").val();
             var path = "/local/templates/my/addbasket.php";
-
+            $.get( path , function( data ) {
+                $("#basket_S").html(data);
+                // alert( "Load was performed." );
+            });
             var query = window.location.search.substring(1);
             var vars = query.split("&");
             for (var i=0;i<vars.length;i++) {
@@ -127,7 +130,7 @@
 
                 },
                 success: function (data) {
-                    $("#basket_S").html(data);
+                   // $("#basket_S").html(data);
                 }
             });
 
