@@ -1,30 +1,16 @@
 </article>
 <?$APPLICATION->IncludeComponent("my:brand", ".default", array());?>
 </div>
-
-
 </div>
 <footer>
-    <div id="kont">
-
-
-    </div>
-    <div id="ssilki">
-
-    </div>
+    <div id="kont"></div>
+    <div id="ssilki"></div>
     <div id="niz">
-        <div id="komp">
-
-        </div>
-        <div id="naverh">
-
-        </div>
-
-
+        <div id="komp"></div>
+        <div id="naverh"></div>
     </div>
-
 </footer>
-
+<?$APPLICATION->AddChainItem($APPLICATION->GetTitle());?>
 <script type="text/javascript" language="javascript">
     function del(bin) {
         var msg  = true;
@@ -94,14 +80,8 @@
     $(function() {
         $a = $('.cart_aj a');
         $a.click(function(event) {
-
-           event.preventDefault();
+            event.preventDefault();
             var value=$("select#select").val();
-           // var path = "/local/templates/my/addbasket.php";
-            //$.get( path , function( data ) {
-
-                //$("#basket_S").html(data);
-           // });
             var query = window.location.search.substring(1);
             var vars = query.split("&");
             for (var i=0;i<vars.length;i++) {
@@ -123,36 +103,9 @@
                     alert(data);
                 }
             );
-            /*
-            $.ajax({
-                url: '/local/templates/my/addbasket.php', // куда отправляем
-                type: 'POST', // метод передачи
-                dataType: 'json', // тип передачи данных
-                data: { // что отправляем
-                    kol: value,
-                    ID: id
-                },
-                success: function (data) {
-                    alert(data);
-                   //$("#basket_S").html();
-                }
-            });*/
-
-
-
-
-            //document.getElementByID("kolich").innerHTML=5;
 
         });
     });
-    /* function add_to_basket() {
-
-     var value = $("select#select").val();
-     $("#select option[value=4]").attr('selected', 'selected');
-     alert(value);
-
-     }*/
-
 
 </script>
 <!--<script>

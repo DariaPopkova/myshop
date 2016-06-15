@@ -36,7 +36,7 @@ if(isset($_POST['kol']))
             )
         );
         $arItem = $rsBaskets->GetNext();
-        if ($arItem['QUANTITY']+ $kolich < $ar_res['QUANTITY'])
+        if ($arItem['QUANTITY']+ $kolich <= $ar_res['QUANTITY'])
         {
             Add2BasketByProductID(
                 $elementID,
