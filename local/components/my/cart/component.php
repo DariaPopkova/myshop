@@ -38,47 +38,16 @@ if ($elementID > 0) {
     {
         LocalRedirect("/catalog.php");
     }
-
-
 }
-
 $arFields = $arElement->GetFields();
 $arProps = $arElement->GetProperties();
-
 foreach($arProps as $property_id => $property)
 {
     $arProps[$property_id] = CIBlockFormatProperties::GetDisplayValue($arFields, $property);
 }
-
 $arFields['DETAIL_PICTURE'] = CFile::GetPath($arFields["DETAIL_PICTURE"]);
 $arFields['PROPERTIES'] = $arProps;
 $arResult[] = $arFields;
-$arFilter = array(
-    'IBLOCK_ID' => IBLOCK_PRODUCTS,
-    'ID' =>  $sectionID
-);
-$serchSect = CIBlockSection::GetList(
-    array(),
-    $arFilter
-)->GetNext();
-$ar_novigation[] = $serchSect;
-while($serchSect['DEPTH_LEVEL'] > 1)
-{
-    $arFilter = array(
-        'IBLOCK_ID' => IBLOCK_PRODUCTS,
-        'ID' => $serchSect['IBLOCK_SECTION_ID']
-    );
-    $serchSect = CIBlockSection::GetList(
-        array(),
-        $arFilter
-    )->GetNext();
-    array_unshift($ar_novigation,$serchSect);
-
-}
-foreach($ar_novigation as $hleb)
-{
-    $APPLICATION->AddChainItem($hleb['NAME'], "/catalog.php?SECTION_ID={$hleb['ID']}");
-}
 
 $this->IncludeComponentTemplate();
 ?>

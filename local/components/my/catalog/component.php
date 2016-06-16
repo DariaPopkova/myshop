@@ -35,67 +35,49 @@ if($brandID > 0)
 }
 $arFilter = array(
     'IBLOCK_ID' => IBLOCK_PRODUCTS,
+    'SECTION_ID' => $sectionID
 );
-if($sectionID > 0)
-{
-    $search_section = CIBlockSection::GetList(
-        array(),
-        array(
-            'ACTIVE' => 'Y',
-            'IBLOCK_ID' => IBLOCK_PRODUCTS,
-            'ID' => $sectionID
-        )
-    )->GetNext();
-
-    if(empty($search_section))
-    {
-        LocalRedirect("/catalog.php");
-    }
-    $arResult['SECTIONS'][] = array_merge(
-        array(
-            'MAIN' => 'Y'
-        ),
-        $search_section
-    );
-
-    $arFilter['SECTION_ID'] = $sectionID;
-}
-
-/* Разделы каталога */
-
-/*
+$ar_sections = [];
+$ar_parent = [];
 $items = GetIBlockSectionList(
     IBLOCK_PRODUCTS,
+    false,
     array()
 );
 while($arItem = $items->GetNext())
 {
-    echo '<pre>';
-    print_r($arItem);
-    echo '</pre>';
-    if(($arItem['IBLOCK_SECTION_ID'] == $sectionID)||($arItem['ID'] == $sectionID))
+    $ar_sections[$arItem['ID']] = $arItem;
+    if($arItem['IBLOCK_SECTION_ID'] == '')
     {
-        $arResult['SECTIONS'][] = $arItem;
+        $ar_parent[] = intval($arItem['ID']);
     }
-}*/
-
-//$arResult['NAMESECTION']['NAME'] = $arSection['NAME'];
-$podsection = CIBlockSection::GetList(
-    array(),
-    array(
-        'ACTIVE' => 'Y',
-        'IBLOCK_ID' => IBLOCK_PRODUCTS,
-        'SECTION_ID' => $sectionID
-    )
-);
-while($arPodsection = $podsection->GetNext())
-{
-    $arResult['SECTIONS'][] = $arPodsection;
 }
-
+if($sectionID >= 0)
+{
+    if($sectionID !== 0)
+    {
+        if(array_key_exists($sectionID,$ar_sections) == false)
+        {
+            LocalRedirect("/catalog.php");
+        }
+        $arResult['SECTIONS'][] = array_merge(
+            array(
+                'MAIN' => 'Y'
+            ),
+            $ar_sections[$sectionID]
+        );
+    }
+    foreach($ar_sections as $section)
+    {
+        if($section['IBLOCK_SECTION_ID'] == $sectionID)
+        {
+            $arResult['SECTIONS'][] = $section;
+        }
+    }
+}
 /* Товары */
-
-if(($sectionID !== 0)||($brandID !== 0))
+$key = array_search($sectionID,$ar_parent);
+if(($sectionID !== 0)||($brandID !== 0)||($key === false))
 {
     if (!empty($brandXML_ID))
     {
@@ -115,12 +97,10 @@ if(($sectionID !== 0)||($brandID !== 0))
     {
         $arFields = $product->GetFields();
         $arProps = $product->GetProperties();
-
         foreach($arProps as $pid => $prop)
         {
             $arProps[$pid] = CIBlockFormatProperties::GetDisplayValue($arFields, $prop);
         }
-
         $arFields['DETAIL_PICTURE'] = CFile::GetPath($arFields["DETAIL_PICTURE"]);
         $arFields['PROPERTIES'] = $arProps;
 
@@ -128,36 +108,11 @@ if(($sectionID !== 0)||($brandID !== 0))
 
     }
 }
-$arFilter = array(
-    'IBLOCK_ID' => IBLOCK_PRODUCTS,
-    'ID' =>  $sectionID
-);
-$serchSect = CIBlockSection::GetList(
-    array(),
-    $arFilter
-)->GetNext();
-$ar_novigation[] = $serchSect;
-while($serchSect['DEPTH_LEVEL'] > 1)
-{
-    $arFilter = array(
-        'IBLOCK_ID' => IBLOCK_PRODUCTS,
-        'ID' => $serchSect['IBLOCK_SECTION_ID']
-    );
-    $serchSect = CIBlockSection::GetList(
-        array(),
-        $arFilter
-    )->GetNext();
-    array_unshift($ar_novigation,$serchSect);
 
-}
-/*$res = CIBlockSection::GetNavChain(IBLOCK_PRODUCTS, $sectionID);
-while($bc = $res->Fetch())
+$take_path = CIBlockSection::GetNavChain(IBLOCK_PRODUCTS, $sectionID);
+while($ar_path=$take_path->GetNext())
 {
-    $bca[] = $bc;
+    $APPLICATION->AddChainItem($ar_path['NAME'],$ar_path['SECTION_PAGE_URL']);
 }
-print_r($bca);*/
-/*foreach($ar_novigation as $hleb)
-{
-    $APPLICATION->AddChainItem($hleb['NAME'], "/catalog.php?SECTION_ID={$hleb['ID']}");
-}*/
+
 $this->IncludeComponentTemplate();

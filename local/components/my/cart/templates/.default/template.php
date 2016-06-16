@@ -25,6 +25,7 @@
         <div id="skald">
             <div class="prop_naz_sk">Доступно:</div>
             <!--<form id="formazak" method="get">-->
+            <input type="number" >
                 <select name="option" id="select">
                     <? for ($i = 1; $i <= $category['CATALOG_QUANTITY']; $i++): ?>
                         <?if($i == 1)
@@ -144,95 +145,6 @@ while ($ar_res = $res->Fetch()) {
     }
 }
 include 'addbasket.php';
-/*
-if (isset($_POST['basket'])) {
 
-    array_map('CModule::IncludeModule', ['iblock', 'catalog', 'sale']);
-    $sectionID = $_GET['SECTION_ID'];
-    $elementID = $_GET['ID'];
-    $property = CIBlockElement::GetList(
-        array(),
-        array(
-            "IBLOCK_ID" => IBLOCK_PRODUCTS,
-            "SECTION_ID" => $sectionID,
-            "ID" => $elementID,
-        )
-    );
-    $ar_propprod = $property->Fetch();
-
-    $price = CPrice::GetList(
-        array(),
-        array(
-            "PRODUCT_ID" => $elementID,
-        )
-    );
-    $ar_price = $price->Fetch();
-    $product = CIBlockElement::GetList(
-        array(),
-        array(
-            "ID" => $elementID
-        )
-    );
-    $ar_pro = $product->Fetch();
-    $option = isset($_GET['i']) ? (int)$_GET['i'] : 1;
-    Add2BasketByProductID(
-        $elementID,
-        $option
-    );
-    $get_bask = CSaleBasket::GetList(
-        array(),
-        array(
-            "PRODUCT_ID" => $elementID
-        )
-    );
-    $ar_bask = $get_bask->Fetch();
-}
-*/
 ?>
-
-<script>
-
-
-
-      /*  $('#select').change(function() {
-            alert('option нажат');
-            var value=$("select#select").val();
-            alert(value);
-        });*/
-/*
-        $(document).ready(function(){
-            $('#select').change(function() {
-                alert('option нажат');
-               var value=$("select#select").val();
-                alert(value);
-                $('#select option').removeAttr('selected');
-
-                $('#select option[value="'+value+'"]').attr('selected', 'selected');
-            });
-            var value=$("select#select").val();
-
-           alert(value);*/
-     /* function add_to_basket(){
-
-        var value = 4;
-          $.ajax({
-              type: 'POST,
-              url: 'addbasket.php',
-              data: {
-                  'kol='+value
-
-              }
-          }).done(function( msg ) {
-              alert( "Data Saved: " + msg );
-          });
-
-
-
-        }
-        });*/
-
-
-
-
-</script>
 

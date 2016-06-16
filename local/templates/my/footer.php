@@ -10,7 +10,7 @@
         <div id="naverh"></div>
     </div>
 </footer>
-<?$APPLICATION->AddChainItem($APPLICATION->GetTitle());?>
+
 <script type="text/javascript" language="javascript">
     function del(bin) {
         var msg  = true;

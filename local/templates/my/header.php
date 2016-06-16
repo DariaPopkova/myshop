@@ -58,7 +58,7 @@
         );
         ?>
         <article>
-<?$APPLICATION->IncludeComponent(
+        <?$APPLICATION->IncludeComponent(
             "bitrix:menu.sections",
             "",
             Array(
