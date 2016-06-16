@@ -1,5 +1,4 @@
 <? foreach ($arResult as $category): ?>
-
     <h2><? echo $category['NAME']; ?></h2>
     <div id="cartfon" class="cart_aj">
         <div id="pokupka">
@@ -13,35 +12,14 @@
         <p id="knop">
             <button name="butbay" id="but">Купить</button>
         </p>
-
         <a href="" id="basket" class="basket" >Добавить в корзину</a>
-        <!--<form method="post" action="">
-            <input type="submit" name="basket" id="basket" value="Добавить в корзину" onClick="add_to_basket()">
-        </form>-->
         <div id="imgcart"><img src="<?= $category['DETAIL_PICTURE']; ?>"></div>
         <div id="opisanie">
             <div class="prop_tov"><? echo $category['PROPERTIES']['CHARACTERISTICS']['DISPLAY_VALUE']; ?></div>
         </div>
         <div id="skald">
-            <div class="prop_naz_sk">Доступно:</div>
-            <!--<form id="formazak" method="get">-->
-            <input type="number" >
-                <select name="option" id="select">
-                    <? for ($i = 1; $i <= $category['CATALOG_QUANTITY']; $i++): ?>
-                        <?if($i == 1)
-                        {?>
-                            <option selected="selected" value="<?= $i; ?>"><?= $i; ?></option>
-                        <?}
-                        else
-                        {?>
-                            <option value="<?= $i; ?>"><?= $i; ?></option>
-                        <?}?>
-
-                    <? endfor; ?>
-                </select>
-            <!--</form>-->
-
-
+            <div class="prop_naz_sk">Количество:</div>
+            <input type="number" id="select" min="1" max="<?=$category['CATALOG_QUANTITY']?>" step="1" value="">
         </div>
 
         <div id="char">
@@ -84,10 +62,11 @@
                pattern="^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$">
     </div>
 
-    <input type="submit" name="submit" id="submit" value="Оформить заказ" onclick="viv('formsub')">
+    <input type="submit" name="submit" id="submit" value="Оформить заказ" >
 </form>
 
 <? include 'form.php'; ?>
+<?include './col_basket_element.php';?>
 <div id="res"></div>
 <?
 CModule::IncludeModule('iblock');
@@ -144,7 +123,7 @@ while ($ar_res = $res->Fetch()) {
         echo "Ошибка";
     }
 }
-include 'addbasket.php';
+
 
 ?>
 
