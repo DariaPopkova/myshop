@@ -1,11 +1,12 @@
 <?include_once $_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_before.php';
 array_map('CModule::IncludeModule', ['iblock', 'catalog', 'sale']);
 $elementID = $_GET['ID'];
+$fuserId = (int)CSaleBasket::GetBasketUserID(true);
 $rsBaskets = CSaleBasket::GetList(
     array("ID" => "ASC"),
     array(
         "FUSER_ID" => $fuserId,
-        "LID" => SITE_ID,
+        "LID" => 's1',
         "ORDER_ID" => "NULL",
         "PRODUCT_ID" => $elementID
     ),
@@ -18,7 +19,7 @@ $rsBaskets = CSaleBasket::GetList(
     )
 );
 $arItem = $rsBaskets->GetNext();
-echo '<div class="basket_kol">';
-echo $arItems['QUANTITY'];
-echo '</div>';
+//echo '<div class="basket_kol">';
+print_r($arItems);
+//echo '</div>';
 ?>

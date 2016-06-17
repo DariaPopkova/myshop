@@ -9,7 +9,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"  type="text/javascript"></script>
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 
-
+    <script src="/local/templates/my/components/bitrix/sale.basket.basket/templates/.default/script.js"></script>
     <title><?$APPLICATION->ShowTitle()?></title>
 </head>
 <body>

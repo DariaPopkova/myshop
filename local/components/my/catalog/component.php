@@ -34,8 +34,8 @@ if($brandID > 0)
     }
 }
 $arFilter = array(
-    'IBLOCK_ID' => IBLOCK_PRODUCTS,
-    'SECTION_ID' => $sectionID
+    'IBLOCK_ID' => IBLOCK_PRODUCTS
+
 );
 $ar_sections = [];
 $ar_parent = [];
@@ -77,12 +77,16 @@ if($sectionID >= 0)
 }
 /* Товары */
 $key = array_search($sectionID,$ar_parent);
-if(($sectionID !== 0)||($brandID !== 0)||($key === false))
+if((($sectionID !== 0)&&($key === false))||($brandID !== 0))
 {
     if (!empty($brandXML_ID))
     {
         $arFilter['PROPERTY_BRAND_REF'] = $brandXML_ID;
         $arFilter['INCLUDE_SUBSECTIONS'] = "Y";
+    }
+    if($sectionID !== 0)
+    {
+        $arFilter['SECTION_ID'] = $sectionID;
     }
     $searchElement = CIBlockElement::GetList(
         array(),
@@ -93,6 +97,7 @@ if(($sectionID !== 0)||($brandID !== 0)||($key === false))
             'ID', 'IBLOCK_ID','IBLOCK_SECTION_ID', 'NAME', 'DETAIL_PICTURE', 'SECTION_ID', 'CATALOG_GROUP_1'
         ]
     );
+
     while($product = $searchElement->GetNextElement())
     {
         $arFields = $product->GetFields();

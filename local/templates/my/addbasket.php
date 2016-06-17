@@ -38,6 +38,9 @@ if(isset($_POST['kol']))
         $arItem = $rsBaskets->GetNext();
         if ($arItem['QUANTITY']+ $kolich <= $ar_res['QUANTITY'])
         {
+            echo '<div>';
+            echo $arItem['QUANTITY'];
+            echo '</div>';
 
             Add2BasketByProductID(
                 $elementID,
@@ -47,7 +50,6 @@ if(isset($_POST['kol']))
     }
 
 }
-
 $APPLICATION->IncludeComponent("bitrix:sale.basket.basket.small","saleBasket",Array(
         "PATH_TO_BASKET" => "/personal/cart/",
         "PATH_TO_ORDER" => "/cart.php",
@@ -57,8 +59,6 @@ $APPLICATION->IncludeComponent("bitrix:sale.basket.basket.small","saleBasket",Ar
 
     )
 );
-
-print_r($kolich);
 
 ?>
 
