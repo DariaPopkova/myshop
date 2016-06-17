@@ -24,9 +24,10 @@
             event.preventDefault();
             var value=$("input#select").val();
 
-                var max = parseInt($('#select').attr('max'));
+            var max = parseInt($('#select').attr('max'));
             if (value > max) {
                 alert( 'Это значение больше максимального, т.е больше '+max+'. Введите заново верное значение.' );
+                document.getElementById("select").value = max;
             }
             else
             {
@@ -38,17 +39,26 @@
                         var id = pair[1];
                     }
                 }
-                $.post(
-                    '/local/templates/my/addbasket.php',
-                    {
-                        kol: value,
-                        ID: id
-                    },
-                    function (data)
-                    {
-                        $("#basket_S").html(data);
-                    }
-                );
+                var add = Number($("#basket_kol").text())+Number(value);
+                alert(add);
+                if(add < max)
+                {
+                    $.post(
+                        '/local/templates/my/addbasket.php',
+                        {
+                            kol: value,
+                            ID: id
+                        },
+                        function (data)
+                        {
+                            $("#basket_S").html(data);
+
+                        }
+                    );
+                }
+                else{
+                    alert('Добавляемое значение больше максимально допустимого, т.е больше '+max+'');
+                }
 
             }
 

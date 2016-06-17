@@ -19,7 +19,7 @@ $rsBaskets = CSaleBasket::GetList(
     )
 );
 $arItem = $rsBaskets->GetNext();
-//echo '<div class="basket_kol">';
-print_r($arItems);
-//echo '</div>';
+echo '<div id="basket_kol">';
+echo $arItem['QUANTITY'];
+echo '</div>';
 ?>
