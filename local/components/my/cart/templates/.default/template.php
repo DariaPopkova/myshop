@@ -19,7 +19,11 @@
         </div>
         <div id="skald">
             <div class="prop_naz_sk">Количество:</div>
-            <input type="number" id="select" min="1" max="<?=$category['CATALOG_QUANTITY']?>" step="1" value="">
+            <span class="minus">-</span>
+            <input type="text" value="1"  size="2" id="number_kol" >
+            <span class="plus">+</span>
+            <div class="residue">Остаток:</div>
+            <div id="residue_znach"><?=$category['CATALOG_QUANTITY']?></div>
         </div>
 
         <div id="char">

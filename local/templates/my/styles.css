@@ -172,6 +172,15 @@ article{
 #basket_kol{
     display: none;
 }
+.minus, .plus{
+    cursor: pointer;
+    width:10px;
+    height:10px;
+    background:#f2f2f2;
+    border-radius:4px;
+    padding:1px 2px 2px 1px;
+    border:1px solid #ddd;
+}
 .prop_naz_b{
     width: 30%;
 }
