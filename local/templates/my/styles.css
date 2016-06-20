@@ -172,6 +172,16 @@ article{
 #basket_kol{
     display: none;
 }
+.residue{
+    width: 30%;
+
+}
+#residue_znach
+{
+    margin-top: -17px;
+    margin-left: 27%;
+
+}
 .minus, .plus{
     cursor: pointer;
     width:10px;
