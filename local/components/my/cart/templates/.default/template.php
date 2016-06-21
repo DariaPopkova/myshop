@@ -17,13 +17,13 @@
         <div id="opisanie">
             <div class="prop_tov"><? echo $category['PROPERTIES']['CHARACTERISTICS']['DISPLAY_VALUE']; ?></div>
         </div>
-        <div id="skald">
-            <div class="prop_naz_sk">Количество:</div>
-            <span class="minus">-</span>
-            <input type="text" value="1"  size="2" id="number_kol" >
-            <span class="plus">+</span>
-            <div class="residue">Остаток:</div>
-            <div id="residue_znach"><?=$category['CATALOG_QUANTITY']?></div>
+        <div id="skald" >
+            <div class="prop_naz_sk"  >Количество:</div>
+            <span class="minus" >-</span>
+            <input type="text" value="1"  size="2" id="number_kol"  >
+            <span class="plus" >+</span>
+            <div class="residue" >Остаток:</div>
+            <div id="residue_znach" ><?=$category['CATALOG_QUANTITY']?></div>
         </div>
 
         <div id="char">

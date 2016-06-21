@@ -175,21 +175,39 @@ article{
 .residue{
     width: 30%;
 
+
+
 }
 #residue_znach
 {
     margin-top: -17px;
     margin-left: 27%;
 
+
+
 }
 .minus, .plus{
     cursor: pointer;
     width:10px;
     height:10px;
-    background:#f2f2f2;
     border-radius:4px;
     padding:1px 2px 2px 1px;
     border:1px solid #ddd;
+
+}
+.plus{
+    background-color: mediumseagreen;
+
+}
+.minus{
+    background-color: crimson;
+
+}
+#number_kol{
+    -webkit-user-select: text;  /* Chrome all / Safari all */
+    -moz-user-select: text;     /* Firefox all */
+    -ms-user-select: text;      /* IE 10+ */
+    user-select: text;
 }
 .prop_naz_b{
     width: 30%;
@@ -378,6 +396,7 @@ article{
 .prop_naz_sk{
     float: left;
 
+
 }
 .prop_tov_sk{
     display: inline-block;
@@ -390,6 +409,10 @@ article{
     margin-top: 12%;
     margin-left: 25%;
     width: 20%;
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;
 }
 .prop_naz_cart{
   float: left;
