@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-    <script type="text/javascript" src="jquery.js"></script>
+    <!--<script type="text/javascript" src="jquery.js"></script>-->
+    <?CJSCore::Init(array("jquery"));?>
     <?$APPLICATION->ShowHead();?>
+    <?//$APPLICATION->SetAdditionalCSS('/путь/стиль.css'); // для стилей?>
     <title><?$APPLICATION->ShowTitle()?></title>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"  type="text/javascript"></script>
-    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"  type="text/javascript"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>-->
 
-    <script src="/local/templates/my/components/bitrix/sale.basket.basket/templates/.default/script.js"></script>
+
+    <!--<script src="/local/templates/my/components/bitrix/sale.basket.basket/templates/.default/script.js"></script>-->
     <title><?$APPLICATION->ShowTitle()?></title>
 </head>
 <body>

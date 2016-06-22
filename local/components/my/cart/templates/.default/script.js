@@ -1,57 +1,38 @@
-</article>
-<?$APPLICATION->IncludeComponent("my:brand", ".default", array());?>
-</div>
-</div>
-<footer>
-    <div id="kont"></div>
-    <div id="ssilki"></div>
-    <div id="niz">
-        <div id="komp"></div>
-        <div id="naverh"></div>
-    </div>
-</footer>
-<script>
-    formsub.style.display = 'none';
-    but.addEventListener("click", function () {
-        //alert("sucsess"); // сработает по окончании анимации
-        formsub.style.display = (formsub.style.display == 'none') ? '' : ''
-    });
-</script>
-<script>
-   /* jQuery.fn.extend({
+BX.ready(function() {
+    jQuery.fn.extend({
         color: function (count,input_znach, max, $plus,$minus) {
             if((count == 1)&&(input_znach == 1))
             {
-                $minus.css({'background-color' : '#f2f2f2'});
-                $plus.css({'background-color' : ' mediumseagreen'});
+                $minus.css({'background-color' : '#f2f2f2', 'color' : 'black'});
+                $plus.css({'background-color' : ' mediumseagreen', 'color' : 'white'});
 
             }
             else
             {
                 if((input_znach == 1)&&(count < 1))
                 {
-                    $minus.css({'background-color' : '#f2f2f2'});
-                    $plus.css({'background-color' : ' mediumseagreen'});
+                    $minus.css({'background-color' : '#f2f2f2', 'color' : 'black'});
+                    $plus.css({'background-color' : ' mediumseagreen', 'color' : 'white'});
                 }
                 else
                 {
                     if(count == max)
                     {
-                        $plus.css({'background-color' : '#f2f2f2'});
-                        $minus.css({'background-color' : 'crimson'});
+                        $plus.css({'background-color' : '#f2f2f2', 'color' : 'black'});
+                        $minus.css({'background-color' : 'crimson', 'color' : 'white'});
                     }
                     else
                     {
 
                         if((input_znach == max)&&(count > max))
                         {
-                            $plus.css({'background-color' : '#f2f2f2'});
-                            $minus.css({'background-color' : 'crimson'});
+                            $plus.css({'background-color' : '#f2f2f2', 'color' : 'black'});
+                            $minus.css({'background-color' : 'crimson', 'color' : 'white'});
                         }
                         else
                         {
-                            $minus.css({'background-color' : 'crimson'});
-                            $plus.css({'background-color' : ' mediumseagreen'});
+                            $minus.css({'background-color' : 'crimson', 'color' : 'white'});
+                            $plus.css({'background-color' : ' mediumseagreen', 'color' : 'white'});
                         }
 
                     }
@@ -113,7 +94,9 @@
         });
         $plus.click(function () {
             var count = input_znach + 1;
-            $input.color(count,input_znach, max_temp, $plus,$minus);
+            var input_znach  = parseInt($input.val());
+            $input.color(input_znach,input_znach, max_temp, $plus,$minus);
+
             if(input_znach < max_temp)
             {
                 $input.val(count);
@@ -156,7 +139,7 @@
                         $input.val(1);
                         max_temp = $max_obyavlenie.html();
                         input_znach  = parseInt($input.val());
-                        $input.color(input_znach,input_znach, max_temp, $plus,$minus);
+                        $input.color(1,input_znach, max_temp, $plus,$minus);
                     }
                 );
             }
@@ -167,8 +150,8 @@
 
         });
 
-    });*/
-</script>
+    });
 
-</body>
-</html>
+});
+
+

@@ -19,9 +19,9 @@
         </div>
         <div id="skald" >
             <div class="prop_naz_sk"  >Количество:</div>
-            <span class="minus" >-</span>
-            <input type="text" value="1"  size="2" id="number_kol"  >
-            <span class="plus" >+</span>
+            <span class="minus" >&minus;</span>
+            <input type="text" value="1"  size="3" id="number_kol"  >
+            <span class="plus" >&plus;</span>
             <div class="residue" >Остаток:</div>
             <div id="residue_znach" ><?=$category['CATALOG_QUANTITY']?></div>
         </div>
