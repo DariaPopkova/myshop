@@ -1,3 +1,4 @@
+<?$this->addExternalJS("local/components/my/cart/templates/.default/script.js");?>
 <? foreach ($arResult as $category): ?>
     <h2><? echo $category['NAME']; ?></h2>
     <div id="cartfon" class="cart_aj">

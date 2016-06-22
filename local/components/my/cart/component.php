@@ -48,6 +48,7 @@ foreach($arProps as $property_id => $property)
 $arFields['DETAIL_PICTURE'] = CFile::GetPath($arFields["DETAIL_PICTURE"]);
 $arFields['PROPERTIES'] = $arProps;
 $arResult[] = $arFields;
-
+CJSCore::Init(array("fx"));
+CJSCore::Init(array("ajax"));
 $this->IncludeComponentTemplate();
 ?>
