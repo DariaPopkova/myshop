@@ -16,7 +16,7 @@
     <title><?$APPLICATION->ShowTitle()?></title>
 </head>
 <body>
-
+<?print_r($_SERVER["DOCUMENT_ROOT"]);?>
 <div id="panel"><?$APPLICATION->ShowPanel();?></div>
 <div id="wrapper">
     <div id="firstcreen">
@@ -61,20 +61,105 @@
         );
         ?>
         <article>
-        <?$APPLICATION->IncludeComponent(
-            "bitrix:menu.sections",
-            "",
-            Array(
-                "IS_SEF" => "Y",
-                "SEF_BASE_URL" => "/catalog/phone/",
-                "SECTION_PAGE_URL" => "#SECTION_ID#/",
-                "DETAIL_PAGE_URL" => "#SECTION_ID#/#ELEMENT_ID#",
-                "IBLOCK_TYPE" => "news",
-                "IBLOCK_ID" => "1",
-                "DEPTH_LEVEL" => "1",
-                "CACHE_TYPE" => "A",
-                "CACHE_TIME" => "3600"
-            )
-        );?>
+            <?$APPLICATION->IncludeComponent(
+                "bitrix:menu.sections",
+                "",
+                Array(
+                    "IS_SEF" => "Y",
+                    "SEF_BASE_URL" => "/catalog/phone/",
+                    "SECTION_PAGE_URL" => "#SECTION_ID#/",
+                    "DETAIL_PAGE_URL" => "#SECTION_ID#/#ELEMENT_ID#",
+                    "IBLOCK_TYPE" => "news",
+                    "IBLOCK_ID" => "1",
+                    "DEPTH_LEVEL" => "1",
+                    "CACHE_TYPE" => "A",
+                    "CACHE_TIME" => "3600"
+                )
+            );?>
+            <?
+            $dir = $APPLICATION->GetCurDir();
+            if($dir == '/personal/cart/')
+            {
+                if (!CModule::IncludeModule("sale"))
+                {
+                    ShowError(GetMessage("SALE_MODULE_NOT_INSTALL"));
+                    return;
+                }
+                $db_dtype = CSaleDelivery::GetList(
+                    array(
+                    ),
+                    array(
+                        "ACTIVE" => "Y",
+                    ),
+                    false,
+                    false,
+                    array()
+                );
+                if ($ar_dtype = $db_dtype->Fetch())
+                {
+                    $delivery = [];
+                    do
+                    {
+                        $delivery[] = $ar_dtype["ID"];
+                        //echo $ar_dtype["NAME"]." - стоимость ".CurrencyFormat($ar_dtype["PRICE"], $ar_dtype["CURRENCY"])."<br>";
+                    }
+                    while ($ar_dtype = $db_dtype->Fetch());
 
+                }
+                else
+                {
+                    //echo "Доступных способов доставки не найдено<br>";
+                }
+                $db_ptype = CSalePaySystem::GetList(
+                    array(),
+                    array(
+                        "CURRENCY"=>"RUB",
+                        "ACTIVE"=>"Y",
+                        "NAME" => 'Наличные курьеру'
+                    )
+                );
+                while ($ptype = $db_ptype->Fetch())
+                {
+                    $payment[] = $ptype['ID'];
+                }
+                echo '<pre>';
+                print_r($payment);
+                echo '</pre>';
+                $ar_fields = array(
+                    "PATH_TO_BASKET" => "/personal/cart/",
+                    "ALLOW_PAY_FROM_ACCOUNT" => "Y",
+                    "SHOW_MENU" => "Y",
+                    "USE_AJAX_LOCATIONS" => "Y",
+                    "SHOW_AJAX_DELIVERY_LINK" => "N",
+                    "CITY_OUT_LOCATION" => "Y",
+                    "COUNT_DELIVERY_TAX" => "Y",
+                    "COUNT_DISCOUNT_4_ALL_QUANTITY" => "N",
+                    "SET_TITLE" => "Y",
+                    "PRICE_VAT_INCLUDE" => "Y",
+                    "PRICE_VAT_SHOW_VALUE" => "Y",
+                    "ONLY_FULL_PAY_FROM_ACCOUNT" => "N",
+                    "DELIVERY_NO_SESSION" => "N",
+                    "DELIVERY2PAY_SYSTEM" => Array(Array($delivery[0] => $payment[0]))
+                );
+                foreach($delivery as $elem_delivery)
+                {
+                    $ar_fields["DELIVERY2PAY_SYSTEM"] = array(
+                        $elem_delivery => $payment
+                    );
+                }
+                /*$APPLICATION->IncludeComponent(
+                    "bitrix:sale.order.ajax",
+                    "",
+                    $ar_fields
+                );*/
+                $APPLICATION->IncludeComponent(
+                         "bitrix:sale.order.full",
+                         "",
+                         $ar_fields
+                     );
+
+
+            }
+
+            ?>
 
