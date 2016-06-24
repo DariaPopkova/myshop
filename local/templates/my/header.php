@@ -147,16 +147,17 @@
                         $elem_delivery => $payment
                     );
                 }
-                /*$APPLICATION->IncludeComponent(
+               $APPLICATION->IncludeComponent(
                     "bitrix:sale.order.ajax",
                     "",
                     $ar_fields
-                );*/
+                );
+                /*
                 $APPLICATION->IncludeComponent(
                          "bitrix:sale.order.full",
                          "",
                          $ar_fields
-                     );
+                     );*/
 
 
             }
