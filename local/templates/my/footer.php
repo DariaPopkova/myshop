@@ -169,6 +169,36 @@
 
     });*/
 </script>
+<script>
+    $(document).ready(function() {
+        var $input  = $('.bx-ui-combobox-fake.bx-combobox-fake-as-input');
+        var input_znach  = $input.val();
+       // alert(input_znach);
+        /*$.post(
+            '/local/templates/my/addbasket.php',
+            {
+                kol:  input_znach
+            },
+            function (data)
+            {
+                $("#basket_S").html(data);
+                basket = parseInt($('#basket_kol').html());
+                $max_obyavlenie.html(max - basket);
+                $input.val(1);
+                max_temp = $max_obyavlenie.html();
+                input_znach  = parseInt($input.val());
+                $input.color(input_znach,input_znach, max_temp, $plus,$minus);
+            }
+        );
+    }
+    else
+    {
+        alert('Товара больше нет!');
+    }*/
+
+
+    });
+</script>
 
 </body>
 </html>

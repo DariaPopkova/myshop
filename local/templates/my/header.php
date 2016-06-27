@@ -152,8 +152,8 @@
                     "",
                     $ar_fields
                 );
-                /*
-                $APPLICATION->IncludeComponent(
+
+                /*$APPLICATION->IncludeComponent(
                          "bitrix:sale.order.full",
                          "",
                          $ar_fields

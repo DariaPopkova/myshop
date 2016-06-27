@@ -1,14 +1,14 @@
 <?
 CModule::IncludeModule("sale");
 
-class CDeliveryMoscow
+class CDeliveryVse
 {
     function Init()
     {
         return array(
             /* Основное описание */
-            "SID" => "moskow",
-            "NAME" => "Доставка в Москву",
+            "SID" => "tula",
+            "NAME" => "Доставка куда угодно",
             "DESCRIPTION" => "",
             "DESCRIPTION_INNER" =>
                 "Простой обработчик курьерской доставки. Для функционирования необходимо "
@@ -24,17 +24,17 @@ class CDeliveryMoscow
             "HANDLER" => __FILE__,
 
             /* Методы обработчика */
-            "DBGETSETTINGS" => array("CDeliveryMoscow", "GetSettings"),
-            "DBSETSETTINGS" => array("CDeliveryMoscow", "SetSettings"),
-            "GETCONFIG" => array("CDeliveryMoscow", "GetConfig"),
+            "DBGETSETTINGS" => array("CDeliveryVse", "GetSettings"),
+            "DBSETSETTINGS" => array("CDeliveryVse", "SetSettings"),
+            "GETCONFIG" => array("CDeliveryVse", "GetConfig"),
 
-            "COMPABILITY" => array("CDeliveryMoscow", "Compability"),
-            "CALCULATOR" => array("CDeliveryMoscow", "Calculate"),
+            "COMPABILITY" => array("CDeliveryVse", "Compability"),
+            "CALCULATOR" => array("CDeliveryVse", "Calculate"),
 
             /* Список профилей доставки */
             "PROFILES" => array(
                 "courier" => array(
-                    "TITLE" => "Попкова Дарья",
+                    "TITLE" => "доставка",
                     "DESCRIPTION" => "Срок доставки до 3 дней",
 
                     "RESTRICTIONS_WEIGHT" => array(0), // без ограничений
@@ -126,7 +126,7 @@ class CDeliveryMoscow
     function Compability($arOrder, $arConfig)
     {
         // проверим наличие стоимости доставки
-        $price = CDeliveryMoscow::__GetLocationPrice($arOrder["LOCATION_TO"], $arConfig);
+        $price = CDeliveryVse::__GetLocationPrice($arOrder["LOCATION_TO"], $arConfig);
 
         if ($price === false)
             return array(); // если стоимость не найдено, вернем пустой массив - не подходит ни один профиль
@@ -140,11 +140,11 @@ class CDeliveryMoscow
         // служебный метод рассчета определён выше, нам достаточно переадресовать на выход возвращаемое им значение.
         return array(
             "RESULT" => "OK",
-            "VALUE" => CDeliveryMoscow::__GetLocationPrice($arOrder["LOCATION_TO"], $arConfig)
+            "VALUE" => CDeliveryVse::__GetLocationPrice($arOrder["LOCATION_TO"], $arConfig)
         );
     }
 }
 
 // установим метод CDeliveryMySimple::Init в качестве обработчика события
-AddEventHandler("sale", "onSaleDeliveryHandlersBuildList", array('CDeliveryMoscow', 'Init'));
+AddEventHandler("sale", "onSaleDeliveryHandlersBuildList", array('CDeliveryTula', 'Init'));
 ?>
