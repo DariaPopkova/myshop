@@ -163,7 +163,7 @@
                 while ($ar_res = $db_res->Fetch())
                 {
                     echo '<pre>';
-                   // print_r($ar_res);
+                   print_r($ar_res);
                     echo '</pre>';
                     //if($ar_res['LOCATION_ID'])
                 }
@@ -177,29 +177,32 @@
                     print_r($ar);
                     echo "</pre>";
                 }
-                $loc = CSaleDelivery::GetList(
+                $loc = CSaleDelivery::GetLocationList(
                     Array()
-                    )->Fetch();
-                $db_dtype = CSaleDelivery::GetList(
-                    array(),
-                    array(),
-                    false,
-                    false,
-                    array()
-                );
-                if ($ar_dtype = $db_dtype->Fetch())
+                    );
+                if($local = $loc->Fetch())
                 {
-                    echo "Вам доступны следующие способы доставки:<br>";
-                    do
-                    {
-                        echo $ar_dtype["NAME"]." - стоимость ".CurrencyFormat($ar_dtype["PRICE"], $ar_dtype["CURRENCY"])."<br>";
-                    }
-                    while ($ar_dtype = $db_dtype->Fetch());
+                    echo '<pre>';
+                    print_r($local);
+                    echo '</pre>';
                 }
-                echo '<pre>';
-                print_r($loc);
-                echo '</pre>';
+                $dbAccountCurrency = CSaleUserAccount::GetList(
+                    array(
+                        "USER_ID" => $us
+                    )
+                );
+                while ($arAccountCurrency = $dbAccountCurrency->Fetch())
+                {
+                    echo "<pre>";
+                    print_r($arAccountCurrency);
+                    echo "</pre>";
+                }
+                $time = intval(date("H"));
+                print_r($time);
+                if($time > 12)
+                {
 
+                }
             }
 
             ?>

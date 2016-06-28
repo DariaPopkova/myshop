@@ -1,13 +1,12 @@
 <?
 CModule::IncludeModule("sale");
-
 class CDeliveryVse
 {
     function Init()
     {
         return array(
-            /* Основное описание */
-            "SID" => "tula",
+
+            "SID" => "vse",
             "NAME" => "Доставка куда угодно",
             "DESCRIPTION" => "",
             "DESCRIPTION_INNER" =>
@@ -23,7 +22,6 @@ class CDeliveryVse
 
             "HANDLER" => __FILE__,
 
-            /* Методы обработчика */
             "DBGETSETTINGS" => array("CDeliveryVse", "GetSettings"),
             "DBSETSETTINGS" => array("CDeliveryVse", "SetSettings"),
             "GETCONFIG" => array("CDeliveryVse", "GetConfig"),
@@ -31,10 +29,10 @@ class CDeliveryVse
             "COMPABILITY" => array("CDeliveryVse", "Compability"),
             "CALCULATOR" => array("CDeliveryVse", "Calculate"),
 
-            /* Список профилей доставки */
+
             "PROFILES" => array(
-                "courier" => array(
-                    "TITLE" => "доставка",
+                "vs" => array(
+                    "TITLE" => "Всякая",
                     "DESCRIPTION" => "Срок доставки до 3 дней",
 
                     "RESTRICTIONS_WEIGHT" => array(0), // без ограничений
@@ -47,48 +45,13 @@ class CDeliveryVse
     // настройки обработчика
     function GetConfig()
     {
-        $arConfig = array(
-            "CONFIG_GROUPS" => array(
-                "all" => "Стоимость доставки",
-            ),
 
-            "CONFIG" => array(),
-        );
-
-        // настройками обработчика в данном случае являются значения стоимости доставки в различные группы местоположений.
-        // для этого сформируем список настроек на основе списка групп
-
-        $dbLocationGroups = CSaleLocationGroup::GetList();
-        while ($arLocationGroup = $dbLocationGroups->Fetch())
-        {
-            $arConfig["CONFIG"]["price_".$arLocationGroup["ID"]] = array(
-                "TYPE" => "STRING",
-                "DEFAULT" => "",
-                "TITLE" =>
-                    "Стоимость доставки в группу \""
-                    .$arLocationGroup["NAME"]."\" "
-                    ."(".COption::GetOptionString("sale", "default_currency", "RUB").')',
-                "GROUP" => "all",
-            );
-        }
-
-        return $arConfig;
+        return array();
     }
 
     // подготовка настроек для занесения в базу данных
     function SetSettings($arSettings)
     {
-        // Проверим список значений стоимости. Пустые значения удалим из списка.
-        foreach ($arSettings as $key => $value)
-        {
-            if (strlen($value) > 0)
-                $arSettings[$key] = doubleval($value);
-            else
-                unset($arSettings[$key]);
-        }
-
-        // вернем значения в виде сериализованного массива.
-        // в случае более простого списка настроек можно применить более простые методы сериализации.
         return serialize($arSettings);
     }
 
@@ -125,26 +88,46 @@ class CDeliveryVse
     // метод проверки совместимости в данном случае практически аналогичен рассчету стоимости
     function Compability($arOrder, $arConfig)
     {
+        return array('vs');
         // проверим наличие стоимости доставки
         $price = CDeliveryVse::__GetLocationPrice($arOrder["LOCATION_TO"], $arConfig);
-
         if ($price === false)
             return array(); // если стоимость не найдено, вернем пустой массив - не подходит ни один профиль
         else
-            return array('simple'); // в противном случае вернем массив, содержащий идентфиикатор единственного профиля доставки
+            return array('vs'); // в противном случае вернем массив, содержащий идентфиикатор единственного профиля доставки
     }
 
     // собственно, рассчет стоимости
     function Calculate($profile, $arConfig, $arOrder, $STEP, $TEMP = false)
     {
+        $time = intval(date("H"));
+       // $ar = CSaleDelivery::GetList()->Fetch();
+        $dbAccountCurrency = CSaleUserAccount::GetList();
+        while ($arAccountCurrency = $dbAccountCurrency->Fetch())
+        {
+            echo "<pre>";
+            print_r($arAccountCurrency);
+            echo "</pre>";
+        }
+        if($time < 12)
+        {
+            $value = 100;
+        }
+        else
+        {
+            $value = 100;
+        }
         // служебный метод рассчета определён выше, нам достаточно переадресовать на выход возвращаемое им значение.
         return array(
             "RESULT" => "OK",
-            "VALUE" => CDeliveryVse::__GetLocationPrice($arOrder["LOCATION_TO"], $arConfig)
+            "VALUE" => $value, //CDeliveryTula::__GetLocationPrice($arOrder["LOCATION_TO"], $arConfig)
         );
     }
 }
 
-// установим метод CDeliveryMySimple::Init в качестве обработчика события
-AddEventHandler("sale", "onSaleDeliveryHandlersBuildList", array('CDeliveryTula', 'Init'));
-?>
+
+AddEventHandler("sale", "onSaleDeliveryHandlersBuildList", array('CDeliveryVse', 'Init'));
+
+
+
+
