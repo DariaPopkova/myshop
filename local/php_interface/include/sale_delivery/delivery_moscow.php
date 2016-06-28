@@ -33,8 +33,8 @@ class CDeliveryMoscow
 
             /* Список профилей доставки */
             "PROFILES" => array(
-                "courier" => array(
-                    "TITLE" => "Попкова Дарья",
+                "vertolet" => array(
+                    "TITLE" => "Доставка вертолетом",
                     "DESCRIPTION" => "Срок доставки до 3 дней",
 
                     "RESTRICTIONS_WEIGHT" => array(0), // без ограничений
@@ -43,7 +43,6 @@ class CDeliveryMoscow
             )
         );
     }
-
     // настройки обработчика
     function GetConfig()
     {
@@ -145,6 +144,16 @@ class CDeliveryMoscow
     }
 }
 
-// установим метод CDeliveryMySimple::Init в качестве обработчика события
+
 AddEventHandler("sale", "onSaleDeliveryHandlersBuildList", array('CDeliveryMoscow', 'Init'));
-?>
+
+
+
+
+
+
+
+
+
+
+

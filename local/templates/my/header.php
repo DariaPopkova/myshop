@@ -149,16 +149,56 @@
                 }
                $APPLICATION->IncludeComponent(
                     "bitrix:sale.order.ajax",
-                    "",
+                    ".default",
                     $ar_fields
                 );
 
-                /*$APPLICATION->IncludeComponent(
+               /* $APPLICATION->IncludeComponent(
                          "bitrix:sale.order.full",
                          "",
                          $ar_fields
                      );*/
 
+                $db_res = CSaleDeliveryHandler::GetList();
+                while ($ar_res = $db_res->Fetch())
+                {
+                    echo '<pre>';
+                   // print_r($ar_res);
+                    echo '</pre>';
+                    //if($ar_res['LOCATION_ID'])
+                }
+                $us = $USER->GetID();
+                echo '<pre>';
+                print_r($us);
+                echo '</pre>';
+                if ($ar = CSaleOrderUserProps::GetByID($us))
+                {
+                    echo "<pre>";
+                    print_r($ar);
+                    echo "</pre>";
+                }
+                $loc = CSaleDelivery::GetList(
+                    Array()
+                    )->Fetch();
+                $db_dtype = CSaleDelivery::GetList(
+                    array(),
+                    array(),
+                    false,
+                    false,
+                    array()
+                );
+                if ($ar_dtype = $db_dtype->Fetch())
+                {
+                    echo "Вам доступны следующие способы доставки:<br>";
+                    do
+                    {
+                        echo $ar_dtype["NAME"]." - стоимость ".CurrencyFormat($ar_dtype["PRICE"], $ar_dtype["CURRENCY"])."<br>";
+                    }
+                    while ($ar_dtype = $db_dtype->Fetch());
+                }
+                echo '<pre>';
+                print_r($loc);
+                echo '</pre>';
 
             }
 
