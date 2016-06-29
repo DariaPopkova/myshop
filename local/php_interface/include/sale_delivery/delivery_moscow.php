@@ -124,6 +124,7 @@ class CDeliveryMoscow
     // метод проверки совместимости в данном случае практически аналогичен рассчету стоимости
     function Compability($arOrder, $arConfig)
     {
+        //hgfjghfj
         // проверим наличие стоимости доставки
         $price = CDeliveryMoscow::__GetLocationPrice($arOrder["LOCATION_TO"], $arConfig);
 
