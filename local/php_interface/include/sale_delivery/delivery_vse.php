@@ -100,23 +100,40 @@ class CDeliveryVse
     // собственно, рассчет стоимости
     function Calculate($profile, $arConfig, $arOrder, $STEP, $TEMP = false)
     {
-        $time = intval(date("H"));
-       // $ar = CSaleDelivery::GetList()->Fetch();
-        $dbAccountCurrency = CSaleUserAccount::GetList();
-        while ($arAccountCurrency = $dbAccountCurrency->Fetch())
+        /*$rsSales = CSaleOrder::GetList();
+        while ($arSales = $rsSales->Fetch())
         {
             echo "<pre>";
-            print_r($arAccountCurrency);
+            print_r($arSales);
             echo "</pre>";
+        }*/
+        $price = 0;
+        $time = intval(date("H"));
+       // $ar = CSaleDelivery::GetList()->Fetch();
+        $dbAccountCurrency = CSaleBasket::GetList(
+            array(),
+            array(
+                "FUSER_ID" => CSaleBasket::GetBasketUserID(),
+                "LID" => "s1",
+                "ORDER_ID" => "NULL"
+            )
+        );
+        while ($arAccountCurrency = $dbAccountCurrency->Fetch())
+        {
+            $price += $arAccountCurrency['PRICE'] * $arAccountCurrency['QUANTITY'];
         }
+        echo "<pre>";
+        print_r($price);
+        echo "</pre>";
         if($time < 12)
         {
             $value = 100;
         }
         else
         {
-            $value = 100;
+            $value = intval($price) * 0.25;
         }
+
         // служебный метод рассчета определён выше, нам достаточно переадресовать на выход возвращаемое им значение.
         return array(
             "RESULT" => "OK",
@@ -124,7 +141,6 @@ class CDeliveryVse
         );
     }
 }
-
 
 AddEventHandler("sale", "onSaleDeliveryHandlersBuildList", array('CDeliveryVse', 'Init'));
 

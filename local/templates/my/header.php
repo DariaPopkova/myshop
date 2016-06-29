@@ -203,6 +203,42 @@
                 {
 
                 }
+                echo 'ПОЛЬЗОВАТЕЛИ';
+                $user = CSaleOrderUserProps::GetList(
+                    array(),
+                    array(
+                        "USER_ID" =>$us
+                    )
+
+                );
+                while ($ar_user = $user->Fetch())
+                {
+                    echo "<pre>";
+                    print_r($ar_user);
+                    echo "</pre>";
+
+                }
+               $user_local = CSaleOrderUserPropsValue::GetList(
+               );
+                while ($ar_sales = $user_local->Fetch())
+                {
+                    echo "<pre>";
+                    print_r($ar_sales);
+                    echo "</pre>";
+
+                }
+                $rsUsers = CUser::GetList(
+                    $by="personal_city",
+                    $order="desc",
+                    array(
+                        "ID" => $us
+                    )
+                    ); // выбираем пользователей
+                $is_filtered = $rsUsers->Fetch();
+                print_r($is_filtered);
+                //print_r($user_local);
+
+
             }
 
             ?>

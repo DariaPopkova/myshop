@@ -171,8 +171,66 @@
 </script>
 <script>
     $(document).ready(function() {
-        var $input  = $('.bx-ui-combobox-fake.bx-combobox-fake-as-input');
-        var input_znach  = $input.val();
+        var $local_div = $('div.bx-ui-combobox-fake.bx-combobox-fake-as-input');
+        var local = $local_div.text();
+        alert(local);
+        var $input  = $('#ID_PROFILE_ID option:selected');
+        var input_znach  = $input.text();
+        alert(input_znach);
+        $('#ID_PROFILE_ID').change(function() {
+            var value = $("select#ID_PROFILE_ID").val();
+            $('#ID_PROFILE_ID option').removeAttr('selected');
+            $('#ID_PROFILE_ID option[value="'+value+'"]').attr('selected', 'selected');
+            var text_val = $('#ID_PROFILE_ID option:selected').text();
+            alert(text_val);
+            if(text_val == "Новый профиль")
+            {
+                var $local_div = $('div.bx-ui-combobox-fake');
+                var local = $local_div.text();
+                alert(local);
+                $local_div.change(function()
+                    {
+                        alert($local_div.text());
+                    }
+                );
+
+            }
+        });
+
+        var $local_div = $('div.bx-ui-combobox-fake.bx-combobox-fake-as-input');
+        var local = $local_div.text();
+        alert(local);
+        $('div.bx-ui-combobox-variant').change(function()
+            {
+                $local_div.text();
+                alert("sucsess");
+            }
+        );
+        $.post(
+            '/local/templates/my/addbasket.php',
+            {
+                kol:  input_znach,
+                ID: id
+            },
+            function (data)
+            {
+                $("#basket_S").html(data);
+                basket = parseInt($('#basket_kol').html());
+                $max_obyavlenie.html(max - basket);
+                max_temp = $max_obyavlenie.html();
+
+                if(max_temp > 0)
+                    $input.val(1);
+                else
+                    $input.val(0);
+                input_znach  = parseInt($input.val());
+                $input.color(input_znach, max_temp, $plus,$minus);
+            }
+        );
+
+
+
+       //var select_zakaz = $('#ID_PROFILE_ID option:selected').val();
        // alert(input_znach);
         /*$.post(
             '/local/templates/my/addbasket.php',
