@@ -5,6 +5,7 @@ class CDeliveryBestCourier
 {
     function Init()
     {
+
         return array(
             /* Основное описание */
             "SID" => "best",
@@ -42,12 +43,13 @@ class CDeliveryBestCourier
                 ),
             )
         );
+
+
     }
 
     // настройки обработчика
     function GetConfig()
     {
-
         return array();
     }
 
@@ -90,38 +92,13 @@ class CDeliveryBestCourier
     // метод проверки совместимости в данном случае практически аналогичен рассчету стоимости
     function Compability($arOrder, $arConfig)
     {
-        $arLocs = CSaleLocation::GetByID($arOrder['LOCATION_TO']);
-        echo '<pre>';
-        print_r($arLocs);
-        echo '</pre>';
-        $price = 0;
-        $time = intval(date("H"));
-        $zaglav = substr($arLocs['CITY_NAME'], 0);
-        //if($arLocs['CITY_NAME'] == )
-        //if($arLocs['CITY_NAME'] == )
-        /*
-        $dbAccountCurrency = CSaleBasket::GetList(
+        $db_props = CSaleOrderProps::GetList(
             array(),
-            array(
-                "FUSER_ID" => CSaleBasket::GetBasketUserID(),
-                "LID" => "s1",
-                "ORDER_ID" => "NULL"
-            )
+            array()
         );
-        while ($arAccountCurrency = $dbAccountCurrency->Fetch())
+        if ($props = $db_props->Fetch())
         {
-            $price += $arAccountCurrency['PRICE'] * $arAccountCurrency['QUANTITY'];
-        }*/
-        echo "<pre>";
-        print_r($price);
-        echo "</pre>";
-        if($time < 12)
-        {
-            $value = 100;
-        }
-        else
-        {
-            $value = intval($price) * 0.25;
+            print_r($props);
         }
         return array('courier');
         // проверим наличие стоимости доставки
@@ -129,16 +106,63 @@ class CDeliveryBestCourier
         if ($price === false)
             return array(); // если стоимость не найдено, вернем пустой массив - не подходит ни один профиль
         else
-            return array('simple'); // в противном случае вернем массив, содержащий идентфиикатор единственного профиля доставки
+            return array('courier'); // в противном случае вернем массив, содержащий идентфиикатор единственного профиля доставки
     }
 
     // собственно, рассчет стоимости
     function Calculate($profile, $arConfig, $arOrder, $STEP, $TEMP = false)
     {
+        $arLocs = CSaleLocation::GetByID($arOrder['LOCATION_TO']);
+        $zaglav = substr($arLocs['CITY_NAME'], 0, 1);
+        print_r($zaglav);
+        $result = "OK";
+        if($arLocs['CITY_NAME'] == "Москва")
+        {
+            $value = 500;
+        }
+        elseif($arLocs['CITY_NAME'] == "Тула")
+        {
+            $value = intval($arOrder['PRICE']) * 0.1;
+        }
+        else
+        {
+            $time = intval(date("H"));
+            if($time < 12)
+            {
+                $value = 100;
+            }
+            else
+            {
+                $value = intval($arOrder['PRICE']) * 0.25;
+            }
+            if($zaglav == 'Л')
+            {
+
+                $dilivery = CSaleDeliveryHandler::GetList(
+                    array(),
+                    array(
+                        "NAME" => "Лучшая доставка в мире"
+                    )
+                )->Fetch();
+                print_r($dilivery['ID']);
+                $arDeliv = CSaleDelivery::GetByID($dilivery['ID']);
+                print_r($arDeliv);
+                CSaleOrderPropsVariant::Delete(
+                    9
+                );
+                /*CDeliveryBestCourier::Update(
+                    $dilivery['ID'] ,
+                    array(
+                        "ACTIVE" => "N"
+                    )
+                );*/
+
+            }
+        }
         // служебный метод рассчета определён выше, нам достаточно переадресовать на выход возвращаемое им значение.
         return array(
-            "RESULT" => "OK",
-            "VALUE" => 100, //CDeliveryBestCourier::__GetLocationPrice($arOrder["LOCATION_TO"], $arConfig)
+            "RESULT" => $result,
+            "VALUE" => $value, //CDeliveryBestCourier::__GetLocationPrice($arOrder["LOCATION_TO"], $arConfig)
         );
     }
 }
