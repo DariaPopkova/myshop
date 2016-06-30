@@ -122,9 +122,6 @@
                 {
                     $payment[] = $ptype['ID'];
                 }
-                echo '<pre>';
-                print_r($payment);
-                echo '</pre>';
                 $ar_fields = array(
                     "PATH_TO_BASKET" => "/personal/cart/",
                     "ALLOW_PAY_FROM_ACCOUNT" => "Y",
@@ -158,7 +155,7 @@
                          "",
                          $ar_fields
                      );*/
-
+/*
                 $db_res = CSaleDeliveryHandler::GetList();
                 while ($ar_res = $db_res->Fetch())
                 {
@@ -237,7 +234,7 @@
                 $is_filtered = $rsUsers->Fetch();
                 print_r($is_filtered);
                 //print_r($user_local);
-
+*/
 
             }
 
