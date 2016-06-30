@@ -94,10 +94,12 @@ class CDeliveryBestCourier
         echo '<pre>';
         print_r($arLocs);
         echo '</pre>';
-        //fif($arLocs['CITY_NAME'] )
         $price = 0;
         $time = intval(date("H"));
-        // $ar = CSaleDelivery::GetList()->Fetch();
+        $zaglav = substr($arLocs['CITY_NAME'], 0);
+        //if($arLocs['CITY_NAME'] == )
+        //if($arLocs['CITY_NAME'] == )
+        /*
         $dbAccountCurrency = CSaleBasket::GetList(
             array(),
             array(
@@ -109,7 +111,7 @@ class CDeliveryBestCourier
         while ($arAccountCurrency = $dbAccountCurrency->Fetch())
         {
             $price += $arAccountCurrency['PRICE'] * $arAccountCurrency['QUANTITY'];
-        }
+        }*/
         echo "<pre>";
         print_r($price);
         echo "</pre>";
