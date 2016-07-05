@@ -3,17 +3,128 @@ use Bitrix\Highloadblock as HL;
 use Bitrix\Main\Entity;
 ini_set("display_errors",1);
 error_reporting(E_ALL  & ~E_NOTICE & ~E_STRICT);
-define('HLIBLOCK_BRANDS', 3);
-define('IBLOCK_PRODUCTS', 4);
+define('HLIBLOCK_BRANDS', 2);
+define('IBLOCK_PRODUCTS', 5);
 array_map('CModule::IncludeModule', ['iblock', 'highloadblock', 'catalog', 'sale']);
 $brandDataClass = HL\HighloadBlockTable::compileEntity(
     HL\HighloadBlockTable::getById(HLIBLOCK_BRANDS)
         ->fetch()
 )->getDataClass();
 
+class Import_in_Info
+{
+    public $name_property;
+    public $value_property;
+    public function __construct($name_property, $value_property)
+    {
+
+    }
+    public function brend_manuf()
+    {
+        if($name_property == "MANUFACTURER")
+        {
+
+        }
+        if($name_property == "BRAND_REF")
+        {
+            $brand_result = $brandDataClass::getList(array(
+                "select" => array(
+                    'ID',
+                    'UF_NAME',
+                    'UF_XML_ID'
+                ),
+                "order" => array(),
+                "filter" => array()
+            ));
+            $massiv_brend = [];
+            $xml_brand = [];
+            while($array_brend = $brand_result->Fetch())
+            {
+                $massiv_brend[$array_brend['UF_XML_ID']] = $array_brend['UF_NAME'];
+            }
+
+            $key_brand = array_search($value_property, $massiv_brend);
+            echo $key_brand.PHP_EOL;
+            if($key_brand === false)
+            {
+                echo 'Добавляем! '.$product['BRAND_REF'].PHP_EOL;
+                $product['BRAND_REF_ID'] = $brandDataClass::add(array(
+                    'UF_NAME' => $product['BRAND_REF'],
+                ))->getId();
+                $result = $brandDataClass::update( //обновляем значения элемента
+                    $product['BRAND_REF_ID'],	//id элемента
+                    array(
+                        'UF_XML_ID' => $product['BRAND_REF_ID'],
+                    )
+                );
+                //print_r($product['BRAND_REF']);
+                $brandResult = (new Entity\Query($brandDataClass))
+                    ->setSelect(
+                        ['ID', 'UF_NAME', 'UF_XML_ID']
+                    )
+                    ->setFilter(
+                        [
+                            'UF_NAME' => $product['BRAND_REF']
+                        ]
+                    )
+                    ->exec()
+                    ->fetch();
+                $result = $brandDataClass::update( //обновляем значения элемента
+                    $product['BRAND_REF_ID'],	//id элемента
+                    array(
+                        'UF_XML_ID' => $brandResult['ID'],
+                    )
+                );
+                print_r($brandResult);
+                if (!empty($brandResult)) {
+                    $product['BRAND_REF_XID'] = $brandResult['UF_XML_ID'];
+                    //echo $product['BRAND_REF_XID'];
+                }
+                $massiv_brend[$product['BRAND_REF_XID']] = $product['BRAND_REF'];
+                //print_r($massiv_brend);
+            }
+            else
+            {
+                $product['BRAND_REF_XID'] = $key_brand;
+                //echo 'Получилось! '.$product['BRAND_REF'].PHP_EOL;
+                //print_r($product['BRAND_REF_XID']);
+            }
+        }
+        if($name_property == "DETAIL_PICTURE")
+        {
+            $product['DETAIL_PICTURE'] = $_SERVER["DOCUMENT_ROOT"] . "/local/template/img/" . $product['DETAIL_PICTURE'];
+            if (!file_exists($product['DETAIL_PICTURE'])) {
+                echo "Файл " . $product['DETAIL_PICTURE'] . " не существует<br>";
+            }
+        }
+    }
+
+
+}
+
 $first = true;
-$header = [];
-$array_manufacture = [];
+$handle = fopen("tovari.txt", "r");
+while (!feof($handle))
+{
+    $line = fgets($handle);
+    if ($first == true)
+    {
+        $header = explode(",", $line);
+        $first = false;
+    }
+    else
+    {
+        $product = [];
+        $pieces = explode(",", $line);
+        foreach ($pieces as $i => $value)
+        {
+            $product[trim($header[$i])] = trim($value);
+            $class_pro = new Import_in_Info(trim($header[$i]), trim($value));
+
+        }
+    }
+}
+/*
 $properties = CIBlockProperty::GetList(
     Array(),
     Array(
@@ -159,7 +270,7 @@ while (!feof($handle)) {
         } else {
             echo "Error: " . $el->LAST_ERROR.PHP_EOL;
         }
-        echo '====================================================='.PHP_EOL;
+        echo '====================================================='.PHP_EOL;*/
         /*$db_res = CPrice::GetList(
             array(),
             array(
@@ -171,7 +282,7 @@ while (!feof($handle)) {
             echo "ШИКАРНО!";
             print_r($ar_resu["CATALOG_GROUP_ID"]);
         }*/
-        $price = new CPrice();
+        /*$price = new CPrice();
         $arFields = Array(
             "PRODUCT_ID" => $id,
             "CATALOG_GROUP_ID" => 1,
@@ -188,7 +299,7 @@ while (!feof($handle)) {
     }
 }
 fclose($handle);
-echo '</pre>';
+echo '</pre>';*/
 /*$arSelect = Array("ID", "NAME");
 $arFilter = Array("IBLOCK_ID"=>IBLOCK_PRODUCTS, "ID"=>  7422);
 $res = CIBlockElement::GetList(Array(), $arFilter, false, Array(), $arSelect);
